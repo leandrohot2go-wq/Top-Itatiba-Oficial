@@ -5,8 +5,7 @@ const cacheName = 'top-itatiba-v1';
 const staticAssets = [
   './',
   './index.html',
-  './top1.jpg',
-  './banner.jpg'
+  './top1.jpg'
 ];
 
 // Instala o Service Worker e guarda os arquivos no cache
