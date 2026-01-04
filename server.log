@@ -1,24 +1,13 @@
-127.0.0.1 - - [04/Jan/2026 01:55:33] "GET /index.html HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 01:55:33] "GET /top1.jpg HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 01:55:33] code 404, message File not found
-127.0.0.1 - - [04/Jan/2026 01:55:33] "GET /tophits.jpg HTTP/1.1" 404 -
-127.0.0.1 - - [04/Jan/2026 01:55:33] code 404, message File not found
-127.0.0.1 - - [04/Jan/2026 01:55:33] "GET /nossa%20equipe.jpg HTTP/1.1" 404 -
-127.0.0.1 - - [04/Jan/2026 01:55:33] code 404, message File not found
-127.0.0.1 - - [04/Jan/2026 01:55:33] "GET /promocoes_top.jpg HTTP/1.1" 404 -
-127.0.0.1 - - [04/Jan/2026 01:55:33] code 404, message File not found
-127.0.0.1 - - [04/Jan/2026 01:55:33] "GET /logo-Alexa.jpg HTTP/1.1" 404 -
-127.0.0.1 - - [04/Jan/2026 01:55:33] "GET /sw.js HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 01:55:33] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 01:56:06] "GET /index.html HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 01:56:06] "GET /top1.jpg HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 01:56:06] code 404, message File not found
-127.0.0.1 - - [04/Jan/2026 01:56:06] "GET /tophits.jpg HTTP/1.1" 404 -
-127.0.0.1 - - [04/Jan/2026 01:56:06] code 404, message File not found
-127.0.0.1 - - [04/Jan/2026 01:56:06] "GET /nossa%20equipe.jpg HTTP/1.1" 404 -
-127.0.0.1 - - [04/Jan/2026 01:56:06] code 404, message File not found
-127.0.0.1 - - [04/Jan/2026 01:56:06] "GET /promocoes_top.jpg HTTP/1.1" 404 -
-127.0.0.1 - - [04/Jan/2026 01:56:06] code 404, message File not found
-127.0.0.1 - - [04/Jan/2026 01:56:06] "GET /logo-Alexa.jpg HTTP/1.1" 404 -
-127.0.0.1 - - [04/Jan/2026 01:56:06] "GET /sw.js HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 01:56:06] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 02:28:19] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 02:28:19] "GET /top1.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 02:28:19] "GET /banner.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 02:28:19] code 404, message File not found
+127.0.0.1 - - [04/Jan/2026 02:28:19] "GET /tophits.jpg HTTP/1.1" 404 -
+127.0.0.1 - - [04/Jan/2026 02:28:19] code 404, message File not found
+127.0.0.1 - - [04/Jan/2026 02:28:19] "GET /logo-Alexa.jpg HTTP/1.1" 404 -
+127.0.0.1 - - [04/Jan/2026 02:28:19] code 404, message File not found
+127.0.0.1 - - [04/Jan/2026 02:28:19] code 404, message File not found
+127.0.0.1 - - [04/Jan/2026 02:28:19] "GET /promocoes_top.jpg HTTP/1.1" 404 -
+127.0.0.1 - - [04/Jan/2026 02:28:19] "GET /nossa%20equipe.jpg HTTP/1.1" 404 -
+127.0.0.1 - - [04/Jan/2026 02:28:19] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 02:28:19] "GET / HTTP/1.1" 200 -
