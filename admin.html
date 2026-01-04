@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAINEL DE CONTROLE - Rádio Top Itatiba</title>
+    <style>
+        :root {
+            --magenta: #b01a7a;
+            --roxo: #9d00ff;
+            --dourado: #f3b644;
+            --verde: #00ff55;
+            --azul: #00d4ff;
+            --fundo: #050816;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: white; margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
+
+        /* MENU LATERAL */
+        aside { width: 240px; background: #0a0e27; border-right: 1px solid var(--magenta); display: flex; flex-direction: column; padding: 20px 0; }
+        .logo-area { text-align: center; margin-bottom: 30px; }
+        .logo-area img { width: 80px; border-radius: 50%; border: 2px solid var(--magenta); }
+        nav { display: flex; flex-direction: column; }
+        nav a { padding: 15px 25px; color: #aaa; text-decoration: none; font-size: 14px; font-weight: bold; border-left: 4px solid transparent; transition: 0.3s; }
+        nav a:hover, nav a.active { color: white; background: rgba(176, 26, 122, 0.1); border-left-color: var(--magenta); }
+
+        /* CONTEÚDO PRINCIPAL */
+        main { flex: 1; padding: 30px; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; }
+
+        .card-admin { background: var(--card-bg); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .card-admin h3 { margin-top: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* CORES DOS CARDS */
+        .card-tv { border-top: 4px solid var(--magenta); }
+        .card-news { border-top: 4px solid var(--dourado); }
+        .card-prog { border-top: 4px solid var(--verde); }
+        .card-mural { border-top: 4px solid var(--azul); }
+        .card-config { border-top: 4px solid var(--roxo); }
+
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; text-transform: uppercase; }
+        input, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #333; background: #000; color: white; font-size: 14px; box-sizing: border-box; }
+        
+        button { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .btn-tv { background: var(--magenta); color: white; }
+        .btn-news { background: var(--dourado); color: black; }
+        .btn-off { background: #444; color: white; }
+        .btn-on { background: var(--roxo); color: white; }
+        
+        /* TABELA PROGRAMAÇÃO */
+        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+        th { text-align: left; color: #888; padding: 10px; border-bottom: 1px solid #333; }
+        td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        /* MURAL DE RECADOS NO SISTEMA */
+        .mural-item { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; margin-bottom: 10px; border-left: 3px solid var(--azul); }
+        .mural-item b { color: var(--azul); font-size: 14px; }
+        .mural-item p { margin: 5px 0 0; font-size: 13px; color: #ccc; }
+
+        /* LOGIN */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo); z-index: 10000; display: flex; justify-content: center; align-items: center; }
+        .login-box { background: #0a0e27; padding: 40px; border-radius: 20px; border: 1px solid var(--magenta); text-align: center; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <h2 style="color:var(--magenta)">ACESSO RESTRITO</h2>
+            <input type="password" id="pass" placeholder="Senha Administrativa" style="margin-bottom: 20px; text-align: center;">
+            <button class="btn-tv" onclick="entrar()">ENTRAR NO PAINEL</button>
+        </div>
+    </div>
+
+    <aside>
+        <div class="logo-area">
+            <img src="top1.jpg">
+            <p style="font-weight: bold; margin-top: 10px;">TOP ADMIN</p>
+        </div>
+        <nav>
+            <a href="#" class="active">DASHBOARD</a>
+            <a href="javascript:void(0)" onclick="scrollPara('secao-tv')">TV AO VIVO</a>
+            <a href="javascript:void(0)" onclick="scrollPara('secao-noticias')">PLANTÃO TOP</a>
+            <a href="javascript:void(0)" onclick="scrollPara('secao-prog')">PROGRAMAÇÃO</a>
+            <a href="javascript:void(0)" onclick="scrollPara('secao-mural')">MURAL</a>
+            <a href="javascript:void(0)" onclick="scrollPara('secao-config')">CONFIGURAÇÕES</a>
+        </nav>
+    </aside>
+
+    <main>
+        <header>
+            <h1 id="secao-tv">PAINEL DE CONTROLE</h1>
+            <button style="width: auto; padding: 10px 20px; background: #333;" onclick="location.reload()">SAIR</button>
+        </header>
+
+        <div class="grid-cards">
+            <div class="card-admin card-tv">
+                <h3>TV Top Ao Vivo</h3>
+                <div class="input-group">
+                    <label>Link do YouTube (Embed)</label>
+                    <input type="text" id="admin-tv" placeholder="https://www.youtube.com/embed/...">
+                </div>
+                <button class="btn-tv" onclick="salvarTv()">ATUALIZAR TV AGORA</button>
+            </div>
+
+            <div id="secao-noticias" class="card-admin card-news">
+                <h3>Plantão Top (Letreiro)</h3>
+                <div class="input-group">
+                    <label>Suas Notícias (Separe por ponto)</label>
+                    <textarea id="admin-news" rows="3" placeholder="Digite aqui..."></textarea>
+                </div>
+                <button class="btn-news" onclick="salvarNoticias()">SALVAR NO LETREIRO</button>
+                <p style="font-size: 10px; color: #888; margin-top: 10px;">* O sistema manterá as frases de Clima e Feliz 2026 ativas.</p>
+            </div>
+
+            <div id="secao-config" class="card-admin card-config">
+                <h3>Efeitos do Site</h3>
+                <div class="input-group">
+                    <label>Fogos de Artifício</label>
+                    <p id="status-fogos" style="font-size: 12px; margin-bottom: 10px;">Status: Carregando...</p>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-on" onclick="toggleEfeito('fogos', 'ON')">LIGAR</button>
+                    <button class="btn-off" onclick="toggleEfeito('fogos', 'OFF')">DESLIGAR</button>
+                </div>
+            </div>
+
+            <div id="secao-prog" class="card-admin card-prog">
+                <h3>Programação Diária</h3>
+                <table id="tabela-prog">
+                    <thead>
+                        <tr><th>HORA</th><th>TÍTULO</th><th>DESCRIÇÃO</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="secao-mural" class="card-admin card-mural">
+                <h3>Mural de Recados Recentes</h3>
+                <div id="admin-mural-lista" style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+                    <p style="font-size: 12px; color: #888;">Buscando recados...</p>
+                </div>
+                <button style="background: transparent; border: 1px solid var(--azul); color: var(--azul); margin-top: 15px;" onclick="carregarMuralAdmin()">ATUALIZAR LISTA</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const urlGoogle = "https://script.google.com/macros/s/AKfycbxDl8bLK77gE83X-X6Va8GK6lVGsJBVCukxL6DsLUy6RRpO78iqM7Z5sdu_U9tbA6oLUg/exec";
+        
+        function entrar() {
+            if(document.getElementById('pass').value === 'top915') {
+                document.getElementById('login-screen').classList.add('hidden');
+                carregarDadosIniciais();
+            } else { alert("Senha incorreta!"); }
+        }
+
+        function carregarDadosIniciais() {
+            fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
+                document.getElementById('admin-tv').value = data.tv;
+                // Remove as partes automáticas para edição limpa das notícias extras
+                let newsPura = data.noticias ? data.noticias.replace("✨ ANO NOVO: A Rádio Top deseja um Feliz 2026 para todos os ouvintes!. ", "").replace("🌤️ CLIMA ITATIBA: Sol com nuvens. Máx 29°C / Mín 18°C.. ", "").replace("🎁 MURAL: Mande seu recado e participe da rádio!", "") : "";
+                document.getElementById('admin-news').value = newsPura.trim();
+                document.getElementById('status-fogos').innerText = "Status: " + (data.efeitos === "OFF" ? "DESLIGADO" : "LIGADO");
+            });
+
+            fetch(urlGoogle + "?action=getProgramacao").then(r => r.json()).then(data => {
+                let html = "";
+                data.forEach(p => { html += `<tr><td>${p.hora}</td><td><b>${p.titulo}</b></td><td>${p.descricao}</td></tr>`; });
+                document.getElementById('tabela-prog').querySelector('tbody').innerHTML = html;
+            });
+            carregarMuralAdmin();
+        }
+
+        function salvarNoticias() {
+            const noticiaUsuario = document.getElementById('admin-news').value;
+            // Reconstrói a string com as informações fixas que você queria de volta
+            const fullNews = "✨ ANO NOVO: A Rádio Top deseja um Feliz 2026 para todos os ouvintes!. 🌤️ CLIMA ITATIBA: Sol com nuvens.. " + noticiaUsuario + ". 🎁 MURAL: Mande seu recado e participe da rádio!";
+            enviarUpdate({ action: "update_admin", noticias: fullNews });
+        }
+
+        function toggleEfeito(tipo, valor) {
+            enviarUpdate({ action: "update_admin", efeitos: valor });
+            document.getElementById('status-fogos').innerText = "Status: " + (valor === "OFF" ? "DESLIGADO" : "LIGADO");
+        }
+
+        function carregarMuralAdmin() {
+            fetch(urlGoogle + "?action=getMural").then(r => r.json()).then(data => {
+                const lista = document.getElementById('admin-mural-lista');
+                lista.innerHTML = "";
+                data.slice(0, 10).reverse().forEach(m => {
+                    lista.innerHTML += `<div class="mural-item"><b>${m.nome}</b><p>${m.mensagem}</p></div>`;
+                });
+            });
+        }
+
+        function salvarTv() { enviarUpdate({ action: "update_admin", tv_link: document.getElementById('admin-tv').value }); }
+
+        function enviarUpdate(dados) {
+            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) })
+            .then(() => alert("✅ Comando enviado com sucesso!"));
+        }
+
+        function scrollPara(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+    </script>
+</body>
+</html>
