@@ -9,6 +9,8 @@
     
     <title>Rádio Top Itatiba FM - 91.5</title>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+
     <meta property="og:title" content="Rádio Top Itatiba FM - 91.5">
     <meta property="og:description" content="A Top de Itatiba! Ouça ao vivo, assista a TV Top e mande seu recado agora.">
     <meta property="og:image" content="https://radiotopitatiba.com.br/top1.jpg">
@@ -31,7 +33,7 @@
             --verde-whatsapp: #00ff55;
         }
 
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--fundo-neon); color: #eee; scroll-behavior: smooth; overflow-x: hidden; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--fundo-neon); color: #eee; scroll-behavior: smooth; overflow-x: hidden; transition: background 1s ease; }
 
         .firework { position: fixed; width: 4px; height: 4px; border-radius: 50%; z-index: 9999; pointer-events: none; }
         @keyframes explode { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(30); opacity: 0; } }
@@ -74,6 +76,7 @@
             border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px;
             display: flex; justify-content: space-around; align-items: center; color: white;
             animation: animacaoCores 5s infinite ease-in-out;
+            transition: border-color 1s ease;
         }
         @keyframes animacaoCores {
             0% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); }
@@ -117,6 +120,7 @@
             background: #000; border: 3px solid var(--magenta); 
             box-shadow: 0 0 20px var(--magenta); border-radius: 15px;
             animation: video-glow 5s infinite alternate;
+            transition: border-color 1s ease, box-shadow 1s ease;
         }
 
         /* NO PC: Deixa o quadro mais retangular e largo */
@@ -145,6 +149,8 @@
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             border: 1px solid rgba(255,255,255,0.3);
+            /* Transição para o efeito camaleão */
+            transition: box-shadow 1s ease; 
         }
 
         @keyframes video-glow {
@@ -184,19 +190,27 @@
             background: linear-gradient(90deg, #120c22 0%, #2e003e 100%); color: white; padding: 25px 15px; 
             display: flex; flex-direction: column; align-items: center; gap: 15px; 
             box-shadow: 0 -5px 30px rgba(0,0,0,0.9); border-top: 2px solid var(--magenta); position: relative; overflow: hidden;
+            transition: border-color 1s ease;
         }
-        .album-cover { width: 50px; height: 50px; background: #000; border-radius: 10px; border: 2px solid var(--magenta); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 15px var(--magenta); flex-shrink: 0; }
+        
+        #visualizer-canvas {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .album-cover { width: 50px; height: 50px; background: #000; border-radius: 10px; border: 2px solid var(--magenta); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 15px var(--magenta); flex-shrink: 0; z-index: 2;}
         .bars { display: flex; align-items: flex-end; height: 30px; gap: 3px; }
         .bar { width: 6px; background: var(--dourado); animation: equalizer 1s infinite ease-in-out; }
         @keyframes equalizer { 0% { height: 10px; } 50% { height: 25px; background: var(--magenta); } 100% { height: 10px; } }
         .status-text { font-size: 10px; color: var(--dourado); letter-spacing: 1px; font-weight: bold; text-transform: uppercase; }
 
-        .btn-share-zap { background-color: var(--verde-whatsapp); color: #000; border: none; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s; }
+        .btn-share-zap { background-color: var(--verde-whatsapp); color: #000; border: none; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s; z-index: 2; }
 
-        /* --- TELA DE BOAS VINDAS PREMIUM --- */
         #splash-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            /* Fundo Animado */
             background: linear-gradient(-45deg, #050816, #2e003e, #000000, #1a1a2e);
             background-size: 400% 400%;
             animation: gradientBG 10s ease infinite;
@@ -238,11 +252,10 @@
             background: white; color: var(--magenta); transform: scale(1.1);
             box-shadow: 0 0 50px white;
         }
-        /* ----------------------------------- */
 
         .glass-controls {
             position: relative; background: rgba(40, 0, 60, 0.6); backdrop-filter: blur(8px);
-            border-radius: 50px; padding: 10px 25px; display: flex; align-items: center; gap: 20px; width: fit-content; margin: 10px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 1;
+            border-radius: 50px; padding: 10px 25px; display: flex; align-items: center; gap: 20px; width: fit-content; margin: 10px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 10;
         }
         .glass-controls::before {
             content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
@@ -269,7 +282,7 @@
         input[type=range].custom-volume { -webkit-appearance: none; width: 100px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 5px; outline: none; opacity: 0.9; }
         input[type=range].custom-volume::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; background: var(--dourado); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px var(--dourado); }
 
-        .btn-studio { background: #000; color: #fff; border: 2px solid #ff0000; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); transition: 0.3s; }
+        .btn-studio { background: #000; color: #fff; border: 2px solid #ff0000; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); transition: 0.3s; z-index: 2;}
         .dot { height: 10px; width: 10px; background-color: #ff0000; border-radius: 50%; display: inline-block; animation: blink 1s infinite; }
 
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
@@ -300,6 +313,10 @@
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: var(--verde-whatsapp); color: #000; border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; animation: pulse-green 2s infinite; text-decoration: none; box-shadow: 0 0 20px rgba(0,255,85,0.4); }
+        
+        .poll-float { position: fixed; width: 60px; height: 60px; bottom: 25px; left: 25px; background-color: #fff; color: var(--magenta); border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; box-shadow: 0 0 20px rgba(255,255,255,0.4); cursor: pointer; border: 2px solid var(--magenta); font-weight: bold; font-size: 20px; transition: 0.3s; }
+        .poll-float:hover { transform: scale(1.1) rotate(10deg); }
+
         footer { background: #000; padding: 50px 20px; text-align: center; border-top: 2px solid var(--magenta); }
         .social-icon { width: 45px; margin: 0 10px; filter: drop-shadow(0 0 5px var(--magenta)); transition: 0.3s; vertical-align: middle; }
         .social-icon:hover { transform: scale(1.1); }
@@ -437,6 +454,8 @@
     <a href="https://wa.me/5511945914382" class="whatsapp-float" target="_blank">
         <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
     </a>
+    
+    <div class="poll-float" onclick="abrirModal('getEnquete', 'ENQUETE DA SEMANA')">VS</div>
 
     <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
         <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
@@ -472,6 +491,8 @@
     </div>
 
     <div class="player-bar">
+        <canvas id="visualizer-canvas"></canvas>
+
         <div class="player-info">
             <div class="album-cover"><div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>
             <div style="text-align: left; flex: 1;">
@@ -481,7 +502,7 @@
             </div>
         </div>
 
-        <audio id="radio-top"><source src="https://server27.srvsh.com.br:6674/stream" type="audio/mpeg"></audio>
+        <audio id="radio-top" crossorigin="anonymous"><source src="https://server27.srvsh.com.br:6674/stream" type="audio/mpeg"></audio>
 
         <div class="glass-controls">
             <button id="btn-player" class="btn-player-modern" onclick="togglePlay()">
@@ -583,6 +604,8 @@
         let fadeInterval;
         let modalData = []; let modalIndex = 0; let currentAction = '';
 
+        const colorThief = new ColorThief();
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').then(() => console.log("Service Worker Registado!"));
         }
@@ -639,6 +662,7 @@
                 btn.classList.add('playing-pulse');
                 let vol = 0;
                 fadeInterval = setInterval(() => { if (vol < 0.3) { vol += 0.01; audio.volume = vol; } else { clearInterval(fadeInterval); } }, 50);
+                startSimulatedVisualizer();
             }).catch(e => { console.log("Autoplay bloqueado."); });
         }
 
@@ -654,6 +678,18 @@
             modalTitle.innerText = "CARREGANDO...";
             modalBody.innerHTML = '<p style="text-align:center; color:white;">Buscando informações...</p>';
             controls.style.display = 'none'; modal.style.display = 'flex';
+
+            if (acao === 'getEnquete') {
+                modalTitle.innerText = "BATTLE TOP";
+                modalBody.innerHTML = `
+                    <h3 style="color:white;">Qual você prefere?</h3>
+                    <div style="display:flex; justify-content:space-around; width:100%; margin-top:20px;">
+                        <button onclick="alert('Voto computado!')" class="btn-neon">SERTANEJO</button>
+                        <button onclick="alert('Voto computado!')" class="btn-neon">PAGODE</button>
+                    </div>
+                `;
+                return;
+            }
 
             fetch(urlGoogle + "?action=" + acao).then(r => r.json()).then(data => {
                 if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Nenhuma informação disponível.</p>'; }
@@ -741,36 +777,38 @@
         function carregarConfig() {
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 
-                // 1. Capa
                 if (data.tv) {
                     let capaImg = document.getElementById('capa-album-tv');
                     let bgBlur = document.getElementById('blur-bg');
                     
                     if(capaImg.src !== data.tv) {
                         capaImg.src = data.tv;
+                        capaImg.crossOrigin = "Anonymous"; 
+                        capaImg.onload = function() {
+                            try {
+                                const cor = colorThief.getColor(capaImg);
+                                const rgb = `rgb(${cor[0]}, ${cor[1]}, ${cor[2]})`;
+                                document.documentElement.style.setProperty('--magenta', rgb);
+                            } catch(e) { console.log("Erro cor", e); }
+                        };
                         if(bgBlur) bgBlur.style.backgroundImage = `url('${data.tv}')`;
                     }
                 }
                 
                 if (data.botao) document.getElementById('link-studio').href = data.botao;
                 
-                // 2. TICKER TURBO (Lê tanto o campo 'texto' quanto 'noticias')
                 const ticker = document.querySelector('.ticker-content');
                 let textoFinal = "";
 
-                // Se existir o texto completo (C2) que vem do Apps Script novo, usa ele
                 if (data.texto && data.texto.length > 10) {
                     textoFinal = `<span class="noticia-item" style="color:white;">${data.texto}</span>`;
-                } 
-                // Fallback para o sistema antigo de array de notícias
-                else if (data.noticias) {
+                } else if (data.noticias) {
                     const arrayNews = data.noticias.split('.');
                     arrayNews.forEach(msg => {
                         if(msg.trim() != "") textoFinal += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
                     });
                 }
                 
-                // Só atualiza se mudou para evitar piscar
                 if(textoFinal && ticker.innerHTML.length !== (textoFinal + textoFinal).length) {
                     ticker.innerHTML = textoFinal + textoFinal;
                 }
@@ -780,7 +818,6 @@
         
         setInterval(carregarConfig, 30000);
 
-        // --- EASTER EGG: SEGREDO DO RODAPÉ (5 Cliques) ---
         let cliquesSegredo = 0;
         let timerSegredo;
         document.getElementById('segredo-rodape').addEventListener('click', function(e) {
@@ -791,7 +828,7 @@
             if (cliquesSegredo === 5) {
                 cliquesSegredo = 0;
                 alert("🕵️ PARABÉNS! Você descobriu a Playlist Secreta da Madrugada!");
-                window.open("https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6", "_blank"); // Playlist Exemplo
+                window.open("https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6", "_blank"); 
             }
         });
 
@@ -801,34 +838,57 @@
             .then(() => { btn.innerText = "ENVIADO!"; btn.disabled = false; this.reset(); setTimeout(() => { btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; }, 2000); });
         });
 
+        function startSimulatedVisualizer() {
+            const canvas = document.getElementById('visualizer-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            function draw() {
+                if(!isPlaying) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    requestAnimationFrame(draw);
+                    return;
+                }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const bars = 50;
+                const barWidth = canvas.width / bars;
+                for (let i = 0; i < bars; i++) {
+                    const barHeight = Math.random() * (canvas.height * 0.5); 
+                    const color = getComputedStyle(document.documentElement).getPropertyValue('--magenta').trim();
+                    ctx.fillStyle = color || '#b01a7a';
+                    ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 2, barHeight);
+                }
+                setTimeout(() => requestAnimationFrame(draw), 50);
+            }
+            draw();
+        }
+
         function iniciarSite() {
             document.getElementById('splash-screen').style.transform = 'translateY(-100%)';
             document.getElementById('reactionMenu').style.display = 'block';
-
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if(data.efeitos !== "OFF") startFireworks();
             });
-
             fadeInAudio();
             atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
         }
 
-        // --- ATUALIZADO: Lógica de Comercial + Tela de Bloqueio + Sincronia ---
+        // --- ATUALIZADO: CORREÇÃO DO ERRO 400 (USANDO CORSPROXY) ---
         function atualizarMetadados() {
-            fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime())).then(r => r.json()).then(data => {
-                if (!data.contents) return;
-                
-                let nomeMusica = data.contents.trim();
+            // URL com Cache Buster e usando CORSPROXY.IO
+            const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
+            
+            fetch(proxyUrl).then(r => r.text()).then(data => {
+                let nomeMusica = data.trim();
                 let capaParaMostrar = document.getElementById('capa-album-tv').src; 
 
-                // Lógica de Comercial / Vinheta: Se não tiver música, mostra o Logo ou nome da rádio
                 if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
                     nomeMusica = "Rádio Top Itatiba";
                 }
 
                 document.getElementById('nome-musica').innerText = nomeMusica;
                 
-                // Tela de Bloqueio (Segundo Plano)
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
                         title: nomeMusica,
@@ -839,19 +899,17 @@
                             { src: capaParaMostrar, sizes: '512x512', type: 'image/jpg' }
                         ]
                     });
-                    
                     navigator.mediaSession.setActionHandler('play', togglePlay);
                     navigator.mediaSession.setActionHandler('pause', togglePlay);
                 }
-            });
+            }).catch(e => console.log("Erro metadados via proxy"));
             
-            // Busca número de ouvintes
-            fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html")).then(r => r.json()).then(d => {
-                 if(d.contents) {
-                     let p = d.contents.split(',');
-                     if(p.length > 0) document.getElementById('qtd-ouvintes').innerText = (parseInt(p[0]) || 0) + 125;
-                 }
-            });
+            // Busca Ouvintes (Via Proxy também)
+            const proxyOuvintes = "https://corsproxy.io/?" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
+            fetch(proxyOuvintes).then(r => r.text()).then(d => {
+                 let p = d.split(',');
+                 if(p.length > 0) document.getElementById('qtd-ouvintes').innerText = (parseInt(p[6]) || 0) + 125;
+            }).catch(e => {});
         }
 
         function atualizarProgramacao() {
@@ -860,7 +918,6 @@
                 const listaProg = document.getElementById('prog-lista');
                 let html = "";
                 let idNoAr = "prog-23";
-
                 if (hora >= 6 && hora < 9) idNoAr = "prog-06";
                 else if (hora >= 9 && hora < 12) idNoAr = "prog-09";
                 else if (hora >= 12 && hora < 14) idNoAr = "prog-12";
