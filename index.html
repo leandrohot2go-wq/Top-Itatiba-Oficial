@@ -26,7 +26,7 @@
     <style>
         :root {
             --azul-escuro: #0a0e27;
-            --magenta: #b01a7a; /* Essa cor muda sozinha com a capa */
+            --magenta: #b01a7a; 
             --roxo-neon: #aa00ff;
             --dourado: #f3b644;
             --fundo-neon: #050816;
@@ -105,7 +105,7 @@
         .banner-container { width: 100%; background-color: var(--azul-escuro); text-align: center; }
         .banner-container img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
         
-        /* --- NOVO INDICADOR VISUAL "NO AR" (Substitui o texto antigo) --- */
+        /* NOVO INDICADOR "NO AR" (Visual Profissional) */
         .no-ar-indicator {
             display: flex; align-items: center; justify-content: center; gap: 15px;
             background: linear-gradient(90deg, #1a0000 0%, #3d0000 50%, #1a0000 100%);
@@ -128,9 +128,8 @@
             0% { opacity: 0.3; transform: scale(0.8); }
             100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px var(--vermelho-no-ar); }
         }
-        /* ---------------------------------------------------- */
 
-        /* --- CONFIGURAÇÃO DA CAPA (EFEITO BLUR NO PC) --- */
+        /* CONFIGURAÇÃO DA CAPA (EFEITO BLUR NO PC) */
         .video-embed-container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
         
         .video-embed { 
@@ -146,10 +145,9 @@
         /* NO PC: Deixa o quadro mais retangular e largo */
         @media (min-width: 768px) {
             .video-embed-container { max-width: 700px; } 
-            .video-embed { padding-bottom: 50%; } /* Retangular no PC */
+            .video-embed { padding-bottom: 50%; } 
         }
 
-        /* Fundo Desfocado */
         .bg-blur-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover; background-position: center;
@@ -157,13 +155,12 @@
             z-index: 1; transition: background-image 0.5s ease;
         }
 
-        /* Capa Centralizada */
         .capa-tv-img {
             position: absolute; 
             top: 50%; left: 50%; 
             transform: translate(-50%, -50%);
             height: 90%; width: auto; 
-            aspect-ratio: 1/1; /* Garante que a capa fique quadrada */
+            aspect-ratio: 1/1; 
             object-fit: cover;
             z-index: 2;
             border-radius: 10px;
@@ -179,7 +176,6 @@
             75% { box-shadow: 0 0 20px var(--verde-whatsapp); border-color: var(--verde-whatsapp); }
             100% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); }
         }
-        /* ---------------------------------------------------- */
 
         .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; }
         .mural-input { 
@@ -212,7 +208,6 @@
             transition: border-color 1s ease;
         }
         
-        /* VISUALIZER */
         #visualizer-canvas {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
             z-index: 0; opacity: 0.4; pointer-events: none;
@@ -268,7 +263,7 @@
         
         .btn-entrar-top:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 60px var(--magenta), 0 0 20px var(--roxo-neon); /* Mais brilho neon, sem ficar branco chapado */
+            box-shadow: 0 0 60px var(--magenta), 0 0 20px var(--roxo-neon); /* CORRIGIDO: Neon Magenta de volta */
         }
 
         .glass-controls {
@@ -286,7 +281,8 @@
         
         .btn-player-modern {
             width: 70px; height: 70px; background: linear-gradient(135deg, var(--magenta), var(--roxo-neon));
-            border-radius: 50%; border: 2px solid var(--magenta); color: white; font-size: 28px; cursor: pointer;
+            border-radius: 50%; border: 2px solid var(--magenta); /* CORRIGIDO: Borda Magenta */
+            color: white; font-size: 28px; cursor: pointer;
             display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(176, 26, 122, 0.6);
             transition: all 0.3s ease; position: relative; z-index: 10;
         }
@@ -337,8 +333,27 @@
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: var(--verde-whatsapp); color: #000; border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; animation: pulse-green 2s infinite; text-decoration: none; box-shadow: 0 0 20px rgba(0,255,85,0.4); transition: 0.3s;}
         .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 0 40px var(--verde-whatsapp); }
         
-        .poll-float { position: fixed; width: 60px; height: 60px; bottom: 25px; left: 25px; background-color: #fff; color: var(--magenta); border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; box-shadow: 0 0 20px rgba(255,255,255,0.4); cursor: pointer; border: 2px solid var(--magenta); font-weight: bold; font-size: 20px; transition: 0.3s; }
-        .poll-float:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 0 30px var(--magenta); }
+        /* BOTÃO VS FLUTUANTE */
+        .poll-float { 
+            position: fixed; bottom: 25px; left: 25px; width: 65px; height: 65px;
+            background: linear-gradient(135deg, var(--magenta), #5e0046);
+            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            z-index: 10001; box-shadow: 0 0 15px var(--magenta); cursor: pointer;
+            border: 2px solid white; font-weight: 900; font-style: italic; font-size: 24px;
+            transition: 0.3s; animation: pulse-vs 2s infinite;
+        }
+        .poll-float:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 0 30px var(--roxo-neon); }
+        @keyframes pulse-vs { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
+
+        /* MODAL DE BATALHA */
+        .battle-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+        .battle-option { background: rgba(255,255,255,0.05); border: 2px solid #444; border-radius: 10px; padding: 15px; position: relative; overflow: hidden; transition: 0.3s; cursor: pointer; }
+        .battle-option:hover { border-color: var(--dourado); background: rgba(255,255,255,0.1); }
+        .battle-bar-bg { position: absolute; bottom: 0; left: 0; height: 5px; width: 100%; background: #333; }
+        .battle-bar-fill { height: 100%; background: var(--magenta); width: 0%; transition: width 1s ease-out; }
+        .battle-name { font-size: 20px; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        .battle-perc { float: right; color: var(--dourado); font-weight: bold; }
+        .vs-divider { text-align: center; font-weight: 900; color: #ff0000; font-size: 24px; font-style: italic; text-shadow: 0 0 10px red; margin: -10px 0; z-index: 10; }
 
         footer { background: #000; padding: 50px 20px; text-align: center; border-top: 2px solid var(--magenta); }
         .social-icon { width: 45px; margin: 0 10px; filter: drop-shadow(0 0 5px var(--magenta)); transition: 0.3s; vertical-align: middle; }
@@ -372,78 +387,15 @@
             .ranking-item { flex-direction: column; align-items: flex-start; } .rank-buttons { width: 100%; justify-content: space-between; } 
         }
 
-        .reaction-wrapper {
-            position: fixed;
-            bottom: 100px;
-            right: 25px;
-            z-index: 10000;
-            width: 50px;
-            height: 50px;
-            display: none;
-        }
-
-        .r-btn {
-            position: absolute;
-            width: 55px; height: 55px;
-            border-radius: 50%;
-            border: 2px solid var(--magenta);
-            background: rgba(10, 14, 39, 0.95);
-            color: white;
-            font-size: 24px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            padding: 0;
-            left: 0; top: 0;
-        }
-
-        .r-btn.main {
-            z-index: 10003;
-            box-shadow: 0 4px 0 var(--roxo-neon), 0 8px 10px rgba(0,0,0,0.5);
-        }
-
-        .r-btn.main:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); }
-
-        .r-btn.option {
-            z-index: 10001;
-            opacity: 0;
-            transform: scale(0.5) translateY(0);
-            pointer-events: none;
-        }
-
-        .reaction-wrapper.expanded .r-btn.main {
-            transform: rotate(360deg);
-            background: var(--magenta);
-            box-shadow: 0 0 30px var(--magenta);
-        }
-
-        .reaction-wrapper.expanded .r-btn.option {
-            opacity: 1;
-            pointer-events: all;
-            transform: scale(1);
-        }
-
-        .reaction-wrapper.expanded .r-btn.option:nth-child(1) { transform: translateY(-195px); } 
-        .reaction-wrapper.expanded .r-btn.option:nth-child(2) { transform: translateY(-130px); } 
-        .reaction-wrapper.expanded .r-btn.option:nth-child(3) { transform: translateY(-65px); }  
-
-        .floater {
-            position: fixed;
-            bottom: 130px; 
-            right: 40px;
-            font-size: 30px;
-            pointer-events: none;
-            animation: floatUp 2s forwards ease-out;
-            z-index: 2147483647;
-            text-shadow: 0 0 10px black;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-300px) scale(1.5); opacity: 0; }
-        }
+        .reaction-wrapper { position: fixed; bottom: 100px; right: 25px; z-index: 10000; width: 50px; height: 50px; display: none; }
+        .r-btn { position: absolute; width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--magenta); background: rgba(10, 14, 39, 0.95); color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0,0,0,0.5); padding: 0; left: 0; top: 0; }
+        .r-btn.main { z-index: 10003; box-shadow: 0 4px 0 var(--roxo-neon), 0 8px 10px rgba(0,0,0,0.5); } .r-btn.main:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); }
+        .r-btn.option { z-index: 10001; opacity: 0; transform: scale(0.5) translateY(0); pointer-events: none; }
+        .reaction-wrapper.expanded .r-btn.main { transform: rotate(360deg); background: var(--magenta); box-shadow: 0 0 30px var(--magenta); }
+        .reaction-wrapper.expanded .r-btn.option { opacity: 1; pointer-events: all; transform: scale(1); }
+        .reaction-wrapper.expanded .r-btn.option:nth-child(1) { transform: translateY(-195px); } .reaction-wrapper.expanded .r-btn.option:nth-child(2) { transform: translateY(-130px); } .reaction-wrapper.expanded .r-btn.option:nth-child(3) { transform: translateY(-65px); }
+        .floater { position: fixed; bottom: 130px; right: 40px; font-size: 30px; pointer-events: none; animation: floatUp 2s forwards ease-out; z-index: 2147483647; text-shadow: 0 0 10px black; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 50% { opacity: 1; } 100% { transform: translateY(-300px) scale(1.5); opacity: 0; } }
     </style>
 </head>
 <body>
@@ -478,7 +430,7 @@
         <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
     </a>
     
-    <div class="poll-float" onclick="abrirModal('getEnquete', 'ENQUETE DA SEMANA')">VS</div>
+    <div class="poll-float" onclick="abrirModal('getEnquete', 'BATALHA TOP')">VS</div>
 
     <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
         <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
@@ -595,7 +547,7 @@
                 <span class="btn-neon">VER LISTA</span>
             </div>
             <div class="card" onclick="abrirModal('getEquipe', 'NOSSA EQUIPE')">
-                <img src="nossa_equipe.jpg">
+                <img src="nossa equipe.jpg">
                 <h3>Nossa Equipe</h3>
                 <span class="btn-neon">LOCUTORES</span>
             </div>
@@ -634,7 +586,7 @@
         const colorThief = new ColorThief();
 
         if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').then(() => console.log("Service Worker Registrado!"));
+            navigator.serviceWorker.register('sw.js').then(() => console.log("Service Worker Registado!"));
         }
 
         let eventoInstalacao;
@@ -706,15 +658,27 @@
             modalBody.innerHTML = '<p style="text-align:center; color:white;">Buscando informações...</p>';
             controls.style.display = 'none'; modal.style.display = 'flex';
 
+            // NOVO: LOGICA DA BATALHA REAL (Puxando da planilha)
             if (acao === 'getEnquete') {
-                modalTitle.innerText = "BATTLE TOP";
-                modalBody.innerHTML = `
-                    <h3 style="color:white;">Qual você prefere?</h3>
-                    <div style="display:flex; justify-content:space-around; width:100%; margin-top:20px;">
-                        <button onclick="alert('Voto computado!')" class="btn-neon">SERTANEJO</button>
-                        <button onclick="alert('Voto computado!')" class="btn-neon">PAGODE</button>
-                    </div>
-                `;
+                modalTitle.innerText = "BATALHA TOP"; // Nome atualizado
+                fetch(urlGoogle + "?action=getEnquete").then(r => r.json()).then(data => {
+                    modalBody.innerHTML = `
+                        <h3 style="color:var(--dourado); text-transform:uppercase; margin-bottom:20px;">QUEM GANHA ESTA BATALHA?</h3>
+                        <div class="battle-container">
+                            <div class="battle-option" onclick="votarBatalha(1)">
+                                <span class="battle-name">${data.op1}</span>
+                                <span class="battle-perc">${data.porc1}%</span>
+                                <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc1}%"></div></div>
+                            </div>
+                            <div class="vs-divider">VS</div>
+                            <div class="battle-option" onclick="votarBatalha(2)">
+                                <span class="battle-name">${data.op2}</span>
+                                <span class="battle-perc">${data.porc2}%</span>
+                                <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc2}%"></div></div>
+                            </div>
+                        </div>
+                    `;
+                });
                 return;
             }
 
@@ -727,6 +691,18 @@
                     controls.style.display = 'flex'; 
                 }
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
+        }
+
+        // NOVO: Função para Votar e Salvar na Planilha
+        function votarBatalha(opcao) {
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = '<p style="color:var(--verde-whatsapp); font-size:20px; font-weight:bold;">VOTO COMPUTADO! ✅</p>';
+            fetch(urlGoogle, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify({ action: "votar_batalha", voto: opcao }) 
+            });
+            setTimeout(() => { fecharModal(); }, 1500);
         }
 
         function renderSlide() {
@@ -858,12 +834,6 @@
             }
         });
 
-        document.getElementById('form-mural').addEventListener('submit', function(e) {
-            e.preventDefault(); const btn = document.getElementById('btn-status'); btn.innerText = "ENVIANDO..."; btn.disabled = true;
-            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ nome: document.getElementById('nome-ouvinte').value, mensagem: document.getElementById('msg-ouvinte').value }) })
-            .then(() => { btn.innerText = "ENVIADO!"; btn.disabled = false; this.reset(); setTimeout(() => { btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; }, 2000); });
-        });
-
         function startSimulatedVisualizer() {
             const canvas = document.getElementById('visualizer-canvas');
             const ctx = canvas.getContext('2d');
@@ -901,25 +871,22 @@
         }
 
         // ==========================================
-        //  A CORREÇÃO FINAL ESTÁ AQUI ABAIXO 👇
+        //  FUNÇÃO DE MÚSICA PROTEGIDA (SEM ERRO 502)
         // ==========================================
         function atualizarMetadados() {
-            // URL com Cache Buster e usando CORSPROXY.IO (Mais robusto)
             const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
-            fetch(proxyUrl).then(r => r.text()).then(data => { // Note: r.text() instead of r.json() because corsproxy returns raw text
+            fetch(proxyUrl).then(r => r.text()).then(data => { 
                 let nomeMusica = data.trim();
                 let capaParaMostrar = document.getElementById('capa-album-tv').src; 
 
-                // PROTEÇÃO: Se o servidor caiu, ele devolve HTML (<!DOCTYPE...). 
-                // Se isso acontecer, mostramos mensagem de erro em vez do código.
+                // PROTEÇÃO: Se vier código de erro, mostra mensagem padrão
                 if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error")) {
-                    nomeMusica = "Rádio Top - A Conexão que te Move"; // Mensagem segura
+                    nomeMusica = "Rádio Top - A Conexão que te Move"; 
                 } else if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
                     nomeMusica = "Rádio Top Itatiba";
                 }
 
-                // Agora é seguro colocar no site
                 document.getElementById('nome-musica').innerText = nomeMusica;
                 
                 if ('mediaSession' in navigator) {
@@ -933,12 +900,9 @@
                     navigator.mediaSession.setActionHandler('pause', togglePlay);
                 }
             }).catch(e => {
-                // Se der erro de rede, mostra mensagem amigável
                 document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
-                console.log("Erro de conexão com servidor da rádio");
             });
             
-            // Busca Ouvintes (Via Proxy também)
             const proxyOuvintes = "https://corsproxy.io/?" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
             fetch(proxyOuvintes).then(r => r.text()).then(d => {
                  let p = d.split(',');
