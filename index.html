@@ -1,184 +1,134 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="google-site-verification" content="sNVMg_J8ppGagpGgbVNzwkEAia307XEJgFhjRFnT3fY" />
-    <link rel="icon" type="image/jpeg" href="top1.jpg">
-    <title>Rádio Top Itatiba FM - 91.5</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+var ID_PLANILHA = "1qJTkc17IQb8wOqezuABVIFgr7oPmodXu7OxHszsOdCA"; 
 
-    <style>
-        :root { --azul-escuro: #0a0e27; --magenta: #b01a7a; --roxo-neon: #aa00ff; --dourado: #f3b644; --fundo-neon: #050816; --verde-whatsapp: #00ff55; --vermelho-no-ar: #ff0000; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--fundo-neon); color: #eee; scroll-behavior: smooth; overflow-x: hidden; transition: background 1s ease; }
-
-        /* BOTÃO VS FLUTUANTE */
-        .poll-float { 
-            position: fixed; bottom: 25px; left: 25px; width: 65px; height: 65px;
-            background: linear-gradient(135deg, var(--magenta), #5e0046);
-            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            z-index: 10001; box-shadow: 0 0 15px var(--magenta); cursor: pointer;
-            border: 2px solid white; font-weight: 900; font-size: 28px;
-            transition: 0.3s; animation: pulse-vs 2s infinite; text-shadow: 2px 2px 0 #000;
-        }
-
-        /* MODAL BATALHA */
-        .battle-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
-        .battle-option { 
-            background: rgba(255,255,255,0.05); border: 2px solid #444; border-radius: 12px; 
-            padding: 15px; position: relative; overflow: hidden; transition: 0.3s; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .battle-option:hover { border-color: var(--dourado); }
-        .battle-bar-bg { position: absolute; bottom: 0; left: 0; height: 5px; width: 100%; background: #222; }
-        .battle-bar-fill { height: 100%; background: var(--magenta); width: 0%; transition: width 1s ease-out; }
-        .battle-name { font-size: 18px; font-weight: 900; text-transform: uppercase; color: white; }
-        .btn-votar-label { background: var(--dourado); color: black; font-size: 10px; font-weight: 900; padding: 3px 8px; border-radius: 10px; margin-top: 5px; display: inline-block; }
-        .vs-divider { text-align: center; font-weight: 900; color: #ff0000; font-size: 24px; font-style: italic; text-shadow: 0 0 10px red; margin: -10px 0; z-index: 10; }
-
-        /* TELA DE BOAS VINDAS */
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(-45deg, #050816, #2e003e, #000000, #1a1a2e); background-size: 400% 400%; animation: gradientBG 10s ease infinite; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; transition: transform 0.8s ease, opacity 0.8s ease; text-align: center; }
-
-        /* GERAL */
-        .noticias-ticker { background: #000; color: var(--dourado); padding: 10px 0; border-bottom: 2px solid var(--magenta); overflow: hidden; white-space: nowrap; font-weight: bold; font-size: 14px; text-transform: uppercase; display: flex; z-index: 900; }
-        .ticker-label { background: var(--magenta); color: white; padding: 0 15px; z-index: 10; position: relative; animation: pisca-plantao 1s infinite alternate; }
-        @keyframes pisca-plantao { 0% { background: var(--magenta); } 100% { background: var(--vermelho-no-ar); } }
-        .ticker-content { display: inline-block; padding-left: 100%; animation: ticker-move 90s linear infinite; }
-        @keyframes ticker-move { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        nav { background: rgba(10, 14, 39, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(176, 26, 122, 0.5); padding: 12px 0; display: flex; justify-content: center; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 1000; width: 100%; }
-        nav a { color: #ddd; text-decoration: none; font-weight: 800; font-size: 11px; padding: 8px 14px; border-radius: 20px; transition: 0.3s; }
-        nav a:hover { background: var(--magenta); color: white; }
-        .no-ar-indicator { display: flex; align-items: center; justify-content: center; gap: 15px; background: linear-gradient(90deg, #1a0000 0%, #330000 50%, #1a0000 100%); color: var(--vermelho-no-ar); font-weight: 900; padding: 12px; border: 2px solid var(--vermelho-no-ar); margin: 15px auto; max-width: 600px; border-radius: 12px; }
-        .video-embed { position: relative; padding-bottom: 100%; height: 0; overflow: hidden; background: #000; border: 3px solid var(--magenta); border-radius: 15px; box-shadow: 0 0 20px var(--magenta); }
-        .capa-tv-img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 90%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; z-index: 2; }
-        .player-bar { background: linear-gradient(90deg, #120c22 0%, #2e003e 100%); padding: 25px 15px; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 2px solid var(--magenta); position: relative; }
-        #visualizer-canvas { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; opacity: 0.4; }
-        @keyframes pulse-vs { 0% { transform: scale(1); } 50% { transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); } 100% { transform: scale(1); } }
-    </style>
-</head>
-<body>
-
-    <div id="modal-container" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-modal" onclick="fecharModal()">×</span>
-            <div class="modal-header"><h2 id="modal-title">Título</h2></div>
-            <div class="modal-body" id="modal-body"></div>
-        </div>
-    </div>
-
-    <div id="splash-screen">
-        <div class="splash-content">
-            <img src="top1.jpg" style="width:200px; border-radius:50%; border:4px solid var(--magenta); margin-bottom:20px;">
-            <h1 style="color: white;">BEM-VINDO À RADIO TOP!</h1>
-            <button class="btn-entrar-top" onclick="iniciarSite()">ENTRAR AGORA</button>
-        </div>
-    </div>
-
-    <div class="poll-float" onclick="abrirModal('getEnquete', 'BATALHA')">VS</div>
-
-    <div class="banner-container"><img src="banner.jpg"></div>
-
-    <nav>
-        <a href="#">HOME</a>
-        <a href="#pedido">PEDIR MÚSICA</a>
-        <a href="#mural">MURAL</a>
-    </nav>
-
-    <div class="no-ar-indicator">
-        <div style="width:10px; height:10px; background:red; border-radius:50%; animation: pulse-vs 1s infinite;"></div>
-        TRANSMISSÃO AO VIVO - NO AR
-    </div>
+// ======================================================
+// 1. LÊ OS DADOS DA PLANILHA (DO GET)
+// ======================================================
+function doGet(e) {
+  var action = e.parameter ? e.parameter.action : "getConfig"; 
+  var sheet = SpreadsheetApp.openById(ID_PLANILHA).getSheetByName("Config");
+  
+  if (action == "getConfig") {
+    // Pega intervalo maior para garantir que H e I venham
+    var data = sheet.getRange("A2:I2").getValues()[0];
+    return ContentService.createTextOutput(JSON.stringify({
+      tv: data[0], texto: data[2], temp: data[4], musica: data[5], botao: data[1], efeitos: "ON",
+      // H2 é o índice 7 (0=A, 1=B... 7=H)
+      op1: data[7] || "Opção 1", 
+      op2: data[8] || "Opção 2"
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  else if (action == "getEnquete") {
+    // Pega H2, I2, J2, K2
+    var range = sheet.getRange("H2:K2").getValues()[0];
     
-    <div class="video-embed-container" style="max-width:600px; margin:auto; padding:10px;">
-        <div class="video-embed">
-            <div class="bg-blur-layer" id="blur-bg" style="position:absolute; width:100%; height:100%; background:url('top1.jpg'); filter:blur(20px); opacity:0.5;"></div>
-            <img id="capa-album-tv" src="top1.jpg" class="capa-tv-img">
-        </div>
-    </div>
+    var nome1 = range[0] || "Opção A"; // H2
+    var nome2 = range[1] || "Opção B"; // I2
+    
+    var v1 = parseInt(range[2]); if (isNaN(v1)) v1 = 0; // J2
+    var v2 = parseInt(range[3]); if (isNaN(v2)) v2 = 0; // K2
+    
+    var total = v1 + v2;
+    var p1 = 50, p2 = 50;
+    
+    if (total > 0) {
+      p1 = Math.round((v1 / total) * 100);
+      p2 = Math.round((v2 / total) * 100);
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({
+      op1: nome1, op2: nome2, 
+      votos1: v1, votos2: v2,
+      porc1: p1, porc2: p2
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  else if (action == "getProgramacao") {
+    return ContentService.createTextOutput(JSON.stringify([
+      {id: "prog-06", hora: "06:00", titulo: "Manhã Top", descricao: "Energia total!"},
+      {id: "prog-09", hora: "09:00", titulo: "Show da Manhã", descricao: "Música e prêmios."},
+      {id: "prog-12", hora: "12:00", titulo: "Top Hits", descricao: "As mais pedidas."},
+      {id: "prog-17", hora: "17:00", titulo: "Tarde Top", descricao: "Sua melhor companhia."}
+    ])).setMimeType(ContentService.MimeType.JSON);
+  }
+  return ContentService.createTextOutput("Action not found");
+}
 
-    <div class="player-bar">
-        <canvas id="visualizer-canvas"></canvas>
-        <div style="display:flex; align-items:center; gap:15px; z-index:2; width:100%; max-width:500px;">
-            <div style="width:50px; height:50px; border:2px solid var(--magenta); border-radius:10px; background:black;"></div>
-            <div style="flex:1;">
-                <span id="nome-musica" style="font-weight:bold; color:white; display:block;">Buscando rádio...</span>
-                <span style="color:var(--dourado); font-size:12px;">🎧 <span id="qtd-ouvintes">...</span> OUVINTES</span>
-            </div>
-            <button class="btn-player-modern" id="btn-player" onclick="togglePlay()">▶</button>
-        </div>
-        <audio id="radio-top" src="https://server27.srvsh.com.br:6674/stream" crossorigin="anonymous"></audio>
-    </div>
+// ======================================================
+// 2. GRAVA OS VOTOS (DO POST)
+// ======================================================
+function doPost(e) {
+  var sheet = SpreadsheetApp.openById(ID_PLANILHA).getSheetByName("Config");
+  // Trava para evitar conflito de votos simultâneos
+  var lock = LockService.getScriptLock();
+  lock.tryLock(10000);
 
-    <script>
-        const urlGoogle = "https://script.google.com/macros/s/AKfycbxDl8bLK77gE83X-X6Va8GK6lVGsJBVCukxL6DsLUy6RRpO78iqM7Z5sdu_U9tbA6oLUg/exec";
-        let audio = document.getElementById('radio-top');
-        let isPlaying = false;
+  try {
+    var data = JSON.parse(e.postData.contents);
+    if (data.action == "votar_batalha") {
+      var celula;
+      // Voto 1 vai na J2, Voto 2 vai na K2
+      if (data.voto == 1) celula = sheet.getRange("J2");
+      else if (data.voto == 2) celula = sheet.getRange("K2");
+      
+      if (celula) {
+        var valor = parseInt(celula.getValue());
+        if (isNaN(valor)) valor = 0;
+        celula.setValue(valor + 1);
+      }
+      return ContentService.createTextOutput("Voto OK");
+    }
+  } catch(err) {
+  } finally {
+    lock.releaseLock();
+  }
+  return ContentService.createTextOutput("OK");
+}
 
-        function iniciarSite() {
-            const splash = document.getElementById('splash-screen');
-            splash.style.transform = 'translateY(-100%)';
-            splash.style.opacity = '0';
-            setTimeout(() => splash.style.display = 'none', 800);
-            togglePlay(); 
-            atualizarMetadados();
-        }
+// ======================================================
+// 3. ROBÔ DE ATUALIZAÇÃO (MÚSICA E OUVINTES)
+// ======================================================
+function atualizarSistemaAutomatico() {
+  var ss = SpreadsheetApp.openById(ID_PLANILHA);
+  var sheet = ss.getSheetByName("Config");
+  if (!sheet) return;
 
-        function togglePlay() {
-            const btn = document.getElementById('btn-player');
-            if(isPlaying) { audio.pause(); btn.innerText = '▶'; isPlaying = false; }
-            else { audio.load(); audio.play(); btn.innerText = 'II'; isPlaying = true; }
-        }
+  var musicaAtual = "";
+  var ts = new Date().getTime(); 
+  
+  // TENTA LER VIA CODETABS (Mais forte contra bloqueio)
+  try {
+    var url = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1");
+    var res = UrlFetchApp.fetch(url, {'muteHttpExceptions': true});
+    if (res.getResponseCode() == 200) {
+      var txt = res.getContentText().trim();
+      if (txt.length > 2 && !txt.includes("HTML")) musicaAtual = txt;
+    }
+  } catch(e) {}
 
-        function abrirModal(acao, titulo) {
-            const modal = document.getElementById('modal-container');
-            const modalBody = document.getElementById('modal-body');
-            document.getElementById('modal-title').innerText = titulo;
-            modal.style.display = 'flex';
-            modalBody.innerHTML = 'Carregando...';
+  // SE FALHAR, TENTA MANTER O ÚLTIMO NOME VÁLIDO
+  var ultimaSalva = sheet.getRange("F2").getValue().toString().trim();
+  if (musicaAtual === "") {
+     if (ultimaSalva !== "") musicaAtual = ultimaSalva;
+     else musicaAtual = "Rádio Top Itatiba";
+  }
 
-            if (acao === 'getEnquete') {
-                fetch(urlGoogle + "?action=getEnquete").then(r => r.json()).then(data => {
-                    modalBody.innerHTML = `
-                        <h3 style="color:white; font-size:14px; text-align:center;">QUAL É SEU RITMO FAVORITO?</h3>
-                        <div class="battle-container">
-                            <div class="battle-option" onclick="votarBatalha(1)">
-                                <div class="battle-info"><span class="battle-name">${data.op1}</span><br><span class="btn-votar-label">VOTO ${data.op1}</span></div>
-                                <span class="battle-perc">${data.porc1}%</span>
-                                <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc1}%"></div></div>
-                            </div>
-                            <div class="vs-divider">VS</div>
-                            <div class="battle-option" onclick="votarBatalha(2)">
-                                <div class="battle-info"><span class="battle-name">${data.op2}</span><br><span class="btn-votar-label">VOTO ${data.op2}</span></div>
-                                <span class="battle-perc">${data.porc2}%</span>
-                                <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc2}%"></div></div>
-                            </div>
-                        </div>`;
-                });
-            }
-        }
-
-        function votarBatalha(opcao) {
-            document.getElementById('modal-body').innerHTML = '<h2 style="color:white; text-align:center;">VOTO COMPUTADO! ✅</h2>';
-            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "votar_batalha", voto: opcao }) });
-            setTimeout(fecharModal, 1500);
-        }
-
-        function atualizarMetadados() {
-            const proxy = "https://api.codetabs.com/v1/proxy?quest=";
-            fetch(proxy + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + Date.now())).then(r => r.text()).then(nome => {
-                document.getElementById('nome-musica').innerText = (nome.includes("<html")) ? "Rádio Top Itatiba" : nome;
-            });
-            fetch(proxy + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html")).then(r => r.text()).then(d => {
-                 let p = d.split(',');
-                 if(p.length > 0 && !d.includes("<html")) {
-                    let n = parseInt(p[0]);
-                    if(!isNaN(n)) document.getElementById('qtd-ouvintes').innerText = n + 125;
-                 }
-            });
-        }
-
-        function fecharModal() { document.getElementById('modal-container').style.display = 'none'; }
-        setInterval(atualizarMetadados, 20000);
-    </script>
-</body>
-</html>
+  if (musicaAtual !== ultimaSalva) {
+    sheet.getRange("F2").setValue(musicaAtual);
+    // Tenta capa
+    try {
+       var busca = "https://itunes.apple.com/search?term=" + encodeURIComponent(musicaAtual.replace(/-/g," ")) + "&media=music&limit=1";
+       var json = JSON.parse(UrlFetchApp.fetch(busca).getContentText());
+       if(json.results.length > 0) sheet.getRange("A2").setValue(json.results[0].artworkUrl100.replace("100x100bb","600x600bb"));
+       else sheet.getRange("A2").setValue("https://radiotopitatiba.com.br/top1.jpg");
+    } catch(e) { sheet.getRange("A2").setValue("https://radiotopitatiba.com.br/top1.jpg"); }
+  }
+  
+  // Clima e Notícias
+  try {
+    var clima = JSON.parse(UrlFetchApp.fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.00&longitude=-46.84&current_weather=true").getContentText());
+    var temp = Math.round(clima.current_weather.temperature);
+    sheet.getRange("E2").setValue(temp);
+    sheet.getRange("C2").setValue("☀️ ITATIBA " + temp + "°C .. 🎵 NO AR: " + musicaAtual + " .. ✨ RÁDIO TOP!");
+  } catch(e) {}
+}
