@@ -101,19 +101,50 @@
         .banner-container { width: 100%; background-color: var(--azul-escuro); text-align: center; }
         .banner-container img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
         
-        .video-embed-container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
-        
-        /* --- AJUSTE PARA CAPA NO PC (Centralizada e bonita) --- */
-        @media (min-width: 768px) {
-            .video-embed-container { max-width: 400px; } /* No PC fica tamanho de capa de CD */
+        .studio-header {
+            text-align: center; color: white; padding: 15px 0; font-weight: bold; letter-spacing: 2px;
+            background: linear-gradient(180deg, var(--fundo-neon), var(--azul-escuro));
+            border-bottom: 1px solid var(--magenta); text-shadow: 0 0 10px var(--magenta); margin-top: 10px;
         }
 
+        /* --- CONFIGURAÇÃO DA CAPA (EFEITO BLUR NO PC) --- */
+        .video-embed-container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
+        
         .video-embed { 
-            position: relative; padding-bottom: 100%; /* Quadrado */
+            position: relative; 
+            padding-bottom: 100%; /* Celular: Quadrado */
             height: 0; overflow: hidden; 
             background: #000; border: 3px solid var(--magenta); 
             box-shadow: 0 0 20px var(--magenta); border-radius: 15px;
             animation: video-glow 5s infinite alternate;
+        }
+
+        /* NO PC: Deixa o quadro mais retangular e largo */
+        @media (min-width: 768px) {
+            .video-embed-container { max-width: 700px; } 
+            .video-embed { padding-bottom: 50%; } /* Retangular no PC */
+        }
+
+        /* Fundo Desfocado */
+        .bg-blur-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(20px) brightness(0.6);
+            z-index: 1; transition: background-image 0.5s ease;
+        }
+
+        /* Capa Centralizada */
+        .capa-tv-img {
+            position: absolute; 
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%);
+            height: 90%; width: auto; 
+            aspect-ratio: 1/1; /* Garante que a capa fique quadrada */
+            object-fit: cover;
+            z-index: 2;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         @keyframes video-glow {
@@ -123,16 +154,7 @@
             75% { box-shadow: 0 0 20px var(--verde-whatsapp); border-color: var(--verde-whatsapp); }
             100% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); }
         }
-        
-        .capa-tv-img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
-        }
-
-        .studio-header {
-            text-align: center; color: white; padding: 15px 0; font-weight: bold; letter-spacing: 2px;
-            background: linear-gradient(180deg, var(--fundo-neon), var(--azul-escuro));
-            border-bottom: 1px solid var(--magenta); text-shadow: 0 0 10px var(--magenta); margin-top: 10px;
-        }
+        /* ---------------------------------------------------- */
 
         .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; }
         .mural-input { 
@@ -401,8 +423,10 @@
     </div>
 
     <div class="studio-header">🔴 TV TOP ITATIBA</div>
+    
     <div class="video-embed-container">
         <div class="video-embed">
+            <div id="blur-bg" class="bg-blur-layer" style="background-image: url('top1.jpg');"></div>
             <img id="capa-album-tv" src="top1.jpg" class="capa-tv-img" alt="Capa do Álbum">
         </div>
     </div>
@@ -673,16 +697,19 @@
             }).catch(() => {});
         }
 
-        // --- ATUALIZADO: Carrega a CAPA da planilha em vez de vídeo ---
+        // --- ATUALIZADO: Carrega a CAPA e atualiza o FUNDO BORRADO ---
         function carregarConfig() {
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 
-                // Agora o data.tv é a FOTO que vem da célula A2
+                // data.tv é a FOTO que vem da célula A2
                 if (data.tv) {
                     let capaImg = document.getElementById('capa-album-tv');
-                    // Só atualiza se mudou o link, pra não piscar
+                    let bgBlur = document.getElementById('blur-bg');
+                    
                     if(capaImg.src !== data.tv) {
                         capaImg.src = data.tv;
+                        // Atualiza o fundo borrado também
+                        if(bgBlur) bgBlur.style.backgroundImage = `url('${data.tv}')`;
                     }
                 }
                 
@@ -720,25 +747,24 @@
             atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
         }
 
-        // --- ATUALIZADO: Lógica de Comercial + Tela de Bloqueio ---
+        // --- ATUALIZADO: Lógica de Comercial + Tela de Bloqueio + Sincronia ---
         function atualizarMetadados() {
-            // Usa o Proxy para garantir a leitura
             fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime())).then(r => r.json()).then(data => {
                 if (!data.contents) return;
                 
                 let nomeMusica = data.contents.trim();
-                let capaParaMostrar = document.getElementById('capa-album-tv').src; // Pega a capa que já está no site (vinda do Google)
+                let capaParaMostrar = document.getElementById('capa-album-tv').src; 
 
-                // Lógica de Comercial / Vinheta
+                // Lógica de Comercial / Vinheta: Se não tiver música, mostra o Logo ou nome da rádio
                 if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
                     nomeMusica = "Rádio Top Itatiba";
-                    // Se for comercial, força o Logo (opcional, ou mantém a capa)
+                    // Opcional: Se quiser forçar o logo na capa durante comercial, descomente a linha abaixo
                     // document.getElementById('capa-album-tv').src = "top1.jpg"; 
                 }
 
                 document.getElementById('nome-musica').innerText = nomeMusica;
                 
-                // Código para Tela de Bloqueio do Celular (MediaSession)
+                // Tela de Bloqueio (Segundo Plano)
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
                         title: nomeMusica,
@@ -755,7 +781,7 @@
                 }
             });
             
-            // Busca ouvintes (separado para não travar)
+            // Busca número de ouvintes
             fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html")).then(r => r.json()).then(d => {
                  if(d.contents) {
                      let p = d.contents.split(',');
