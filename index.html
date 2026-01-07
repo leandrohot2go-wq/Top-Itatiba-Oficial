@@ -12,22 +12,19 @@
         :root { --azul-escuro: #0a0e27; --magenta: #b01a7a; --roxo-neon: #aa00ff; --dourado: #f3b644; --fundo-neon: #050816; --verde-whatsapp: #00ff55; --vermelho-no-ar: #ff0000; }
         body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--fundo-neon); color: #eee; scroll-behavior: smooth; overflow-x: hidden; transition: background 1s ease; }
 
-        /* --- BOTÃO TOP TRENDS (REFORMULADO) --- */
+        /* --- BOTÃO VS FLUTUANTE (CORRIGIDO PARA "VS") --- */
         .poll-float { 
-            position: fixed; bottom: 25px; left: 25px; width: 75px; height: 75px;
-            background: linear-gradient(135deg, var(--magenta), #330033);
-            color: var(--dourado); border-radius: 50%; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 10001; box-shadow: 0 0 20px var(--magenta); cursor: pointer;
-            border: 3px solid white; 
-            font-weight: 900; font-size: 12px; line-height: 1.1; letter-spacing: 1px;
-            transition: 0.3s; animation: pulse-vs 2s infinite; text-shadow: 1px 1px 0 #000;
+            position: fixed; bottom: 25px; left: 25px; width: 65px; height: 65px;
+            background: linear-gradient(135deg, var(--magenta), #5e0046);
+            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            z-index: 10001; box-shadow: 0 0 15px var(--magenta); cursor: pointer;
+            border: 3px solid white; font-weight: 900; font-style: italic; font-size: 28px;
+            transition: 0.3s; animation: pulse-vs 2s infinite; text-shadow: 2px 2px 0 #000;
         }
-        .poll-float span { font-size: 16px; display: block; }
-        .poll-float:hover { transform: scale(1.1) rotate(-5deg); box-shadow: 0 0 40px var(--roxo-neon); border-color: var(--dourado); }
-        @keyframes pulse-vs { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
+        .poll-float:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 0 30px var(--roxo-neon); }
+        @keyframes pulse-vs { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
 
-        /* --- MODAL TOP TRENDS (VISUAL DE BATALHA) --- */
+        /* --- MODAL BATALHA (TEXTOS CORRIGIDOS) --- */
         .battle-container { display: flex; flex-direction: column; gap: 20px; width: 100%; margin-top: 15px; }
         .battle-option { 
             background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.5) 100%);
@@ -203,9 +200,7 @@
         <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
     </a>
     
-    <div class="poll-float" onclick="abrirModal('getEnquete', 'TOP TRENDS')">
-        <span>TOP</span>TRENDS
-    </div>
+    <div class="poll-float" onclick="abrirModal('getEnquete', 'BATALHA')">VS</div>
 
     <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
         <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
@@ -433,11 +428,11 @@
             modalBody.innerHTML = '<p style="text-align:center; color:white;">Buscando informações...</p>';
             controls.style.display = 'none'; modal.style.display = 'flex';
 
-            // --- LÓGICA DA ENQUETE / BATALHA TOP TRENDS ---
             if (acao === 'getEnquete') {
-                modalTitle.innerText = "TOP TRENDS"; 
+                modalTitle.innerText = "BATALHA"; 
                 fetch(urlGoogle + "?action=getEnquete").then(r => r.json()).then(data => {
                     modalBody.innerHTML = `
+                        <h3 style="color:var(--dourado); text-transform:uppercase; margin-bottom:20px;">QUAL É SEU RITMO FAVORITO?</h3>
                         <div class="battle-container">
                             <div class="battle-option" onclick="votarBatalha(1)">
                                 <div class="battle-info">
@@ -643,9 +638,9 @@
 
         function iniciarSite() {
             const splash = document.getElementById('splash-screen');
-            // Correção do Bug de Travamento:
+            // Correção da tela de boas-vindas: garante que ela sobe e depois some
             splash.style.transform = 'translateY(-100%)';
-            setTimeout(() => { splash.style.display = 'none'; }, 800); // Remove da tela após a animação
+            setTimeout(() => { splash.style.display = 'none'; }, 800); 
 
             document.getElementById('reactionMenu').style.display = 'block';
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
@@ -656,7 +651,7 @@
         }
 
         // ==========================================
-        //  A CORREÇÃO FINAL DOS OUVINTES E MÚSICA (CodeTabs)
+        //  CORREÇÃO DOS OUVINTES E MÚSICA (CodeTabs)
         // ==========================================
         function atualizarMetadados() {
             // URL com CodeTabs para furar bloqueios
@@ -666,7 +661,7 @@
                 let nomeMusica = data.trim();
                 let capaParaMostrar = document.getElementById('capa-album-tv').src; 
 
-                // PROTEÇÃO: Se o servidor caiu, ele devolve HTML (<!DOCTYPE...). 
+                // PROTEÇÃO
                 if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error")) {
                     nomeMusica = "Rádio Top - A Conexão que te Move"; 
                 } else if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
@@ -693,9 +688,8 @@
             const proxyOuvintes = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
             fetch(proxyOuvintes).then(r => r.text()).then(d => {
                  let p = d.split(',');
-                 // Tenta pegar o número de ouvintes. Em CSV shoutcast o primeiro número costuma ser os ouvintes.
+                 // Tenta pegar o número de ouvintes. Em Shoutcast padrão o index 0 é listeners atuais.
                  if(p.length > 0 && !d.includes("<html")) { 
-                     // Tenta encontrar um número válido no início da string
                      let num = parseInt(p[0]); 
                      if (!isNaN(num)) {
                         document.getElementById('qtd-ouvintes').innerText = num + 125;
