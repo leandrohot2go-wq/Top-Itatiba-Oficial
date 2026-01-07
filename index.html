@@ -101,38 +101,58 @@
         .banner-container { width: 100%; background-color: var(--azul-escuro); text-align: center; }
         .banner-container img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
         
-        .video-embed-container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
-        .video-embed { 
-            position: relative; padding-bottom: 100%; /* Ajuste para quadrado (Capa Album) */
-            height: 0; overflow: hidden; 
-            background: #000; border: 3px solid var(--magenta); 
-            box-shadow: 0 0 20px var(--magenta); border-radius: 10px;
-            animation: video-glow 5s infinite alternate;
-        }
-        /* Ajuste se for retangular, mas capa geralmente é quadrada. Vamos manter responsivo */
-        @media (min-width: 600px) {
-             .video-embed { padding-bottom: 56.25%; } /* Retorna a 16:9 em telas grandes se preferir, ou mantem quadrado */
-             /* Para capa de album ficar bonita, melhor manter quadrado ou adaptar a imagem */
-             .video-embed { padding-bottom: 100%; max-height: 500px; }
-        }
-
-        @keyframes video-glow {
-            0% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); }
-            25% { box-shadow: 0 0 20px var(--roxo-neon); border-color: var(--roxo-neon); }
-            50% { box-shadow: 0 0 20px var(--dourado); border-color: var(--dourado); }
-            75% { box-shadow: 0 0 20px var(--verde-whatsapp); border-color: var(--verde-whatsapp); }
-            100% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); }
-        }
-        
-        /* Classe nova para a imagem da capa */
-        .capa-tv-img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
-        }
-
         .studio-header {
             text-align: center; color: white; padding: 15px 0; font-weight: bold; letter-spacing: 2px;
             background: linear-gradient(180deg, var(--fundo-neon), var(--azul-escuro));
             border-bottom: 1px solid var(--magenta); text-shadow: 0 0 10px var(--magenta); margin-top: 10px;
+        }
+
+        /* --- CONFIGURAÇÃO DA CAPA DA MÚSICA (RESPONSIVA) --- */
+        .video-embed-container { 
+            width: 100%; 
+            margin: 10px auto; 
+            padding: 0 10px;
+            box-sizing: border-box;
+            /* No celular, ocupa a largura disponível, mas com limite para não estourar */
+            max-width: 100%; 
+        }
+
+        /* Ajuste específico para PC e Tablets (Telas maiores que 768px) */
+        @media (min-width: 768px) {
+            .video-embed-container {
+                max-width: 320px; /* Tamanho de uma capa de Vinil/CD no PC */
+            }
+        }
+
+        .video-embed { 
+            position: relative; 
+            padding-bottom: 100%; /* Mantém o formato quadrado (1:1) */
+            height: 0; 
+            overflow: hidden; 
+            background: #000; 
+            border: 3px solid var(--magenta); 
+            border-radius: 15px; /* Bordas mais arredondadas para parecer capa */
+            box-shadow: 0 10px 40px rgba(176, 26, 122, 0.4); /* Sombra elegante */
+            animation: video-glow 5s infinite alternate;
+            transition: all 0.3s ease;
+        }
+        
+        /* Efeito ao passar o mouse na capa no PC */
+        .video-embed:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 50px rgba(176, 26, 122, 0.6);
+        }
+
+        @keyframes video-glow {
+            0% { border-color: var(--magenta); }
+            25% { border-color: var(--roxo-neon); }
+            50% { border-color: var(--dourado); }
+            75% { border-color: var(--verde-whatsapp); }
+            100% { border-color: var(--magenta); }
+        }
+        
+        .capa-tv-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
         }
 
         .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; }
@@ -676,11 +696,8 @@
 
         function carregarConfig() {
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
-                // ATUALIZADO: Agora coloca a imagem (CAPA) em vez do vídeo
                 if (data.tv) document.getElementById('capa-album-tv').src = data.tv;
-                
                 if (data.botao) document.getElementById('link-studio').href = data.botao;
-                
                 if (data.noticias) {
                     const ticker = document.querySelector('.ticker-content');
                     const arrayNews = data.noticias.split('.');
@@ -693,7 +710,6 @@
             }).catch(e => console.log("Erro config"));
         }
         
-        // Verifica se mudou a capa a cada 30 segundos
         setInterval(carregarConfig, 30000);
 
         document.getElementById('form-mural').addEventListener('submit', function(e) {
@@ -704,7 +720,6 @@
 
         function iniciarSite() {
             document.getElementById('splash-screen').style.transform = 'translateY(-100%)';
-            
             document.getElementById('reactionMenu').style.display = 'block';
 
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
@@ -720,9 +735,6 @@
                 if (!data.contents) return; const partes = data.contents.replace(/<[^>]*>/g, "").split(',');
                 if (partes.length > 6) {
                     const nomeMusica = partes[6];
-
-                    // REMOVIDO: Função antiga de atualizarVideo, pois agora usamos a Capa do Google Script
-                    
                     document.getElementById('nome-musica').innerText = nomeMusica;
                     document.getElementById('qtd-ouvintes').innerText = (parseInt(partes[0]) || 0) + 125;
                     if ('mediaSession' in navigator) {
