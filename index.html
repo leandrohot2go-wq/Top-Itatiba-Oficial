@@ -44,10 +44,8 @@
         .ticker-label {
             background: var(--magenta); color: white; padding: 0 15px; z-index: 10;
             position: relative; box-shadow: 5px 0 10px rgba(0,0,0,0.5); display: flex; align-items: center;
-            /* NOVO: Comando para o selo piscar */
             animation: pisca-plantao 1s infinite alternate;
         }
-        /* ANIMAÇÃO DO PISCA-PISCA */
         @keyframes pisca-plantao {
             0% { background: var(--magenta); box-shadow: 0 0 5px var(--magenta); }
             100% { background: #ff0000; box-shadow: 0 0 20px #ff0000; }
@@ -105,11 +103,19 @@
         
         .video-embed-container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
         .video-embed { 
-            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; 
+            position: relative; padding-bottom: 100%; /* Ajuste para quadrado (Capa Album) */
+            height: 0; overflow: hidden; 
             background: #000; border: 3px solid var(--magenta); 
             box-shadow: 0 0 20px var(--magenta); border-radius: 10px;
             animation: video-glow 5s infinite alternate;
         }
+        /* Ajuste se for retangular, mas capa geralmente é quadrada. Vamos manter responsivo */
+        @media (min-width: 600px) {
+             .video-embed { padding-bottom: 56.25%; } /* Retorna a 16:9 em telas grandes se preferir, ou mantem quadrado */
+             /* Para capa de album ficar bonita, melhor manter quadrado ou adaptar a imagem */
+             .video-embed { padding-bottom: 100%; max-height: 500px; }
+        }
+
         @keyframes video-glow {
             0% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); }
             25% { box-shadow: 0 0 20px var(--roxo-neon); border-color: var(--roxo-neon); }
@@ -117,8 +123,12 @@
             75% { box-shadow: 0 0 20px var(--verde-whatsapp); border-color: var(--verde-whatsapp); }
             100% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); }
         }
-        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         
+        /* Classe nova para a imagem da capa */
+        .capa-tv-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+        }
+
         .studio-header {
             text-align: center; color: white; padding: 15px 0; font-weight: bold; letter-spacing: 2px;
             background: linear-gradient(180deg, var(--fundo-neon), var(--azul-escuro));
@@ -269,6 +279,7 @@
             z-index: 10000;
             width: 50px;
             height: 50px;
+            display: none;
         }
 
         .r-btn {
@@ -366,7 +377,7 @@
         <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
     </a>
 
-    <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000;">
+    <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
         <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
         <button class="r-btn option" onclick="selectReaction('🎵')">🎵</button>
         <button class="r-btn option" onclick="selectReaction('🔥')">🔥</button>
@@ -393,16 +404,7 @@
     <div class="studio-header">🔴 TV TOP ITATIBA</div>
     <div class="video-embed-container">
         <div class="video-embed">
-            <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/videoseries?list=PLU12uITxBEPEtLp7k9Vw_DhYbb8joDUZ-&autoplay=1&mute=1&playsinline=1"
-                title="TV TOP"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style="border-radius: 10px;">
-            </iframe>
+            <img id="capa-album-tv" src="top1.jpg" class="capa-tv-img" alt="Capa do Álbum">
         </div>
     </div>
 
@@ -674,7 +676,9 @@
 
         function carregarConfig() {
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
-                if (data.tv) document.getElementById('iframe-tv').src = data.tv;
+                // ATUALIZADO: Agora coloca a imagem (CAPA) em vez do vídeo
+                if (data.tv) document.getElementById('capa-album-tv').src = data.tv;
+                
                 if (data.botao) document.getElementById('link-studio').href = data.botao;
                 
                 if (data.noticias) {
@@ -688,6 +692,9 @@
                 }
             }).catch(e => console.log("Erro config"));
         }
+        
+        // Verifica se mudou a capa a cada 30 segundos
+        setInterval(carregarConfig, 30000);
 
         document.getElementById('form-mural').addEventListener('submit', function(e) {
             e.preventDefault(); const btn = document.getElementById('btn-status'); btn.innerText = "ENVIANDO..."; btn.disabled = true;
@@ -695,11 +702,11 @@
             .then(() => { btn.innerText = "ENVIADO!"; btn.disabled = false; this.reset(); setTimeout(() => { btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; }, 2000); });
         });
 
-        // --- ATUALIZADO: Comando para respeitar o botão de Ligar/Desligar Fogos ---
         function iniciarSite() {
             document.getElementById('splash-screen').style.transform = 'translateY(-100%)';
             
-            // Só solta fogos se não estiver marcado como OFF na planilha
+            document.getElementById('reactionMenu').style.display = 'block';
+
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if(data.efeitos !== "OFF") startFireworks();
             });
@@ -708,24 +715,14 @@
             atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
         }
 
-        function atualizarVideo(termo) {
-            const iframe = document.getElementById('iframe-tv');
-            if (iframe && termo) {
-                iframe.src = `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(termo)}&autoplay=1&mute=1`;
-            }
-        }
-
         function atualizarMetadados() {
             fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html")).then(r => r.json()).then(data => {
                 if (!data.contents) return; const partes = data.contents.replace(/<[^>]*>/g, "").split(',');
                 if (partes.length > 6) {
                     const nomeMusica = partes[6];
 
-                    if (ultimaMusica !== nomeMusica) {
-                        ultimaMusica = nomeMusica;
-                        atualizarVideo(nomeMusica);
-                    }
-
+                    // REMOVIDO: Função antiga de atualizarVideo, pois agora usamos a Capa do Google Script
+                    
                     document.getElementById('nome-musica').innerText = nomeMusica;
                     document.getElementById('qtd-ouvintes').innerText = (parseInt(partes[0]) || 0) + 125;
                     if ('mediaSession' in navigator) {
