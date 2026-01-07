@@ -9,72 +9,50 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
 
     <style>
-        /* --- CORES E VISUAL RESTAURADOS --- */
-        :root {
-            --azul-escuro: #0a0e27;
-            --magenta: #b01a7a;
-            --roxo-neon: #aa00ff;
-            --dourado: #f3b644;
-            --fundo-neon: #050816;
-            --verde-whatsapp: #00ff55;
-            --vermelho-no-ar: #ff0000;
-        }
+        :root { --azul-escuro: #0a0e27; --magenta: #b01a7a; --roxo-neon: #aa00ff; --dourado: #f3b644; --fundo-neon: #050816; --verde-whatsapp: #00ff55; --vermelho-no-ar: #ff0000; }
         body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--fundo-neon); color: #eee; scroll-behavior: smooth; overflow-x: hidden; transition: background 1s ease; }
 
-        /* INDICADOR NO AR (QUE TINHA SUMIDO) */
-        .no-ar-indicator {
-            display: flex; align-items: center; justify-content: center; gap: 15px;
-            background: linear-gradient(90deg, #1a0000 0%, #3d0000 50%, #1a0000 100%);
-            color: var(--vermelho-no-ar); font-weight: 900; text-transform: uppercase;
-            letter-spacing: 2px; padding: 12px; border-radius: 12px;
-            border: 2px solid var(--vermelho-no-ar); margin: 15px auto 10px auto;
-            max-width: 600px; box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-            animation: broadcast-pulse 3s infinite alternate ease-in-out;
-        }
-        .pulsing-dot {
-            width: 10px; height: 10px; background-color: var(--vermelho-no-ar);
-            border-radius: 50%; box-shadow: 0 0 10px var(--vermelho-no-ar);
-            animation: blink-fast 0.8s infinite alternate;
-        }
-        @keyframes broadcast-pulse {
-            0% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); border-color: #a10000; color: #a10000; }
-            100% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.7); border-color: #ff3333; color: #ff3333; }
-        }
-        @keyframes blink-fast {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px var(--vermelho-no-ar); }
-        }
-
-        /* BOTÃO VS FLUTUANTE (TOP TRENDS) */
+        /* --- BOTÃO TOP TRENDS (REFORMULADO) --- */
         .poll-float { 
-            position: fixed; bottom: 25px; left: 25px; width: 70px; height: 70px;
-            background: linear-gradient(135deg, var(--magenta), #5e0046);
-            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-align: center;
-            z-index: 10001; box-shadow: 0 0 15px var(--magenta); cursor: pointer;
-            border: 2px solid white; font-weight: 900; font-size: 11px; line-height: 1.1;
-            transition: 0.3s; animation: pulse-vs 2s infinite;
+            position: fixed; bottom: 25px; left: 25px; width: 75px; height: 75px;
+            background: linear-gradient(135deg, var(--magenta), #330033);
+            color: var(--dourado); border-radius: 50%; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 10001; box-shadow: 0 0 20px var(--magenta); cursor: pointer;
+            border: 3px solid white; 
+            font-weight: 900; font-size: 12px; line-height: 1.1; letter-spacing: 1px;
+            transition: 0.3s; animation: pulse-vs 2s infinite; text-shadow: 1px 1px 0 #000;
         }
-        .poll-float:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 0 30px var(--roxo-neon); }
-        @keyframes pulse-vs { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
+        .poll-float span { font-size: 16px; display: block; }
+        .poll-float:hover { transform: scale(1.1) rotate(-5deg); box-shadow: 0 0 40px var(--roxo-neon); border-color: var(--dourado); }
+        @keyframes pulse-vs { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
 
-        /* MODAL TOP TRENDS (VISUAL CORRIGIDO) */
+        /* --- MODAL TOP TRENDS (VISUAL DE BATALHA) --- */
         .battle-container { display: flex; flex-direction: column; gap: 20px; width: 100%; margin-top: 15px; }
         .battle-option { 
             background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.5) 100%);
             border: 2px solid #444; border-radius: 15px; 
-            padding: 20px; position: relative; overflow: hidden; transition: 0.3s; cursor: pointer;
+            padding: 15px; position: relative; overflow: hidden; transition: 0.3s; cursor: pointer;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .battle-option:hover { border-color: var(--dourado); background: rgba(255,255,255,0.1); transform: scale(1.02); }
+        .battle-option:active { transform: scale(0.95); border-color: var(--verde-whatsapp); }
+        
         .battle-bar-bg { position: absolute; bottom: 0; left: 0; height: 6px; width: 100%; background: #222; }
         .battle-bar-fill { height: 100%; background: var(--magenta); width: 0%; transition: width 1s ease-out; box-shadow: 0 0 10px var(--magenta); }
+        
         .battle-info { z-index: 2; text-align: left; }
-        .battle-name { font-size: 22px; font-weight: 900; text-transform: uppercase; display: block; color: white; letter-spacing: 1px; }
-        .battle-action { font-size: 12px; color: var(--dourado); font-weight: bold; text-transform: uppercase; margin-top: 5px; display: block; }
-        .battle-perc { font-size: 28px; font-weight: 900; color: white; z-index: 2; text-shadow: 0 0 10px var(--magenta); }
+        .battle-name { font-size: 20px; font-weight: 900; text-transform: uppercase; display: block; color: white; letter-spacing: 1px; }
+        
+        .btn-votar-item {
+            background: var(--dourado); color: black; font-size: 11px; font-weight: 900;
+            padding: 4px 10px; border-radius: 20px; text-transform: uppercase; margin-top: 5px;
+            display: inline-block; box-shadow: 0 0 10px var(--dourado);
+        }
+
+        .battle-perc { font-size: 24px; font-weight: 900; color: white; z-index: 2; text-shadow: 0 0 10px var(--magenta); }
         .vs-divider { text-align: center; font-weight: 900; color: #ff0000; font-size: 24px; font-style: italic; text-shadow: 0 0 10px red; margin: -10px 0; z-index: 10; letter-spacing: 2px; }
 
-        /* OUTROS ESTILOS ESSENCIAIS */
+        /* OUTROS ESTILOS */
         .firework { position: fixed; width: 4px; height: 4px; border-radius: 50%; z-index: 9999; pointer-events: none; }
         @keyframes explode { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(30); opacity: 0; } }
         .noticias-ticker { background: #000; color: var(--dourado); padding: 10px 0; border-bottom: 2px solid var(--magenta); overflow: hidden; white-space: nowrap; font-weight: bold; font-size: 14px; text-transform: uppercase; display: flex; z-index: 900; }
@@ -93,6 +71,10 @@
         .btn-pedido-zap { background: var(--verde-whatsapp); color: #000; border: none; padding: 12px 25px; border-radius: 30px; font-weight: 900; cursor: pointer; width: 100%; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
         .btn-pedido-zap:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--verde-whatsapp); background: #50ff7d; }
         .banner-container { width: 100%; background-color: var(--azul-escuro); text-align: center; } .banner-container img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        .no-ar-indicator { display: flex; align-items: center; justify-content: center; gap: 15px; background: linear-gradient(90deg, #1a0000 0%, #3d0000 50%, #1a0000 100%); color: var(--vermelho-no-ar); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; padding: 12px; border-radius: 12px; border: 2px solid var(--vermelho-no-ar); margin: 15px auto 10px auto; max-width: 600px; box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); animation: broadcast-pulse 3s infinite alternate ease-in-out; }
+        .pulsing-dot { width: 10px; height: 10px; background-color: var(--vermelho-no-ar); border-radius: 50%; box-shadow: 0 0 10px var(--vermelho-no-ar); animation: blink-fast 0.8s infinite alternate; }
+        @keyframes broadcast-pulse { 0% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); border-color: #a10000; color: #a10000; } 100% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.7); border-color: #ff3333; color: #ff3333; } }
+        @keyframes blink-fast { 0% { opacity: 0.3; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px var(--vermelho-no-ar); } }
         .video-embed-container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
         .video-embed { position: relative; padding-bottom: 100%; height: 0; overflow: hidden; background: #000; border: 3px solid var(--magenta); box-shadow: 0 0 20px var(--magenta); border-radius: 15px; animation: video-glow 5s infinite alternate; transition: border-color 1s ease, box-shadow 1s ease; }
         @media (min-width: 768px) { .video-embed-container { max-width: 700px; } .video-embed { padding-bottom: 50%; } }
@@ -221,7 +203,9 @@
         <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
     </a>
     
-    <div class="poll-float" onclick="abrirModal('getEnquete', 'TOP TRENDS')">TOP<br>TRENDS</div>
+    <div class="poll-float" onclick="abrirModal('getEnquete', 'TOP TRENDS')">
+        <span>TOP</span>TRENDS
+    </div>
 
     <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
         <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
@@ -458,7 +442,7 @@
                             <div class="battle-option" onclick="votarBatalha(1)">
                                 <div class="battle-info">
                                     <span class="battle-name">${data.op1}</span>
-                                    <span class="battle-action">VOTO ${data.op1}</span>
+                                    <span class="btn-votar-item">VOTO ${data.op1}</span>
                                 </div>
                                 <span class="battle-perc">${data.porc1}%</span>
                                 <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc1}%"></div></div>
@@ -469,7 +453,7 @@
                             <div class="battle-option" onclick="votarBatalha(2)">
                                 <div class="battle-info">
                                     <span class="battle-name">${data.op2}</span>
-                                    <span class="battle-action">VOTO ${data.op2}</span>
+                                    <span class="btn-votar-item">VOTO ${data.op2}</span>
                                 </div>
                                 <span class="battle-perc">${data.porc2}%</span>
                                 <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc2}%"></div></div>
@@ -658,7 +642,11 @@
         }
 
         function iniciarSite() {
-            document.getElementById('splash-screen').style.transform = 'translateY(-100%)';
+            const splash = document.getElementById('splash-screen');
+            // Correção do Bug de Travamento:
+            splash.style.transform = 'translateY(-100%)';
+            setTimeout(() => { splash.style.display = 'none'; }, 800); // Remove da tela após a animação
+
             document.getElementById('reactionMenu').style.display = 'block';
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if(data.efeitos !== "OFF") startFireworks();
@@ -668,55 +656,50 @@
         }
 
         // ==========================================
-        //  NOVA LÓGICA DE MÚSICA (COM ARMA SECRETA CODETABS)
+        //  A CORREÇÃO FINAL DOS OUVINTES E MÚSICA (CodeTabs)
         // ==========================================
         function atualizarMetadados() {
-            // URL da Rádio (Original)
-            const urlRadio = "http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime();
+            // URL com CodeTabs para furar bloqueios
+            const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
-            // 1. TENTA CODETABS (O MAIS FORTE CONTRA BLOQUEIOS)
-            fetch("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(urlRadio))
-            .then(r => r.text())
-            .then(data => processarMusica(data))
-            .catch(e => {
-                // 2. SE FALHAR, TENTA CORSPROXY (BACKUP)
-                console.log("Tentando backup...");
-                fetch("https://corsproxy.io/?" + encodeURIComponent(urlRadio))
-                .then(r => r.text())
-                .then(data => processarMusica(data))
-                .catch(() => processarMusica("Rádio Top - A Conexão que te Move"));
+            fetch(proxyUrl).then(r => r.text()).then(data => {
+                let nomeMusica = data.trim();
+                let capaParaMostrar = document.getElementById('capa-album-tv').src; 
+
+                // PROTEÇÃO: Se o servidor caiu, ele devolve HTML (<!DOCTYPE...). 
+                if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error")) {
+                    nomeMusica = "Rádio Top - A Conexão que te Move"; 
+                } else if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
+                    nomeMusica = "Rádio Top Itatiba";
+                }
+
+                document.getElementById('nome-musica').innerText = nomeMusica;
+                
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: nomeMusica,
+                        artist: 'Rádio Top 91.5 FM',
+                        album: 'Ao Vivo',
+                        artwork: [ { src: capaParaMostrar, sizes: '512x512', type: 'image/jpg' } ]
+                    });
+                    navigator.mediaSession.setActionHandler('play', togglePlay);
+                    navigator.mediaSession.setActionHandler('pause', togglePlay);
+                }
+            }).catch(e => {
+                document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
             });
-        }
-
-        function processarMusica(data) {
-            let nomeMusica = data.trim();
-            let capaParaMostrar = document.getElementById('capa-album-tv').src; 
-
-            // FILTRO DE SEGURANÇA (Se vier erro ou HTML, ignora)
-            if (nomeMusica.length < 2 || nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error")) {
-                nomeMusica = "Rádio Top - A Conexão que te Move"; 
-            } else if (nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
-                nomeMusica = "Rádio Top Itatiba";
-            }
-
-            document.getElementById('nome-musica').innerText = nomeMusica;
             
-            // Atualiza Player Nativo do Celular
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: nomeMusica,
-                    artist: 'Rádio Top 91.5 FM',
-                    album: 'Ao Vivo',
-                    artwork: [ { src: capaParaMostrar, sizes: '512x512', type: 'image/jpg' } ]
-                });
-            }
-            
-            // Busca Ouvintes (Via CodeTabs também)
-            fetch("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html"))
-            .then(r => r.text()).then(d => {
+            // Busca Ouvintes (Via CodeTabs também para garantir)
+            const proxyOuvintes = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
+            fetch(proxyOuvintes).then(r => r.text()).then(d => {
                  let p = d.split(',');
+                 // Tenta pegar o número de ouvintes. Em CSV shoutcast o primeiro número costuma ser os ouvintes.
                  if(p.length > 0 && !d.includes("<html")) { 
-                     document.getElementById('qtd-ouvintes').innerText = (parseInt(p[6]) || 0) + 125;
+                     // Tenta encontrar um número válido no início da string
+                     let num = parseInt(p[0]); 
+                     if (!isNaN(num)) {
+                        document.getElementById('qtd-ouvintes').innerText = num + 125;
+                     }
                  }
             }).catch(e => {});
         }
