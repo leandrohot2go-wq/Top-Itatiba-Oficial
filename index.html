@@ -567,7 +567,7 @@
     </div>
 
     <footer>
-        <p style="color: var(--dourado); font-weight: bold; margin-bottom: 20px;">91.5 FM - A RADIO TOP DE ITATIBA</p>
+        <p id="segredo-rodape" style="color: var(--dourado); font-weight: bold; margin-bottom: 20px; cursor: pointer; user-select: none;">91.5 FM - A RADIO TOP DE ITATIBA</p>
         <a href="https://www.instagram.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3955/3955024.png" class="social-icon"></a>
         <a href="https://www.facebook.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" class="social-icon"></a>
         <a href="https://www.amazon.com.br/dp/B0C3814C66/" target="_blank"><img src="logo-Alexa.jpg" class="social-icon alexa-icon" title="Ouça na Alexa"></a>
@@ -737,37 +737,63 @@
             }).catch(() => {});
         }
 
-        // --- ATUALIZADO: Carrega a CAPA e atualiza o FUNDO BORRADO ---
+        // --- ATUALIZADO: Carrega a CAPA e o Ticker Automático ---
         function carregarConfig() {
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 
-                // data.tv é a FOTO que vem da célula A2
+                // 1. Capa
                 if (data.tv) {
                     let capaImg = document.getElementById('capa-album-tv');
                     let bgBlur = document.getElementById('blur-bg');
                     
                     if(capaImg.src !== data.tv) {
                         capaImg.src = data.tv;
-                        // Atualiza o fundo borrado também
                         if(bgBlur) bgBlur.style.backgroundImage = `url('${data.tv}')`;
                     }
                 }
                 
                 if (data.botao) document.getElementById('link-studio').href = data.botao;
                 
-                if (data.noticias) {
-                    const ticker = document.querySelector('.ticker-content');
+                // 2. TICKER TURBO (Lê tanto o campo 'texto' quanto 'noticias')
+                const ticker = document.querySelector('.ticker-content');
+                let textoFinal = "";
+
+                // Se existir o texto completo (C2) que vem do Apps Script novo, usa ele
+                if (data.texto && data.texto.length > 10) {
+                    textoFinal = `<span class="noticia-item" style="color:white;">${data.texto}</span>`;
+                } 
+                // Fallback para o sistema antigo de array de notícias
+                else if (data.noticias) {
                     const arrayNews = data.noticias.split('.');
-                    let htmlNews = "";
                     arrayNews.forEach(msg => {
-                        if(msg.trim() != "") htmlNews += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
+                        if(msg.trim() != "") textoFinal += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
                     });
-                    ticker.innerHTML = htmlNews + htmlNews;
                 }
+                
+                // Só atualiza se mudou para evitar piscar
+                if(textoFinal && ticker.innerHTML.length !== (textoFinal + textoFinal).length) {
+                    ticker.innerHTML = textoFinal + textoFinal;
+                }
+
             }).catch(e => console.log("Erro config"));
         }
         
         setInterval(carregarConfig, 30000);
+
+        // --- EASTER EGG: SEGREDO DO RODAPÉ (5 Cliques) ---
+        let cliquesSegredo = 0;
+        let timerSegredo;
+        document.getElementById('segredo-rodape').addEventListener('click', function(e) {
+            cliquesSegredo++;
+            clearTimeout(timerSegredo);
+            timerSegredo = setTimeout(() => { cliquesSegredo = 0; }, 2000);
+
+            if (cliquesSegredo === 5) {
+                cliquesSegredo = 0;
+                alert("🕵️ PARABÉNS! Você descobriu a Playlist Secreta da Madrugada!");
+                window.open("https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6", "_blank"); // Playlist Exemplo
+            }
+        });
 
         document.getElementById('form-mural').addEventListener('submit', function(e) {
             e.preventDefault(); const btn = document.getElementById('btn-status'); btn.innerText = "ENVIANDO..."; btn.disabled = true;
@@ -798,8 +824,6 @@
                 // Lógica de Comercial / Vinheta: Se não tiver música, mostra o Logo ou nome da rádio
                 if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
                     nomeMusica = "Rádio Top Itatiba";
-                    // Opcional: Se quiser forçar o logo na capa durante comercial, descomente a linha abaixo
-                    // document.getElementById('capa-album-tv').src = "top1.jpg"; 
                 }
 
                 document.getElementById('nome-musica').innerText = nomeMusica;
