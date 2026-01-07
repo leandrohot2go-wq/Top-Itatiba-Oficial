@@ -3,19 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="google-site-verification" content="sNVMg_J8ppGagpGgbVNzwkEAia307XEJgFhjRFnT3fY" />
+    
     <link rel="icon" type="image/jpeg" href="top1.jpg">
+    
     <title>Rádio Top Itatiba FM - 91.5</title>
 
     <meta property="og:title" content="Rádio Top Itatiba FM - 91.5">
-    <meta property="og:description" content="A Top de Itatiba! Ouça ao vivo.">
+    <meta property="og:description" content="A Top de Itatiba! Ouça ao vivo, assista a TV Top e mande seu recado agora.">
     <meta property="og:image" content="https://radiotopitatiba.com.br/top1.jpg">
-    
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="300">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#b01a7a">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="top1.jpg">
 
     <style>
         :root {
+            --azul-escuro: #0a0e27;
             --magenta: #b01a7a;
             --roxo-neon: #aa00ff;
             --dourado: #f3b644;
@@ -25,376 +33,788 @@
 
         body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--fundo-neon); color: #eee; scroll-behavior: smooth; overflow-x: hidden; }
 
-        /* --- NOVO ESTILO DA CAPA (PC E CELULAR) --- */
-        .area-player-visual {
-            position: relative;
-            width: 100%;
-            height: 400px; /* Altura fixa para ficar bonito no PC */
-            overflow: hidden;
-            border-bottom: 2px solid var(--magenta);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #000;
-        }
-
-        /* Fundo desfocado (Efeito Spotify) */
-        .bg-blur {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            filter: blur(30px) brightness(0.4);
-            z-index: 1;
-            transition: background-image 1s ease;
-        }
-
-        /* A capa nítida no centro */
-        .capa-destaque {
-            position: relative;
-            z-index: 5;
-            width: 280px;
-            height: 280px;
-            border-radius: 15px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            object-fit: cover;
-            border: 2px solid rgba(255,255,255,0.2);
-            transition: transform 0.3s ease, src 0.5s ease;
-        }
-        
-        .capa-destaque:hover { transform: scale(1.05); }
-
-        @media (max-width: 600px) {
-            .area-player-visual { height: 320px; }
-            .capa-destaque { width: 220px; height: 220px; }
-        }
-        /* ----------------------------------------- */
-
         .firework { position: fixed; width: 4px; height: 4px; border-radius: 50%; z-index: 9999; pointer-events: none; }
         @keyframes explode { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(30); opacity: 0; } }
 
         .noticias-ticker {
             background: #000; color: var(--dourado); padding: 10px 0;
-            border-bottom: 1px solid #333; overflow: hidden; white-space: nowrap;
+            border-bottom: 2px solid var(--magenta); overflow: hidden; white-space: nowrap;
             font-weight: bold; font-size: 14px; text-transform: uppercase; display: flex; z-index: 900;
         }
+        .ticker-label {
+            background: var(--magenta); color: white; padding: 0 15px; z-index: 10;
+            position: relative; box-shadow: 5px 0 10px rgba(0,0,0,0.5); display: flex; align-items: center;
+            animation: pisca-plantao 1s infinite alternate;
+        }
+        @keyframes pisca-plantao {
+            0% { background: var(--magenta); box-shadow: 0 0 5px var(--magenta); }
+            100% { background: #ff0000; box-shadow: 0 0 20px #ff0000; }
+        }
+
         .ticker-content { display: inline-block; padding-left: 100%; animation: ticker-move 90s linear infinite; }
         @keyframes ticker-move { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .noticia-item { margin-right: 50px; }
+        .noticia-item { display: inline-block; padding: 0 50px; }
+        .noticia-item span { color: var(--magenta); margin-right: 8px; }
 
         nav { 
-            background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(10px);
+            background: rgba(10, 14, 39, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(176, 26, 122, 0.5); padding: 12px 0; 
-            display: flex; justify-content: center; gap: 10px; position: sticky; top: 0; z-index: 1000; 
+            display: flex; justify-content: center; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 1000; 
+            box-shadow: 0 4px 25px rgba(0,0,0,0.8); width: 100%;
         }
         nav a { 
             color: #ddd; text-decoration: none; font-weight: 800; text-transform: uppercase; font-size: 11px; 
-            padding: 8px 14px; border-radius: 20px; transition: 0.3s;
+            transition: all 0.3s ease; padding: 8px 14px; border-radius: 20px; letter-spacing: 0.5px; position: relative;
         }
-        nav a:hover { background: var(--magenta); color: white; }
+        nav a:hover, nav a:active { color: white; background: var(--magenta); box-shadow: 0 0 15px var(--magenta); transform: translateY(-2px); }
+        nav a[href="#mural"] { border: 1px solid rgba(255,255,255,0.2); }
+
+        .painel-tempo-real {
+            background: rgba(255, 255, 255, 0.05); border: 2px solid var(--magenta);
+            border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px;
+            display: flex; justify-content: space-around; align-items: center; color: white;
+            animation: animacaoCores 5s infinite ease-in-out;
+        }
+        @keyframes animacaoCores {
+            0% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); }
+            50% { border-color: var(--dourado); box-shadow: 0 0 15px var(--dourado); }
+            100% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); }
+        }
+        .tempo-item { text-align: center; }
+        .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; }
+        .tempo-valor { font-size: 16px; font-weight: bold; }
+
+        .painel-pedido {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--verde-whatsapp);
+            border-radius: 15px; padding: 20px; margin: 20px 0;
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.1);
+        }
+        .btn-pedido-zap {
+            background: var(--verde-whatsapp); color: #000; border: none;
+            padding: 12px 25px; border-radius: 30px; font-weight: 900;
+            cursor: pointer; width: 100%; text-transform: uppercase;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-top: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+        }
+        .btn-pedido-zap:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--verde-whatsapp); background: #50ff7d; }
+
+        .banner-container { width: 100%; background-color: var(--azul-escuro); text-align: center; }
+        .banner-container img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        
+        .video-embed-container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
+        
+        /* --- AJUSTE PARA CAPA NO PC (Centralizada e bonita) --- */
+        @media (min-width: 768px) {
+            .video-embed-container { max-width: 400px; } /* No PC fica tamanho de capa de CD */
+        }
+
+        .video-embed { 
+            position: relative; padding-bottom: 100%; /* Quadrado */
+            height: 0; overflow: hidden; 
+            background: #000; border: 3px solid var(--magenta); 
+            box-shadow: 0 0 20px var(--magenta); border-radius: 15px;
+            animation: video-glow 5s infinite alternate;
+        }
+
+        @keyframes video-glow {
+            0% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); }
+            25% { box-shadow: 0 0 20px var(--roxo-neon); border-color: var(--roxo-neon); }
+            50% { box-shadow: 0 0 20px var(--dourado); border-color: var(--dourado); }
+            75% { box-shadow: 0 0 20px var(--verde-whatsapp); border-color: var(--verde-whatsapp); }
+            100% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); }
+        }
+        
+        .capa-tv-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .studio-header {
+            text-align: center; color: white; padding: 15px 0; font-weight: bold; letter-spacing: 2px;
+            background: linear-gradient(180deg, var(--fundo-neon), var(--azul-escuro));
+            border-bottom: 1px solid var(--magenta); text-shadow: 0 0 10px var(--magenta); margin-top: 10px;
+        }
+
+        .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; }
+        .mural-input { 
+            width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; 
+            border: 2px solid #333; background: #0a0e27; color: white; box-sizing:border-box; 
+            font-size: 14px; transition: 0.3s ease;
+        }
+        .mural-input:focus { outline: none; border-color: var(--verde-whatsapp); box-shadow: 0 0 15px var(--verde-whatsapp); background: #05190a; }
+
+        .btn-enviar { 
+            background: var(--magenta); color: white; border: none; padding: 12px 20px; 
+            border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; 
+            transition: 0.3s;
+        }
+        .btn-enviar:hover { box-shadow: 0 0 20px var(--magenta); }
+
+        .prog-lista { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
+        .prog-card { display: flex; align-items: center; background: linear-gradient(90deg, #1a1a2e 0%, #111 100%); border-right: 4px solid var(--magenta); border-radius: 10px; padding: 15px; transition: 0.4s; border: 1px solid #333; position: relative; }
+        .prog-hora { background-color: var(--magenta); color: white; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 16px; margin-right: 15px; box-shadow: 0 0 10px rgba(176, 26, 122, 0.4); min-width: 60px; text-align: center; }
+        .prog-info h4 { margin: 0; color: white; font-size: 16px; text-transform: uppercase; }
+        .prog-info p { margin: 5px 0 0 0; color: var(--dourado); font-size: 13px; font-weight: bold; }
+        .prog-card.no-ar { border: 2px solid #ff0000; background: linear-gradient(90deg, #2e0a0a 0%, #000 100%); transform: scale(1.03); box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); z-index: 10; }
+        .badge-live { display: none; background: #ff0000; color: white; font-size: 10px; font-weight: bold; padding: 4px 10px; border-radius: 20px; margin-left: auto; animation: blink 1s infinite; }
+        .prog-card.no-ar .badge-live { display: block; }
 
         .player-bar { 
-            background: linear-gradient(0deg, #050816 0%, #1a1a2e 100%); 
-            padding: 20px; border-top: 1px solid #333;
+            background: linear-gradient(90deg, #120c22 0%, #2e003e 100%); color: white; padding: 25px 15px; 
             display: flex; flex-direction: column; align-items: center; gap: 15px; 
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.9); border-top: 2px solid var(--magenta); position: relative; overflow: hidden;
         }
+        .album-cover { width: 50px; height: 50px; background: #000; border-radius: 10px; border: 2px solid var(--magenta); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 15px var(--magenta); flex-shrink: 0; }
+        .bars { display: flex; align-items: flex-end; height: 30px; gap: 3px; }
+        .bar { width: 6px; background: var(--dourado); animation: equalizer 1s infinite ease-in-out; }
+        @keyframes equalizer { 0% { height: 10px; } 50% { height: 25px; background: var(--magenta); } 100% { height: 10px; } }
+        .status-text { font-size: 10px; color: var(--dourado); letter-spacing: 1px; font-weight: bold; text-transform: uppercase; }
+
+        .btn-share-zap { background-color: var(--verde-whatsapp); color: #000; border: none; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s; }
+
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-neon); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; transition: transform 0.8s ease-in-out; text-align: center; }
+        .splash-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .splash-logo { width: 200px; height: 200px; border-radius: 50%; border: 4px solid var(--magenta); box-shadow: 0 0 30px var(--magenta); margin-bottom: 30px; animation: pulse-logo 2s infinite; object-fit: cover; }
+        .btn-entrar-top { position: relative; background: var(--magenta); color: white; padding: 15px 45px; border-radius: 30px; font-size: 18px; font-weight: bold; text-decoration: none; border: none; cursor: pointer; box-shadow: 0 0 20px var(--magenta); text-transform: uppercase; overflow: hidden; }
+        .btn-entrar-top::after { content: ''; position: absolute; top: -50%; left: -60%; width: 20%; height: 200%; background: rgba(255, 255, 255, 0.4); transform: rotate(30deg); animation: shine 3s infinite; }
+        @keyframes shine { 0% { left: -60%; } 20% { left: 120%; } 100% { left: 120%; } }
+        @keyframes pulse-logo { 0% { transform: scale(1); box-shadow: 0 0 20px var(--magenta); } 50% { transform: scale(1.05); box-shadow: 0 0 50px var(--magenta); } 100% { transform: scale(1); box-shadow: 0 0 20px var(--magenta); } }
 
         .glass-controls {
-            background: rgba(255,255,255,0.1); border-radius: 50px; padding: 10px 25px; 
-            display: flex; align-items: center; gap: 20px; border: 1px solid rgba(255,255,255,0.1);
+            position: relative; background: rgba(40, 0, 60, 0.6); backdrop-filter: blur(8px);
+            border-radius: 50px; padding: 10px 25px; display: flex; align-items: center; gap: 20px; width: fit-content; margin: 10px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 1;
         }
+        .glass-controls::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #b01a7a, #9d00ff, #ff0055, #b01a7a); background-size: 400%; z-index: -1; filter: blur(5px); border-radius: 55px; animation: rgb-glow 10s linear infinite; opacity: 0.9;
+        }
+        @keyframes rgb-glow { 0% { background-position: 0 0; } 50% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+        .player-info { display: flex; align-items: center; gap: 20px; width: 100%; max-width: 800px; justify-content: center; flex-wrap: wrap; z-index: 2; }
+        .ouvintes-count { color: var(--dourado); font-weight: bold; font-size: 14px; text-shadow: 1px 1px 2px black; }
         
         .btn-player-modern {
-            width: 65px; height: 65px; background: var(--magenta); border-radius: 50%; border: none; 
-            color: white; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px var(--magenta); transition: 0.3s;
+            width: 70px; height: 70px; background: linear-gradient(135deg, var(--magenta), var(--roxo-neon));
+            border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.5); color: white; font-size: 28px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(176, 26, 122, 0.6);
+            transition: all 0.3s ease; position: relative; z-index: 10;
         }
-        .playing-pulse { animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
+        .btn-player-modern:hover { transform: scale(1.05); box-shadow: 0 0 40px var(--magenta); border-color: white; }
+        .btn-player-modern:active { transform: scale(0.95); }
+        .playing-pulse { animation: pulse-ring 2s infinite; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
 
-        .info-musica-container { text-align: center; margin-bottom: 10px; }
-        #nome-musica { font-size: 18px; font-weight: bold; color: white; display: block; margin-bottom: 5px; }
-        #artista-musica { font-size: 14px; color: var(--dourado); }
+        .volume-control-modern { display: flex; align-items: center; gap: 10px; }
+        .vol-label { font-size: 10px; font-weight: bold; color: #ddd; letter-spacing: 1px; }
+        input[type=range].custom-volume { -webkit-appearance: none; width: 100px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 5px; outline: none; opacity: 0.9; }
+        input[type=range].custom-volume::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; background: var(--dourado); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px var(--dourado); }
 
-        .btn-studio { background: #000; color: #fff; border: 1px solid #ff0000; padding: 8px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 12px; display: inline-flex; align-items: center; gap: 8px; }
-        .dot { width: 8px; height: 8px; background: #ff0000; border-radius: 50%; animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        .btn-studio { background: #000; color: #fff; border: 2px solid #ff0000; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); transition: 0.3s; }
+        .dot { height: 10px; width: 10px; background-color: #ff0000; border-radius: 50%; display: inline-block; animation: blink 1s infinite; }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .section-title { border-left: 4px solid var(--magenta); padding-left: 10px; margin: 30px 0 15px; font-size: 22px; color: white; text-transform: uppercase; }
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .section-title { border-left: 5px solid var(--magenta); padding-left: 15px; margin: 40px 0 20px; font-size: 26px; color: #fff; text-transform: uppercase; text-shadow: 0 0 10px var(--magenta); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px; border: 2px solid var(--magenta); margin-bottom: 40px; box-shadow: 0 0 20px var(--magenta); }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        /* Estilos gerais de inputs e botões */
-        .mural-input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box;}
-        .btn-enviar { width: 100%; padding: 12px; background: var(--magenta); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        
-        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: var(--verde-whatsapp); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5000; box-shadow: 0 5px 20px rgba(0,0,0,0.5); color: #000; }
-        
-        /* Modal e Slides */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; }
-        .modal-content { background: #1a1a2e; padding: 20px; border-radius: 15px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--magenta); position: relative; }
-        .close-modal { position: absolute; top: 10px; right: 15px; color: white; font-size: 24px; cursor: pointer; }
-        .img-slide { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; }
+        .ranking-box { background: #111428; border-radius: 15px; border: 1px solid #222; margin-bottom: 40px; overflow: hidden;}
+        .ranking-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #222; justify-content: space-between; gap: 10px; }
+        .rank-content { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .rank-num { font-size: 22px; font-weight: bold; color: var(--dourado); min-width: 35px; }
+        .rank-info { font-weight: bold; font-size: 15px; color: white; }
+        .rank-buttons { display: flex; gap: 10px; }
+        .btn-ouvir { background: transparent; color: var(--dourado); padding: 6px 15px; border: 1px solid var(--dourado); border-radius: 20px; text-decoration: none; font-size: 10px; font-weight: bold; white-space: nowrap; }
+        .btn-pedir { background: var(--magenta); color: white; padding: 6px 20px; border-radius: 20px; text-decoration: none; font-size: 10px; font-weight: bold; box-shadow: 0 0 10px var(--magenta); white-space: nowrap; }
 
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-neon); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; transition: transform 0.8s ease-in-out; }
-        
-        footer { text-align: center; padding: 40px; background: #000; margin-top: 40px; border-top: 1px solid #333; }
-        
-        .painel-clima { display: flex; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 10px; margin-top: 20px; font-size: 14px; font-weight: bold;}
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 2px solid #333; text-align: center; padding-bottom: 25px; transition: 0.4s; cursor: pointer; position: relative; }
+        .card:hover { border-color: var(--magenta); box-shadow: 0 0 20px var(--magenta); transform: translateY(-10px); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .btn-neon { background: var(--magenta); color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 15px; transition: 0.3s; }
+        .btn-neon:hover { box-shadow: 0 0 15px var(--magenta); transform: scale(1.05); }
+
+        .carousel-container { width: 100%; overflow: hidden; padding: 20px 0; margin-top: 50px; background: rgba(255,255,255,0.03); border-radius: 15px; }
+        .carousel-track { display: flex; gap: 20px; animation: scroll 25s linear infinite; width: max-content; }
+        .card-anuncio { min-width: 280px; background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 1px solid #333; text-align: center; padding-bottom: 15px; }
+        .card-anuncio img { width: 100%; height: 180px; object-fit: cover; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: var(--verde-whatsapp); color: #000; border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; animation: pulse-green 2s infinite; text-decoration: none; box-shadow: 0 0 20px rgba(0,255,85,0.4); }
+        footer { background: #000; padding: 50px 20px; text-align: center; border-top: 2px solid var(--magenta); }
+        .social-icon { width: 45px; margin: 0 10px; filter: drop-shadow(0 0 5px var(--magenta)); transition: 0.3s; vertical-align: middle; }
+        .social-icon:hover { transform: scale(1.1); }
+        .footer-rights { color: white; font-size: 14px; margin-top: 25px; opacity: 0.9; }
+        .alexa-icon { background: #fff; border-radius: 50%; padding: 5px; box-sizing: border-box; width: 45px; height: 45px; object-fit: contain; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); z-index: 50000; justify-content: center; align-items: center; }
+        .modal-content { background: #0a0e27; border: 2px solid var(--magenta); border-radius: 20px; width: 90%; max-width: 450px; margin: 0 auto; position: relative; box-shadow: 0 0 40px var(--magenta); animation: modalIn 0.4s ease-out; padding-bottom: 20px; display: flex; flex-direction: column; overflow: hidden; max-height: 90vh; }
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        .close-modal { position: absolute; top: 15px; right: 20px; color: white; font-size: 30px; cursor: pointer; z-index: 50; font-weight: bold; }
+        .modal-header { padding: 30px 20px 10px; text-align: center; border-bottom: 1px solid #333; }
+        .modal-header h2 { color: var(--dourado); text-transform: uppercase; margin: 0; letter-spacing: 2px; }
+        .modal-body { padding: 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 350px; }
+
+        .slide-container { animation: fadeSlide 0.4s ease-in-out; }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .img-slide-rect { width: 100%; height: 200px; object-fit: cover; border-radius: 15px; border: 2px solid var(--magenta); margin-bottom: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .img-slide-circle { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 4px solid var(--magenta); margin: 0 auto 20px; display: block; box-shadow: 0 0 30px var(--magenta); }
+        .slide-title { font-size: 24px; color: white; margin: 10px 0; font-weight: bold; text-transform: uppercase; }
+        .slide-desc { font-size: 14px; color: #ccc; margin-bottom: 20px; line-height: 1.4; }
+        .btn-slide-action { display: inline-block; background: var(--magenta); color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 14px; box-shadow: 0 0 15px var(--magenta); transition: 0.3s; }
+        .btn-slide-action:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); }
+        .carousel-nav { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding: 0 20px; }
+        .nav-btn { background: transparent; border: 1px solid var(--magenta); color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .nav-btn:hover { background: var(--magenta); }
+        .nav-counter { color: #888; font-size: 12px; font-weight: bold; }
+
+        @media (max-width: 600px) { 
+            nav { gap: 5px; flex-wrap: wrap; padding: 10px 5px; } nav a { font-size: 10px; padding: 6px 10px; }
+            .ranking-item { flex-direction: column; align-items: flex-start; } .rank-buttons { width: 100%; justify-content: space-between; } 
+        }
+
+        .reaction-wrapper {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            z-index: 10000;
+            width: 50px;
+            height: 50px;
+            display: none;
+        }
+
+        .r-btn {
+            position: absolute;
+            width: 55px; height: 55px;
+            border-radius: 50%;
+            border: 2px solid var(--magenta);
+            background: rgba(10, 14, 39, 0.95);
+            color: white;
+            font-size: 24px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            padding: 0;
+            left: 0; top: 0;
+        }
+
+        .r-btn.main {
+            z-index: 10003;
+            box-shadow: 0 4px 0 var(--roxo-neon), 0 8px 10px rgba(0,0,0,0.5);
+        }
+
+        .r-btn.main:hover { transform: scale(1.05); }
+
+        .r-btn.option {
+            z-index: 10001;
+            opacity: 0;
+            transform: scale(0.5) translateY(0);
+            pointer-events: none;
+        }
+
+        .reaction-wrapper.expanded .r-btn.main {
+            transform: rotate(360deg);
+            background: var(--magenta);
+            box-shadow: 0 0 20px var(--magenta);
+        }
+
+        .reaction-wrapper.expanded .r-btn.option {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+        }
+
+        .reaction-wrapper.expanded .r-btn.option:nth-child(1) { transform: translateY(-195px); } 
+        .reaction-wrapper.expanded .r-btn.option:nth-child(2) { transform: translateY(-130px); } 
+        .reaction-wrapper.expanded .r-btn.option:nth-child(3) { transform: translateY(-65px); }  
+
+        .floater {
+            position: fixed;
+            bottom: 130px; 
+            right: 40px;
+            font-size: 30px;
+            pointer-events: none;
+            animation: floatUp 2s forwards ease-out;
+            z-index: 2147483647;
+            text-shadow: 0 0 10px black;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-300px) scale(1.5); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="splash-screen">
-        <img src="top1.jpg" style="width: 150px; border-radius: 50%; border: 4px solid var(--magenta); box-shadow: 0 0 30px var(--magenta); margin-bottom: 20px;">
-        <h2 style="color:white; margin-bottom:30px;">RÁDIO TOP ITATIBA</h2>
-        <button onclick="iniciarSite()" style="padding: 15px 40px; background: var(--magenta); color: white; border: none; border-radius: 30px; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 0 20px var(--magenta);">ENTRAR</button>
-    </div>
-
     <div id="modal-container" class="modal-overlay">
         <div class="modal-content">
-            <span class="close-modal" onclick="document.getElementById('modal-container').style.display='none'">×</span>
-            <h3 id="modal-title" style="color:var(--dourado); margin-top:0;">INFO</h3>
-            <div id="modal-body"></div>
+            <span class="close-modal" onclick="fecharModal()">×</span>
+            <div class="modal-header">
+                <h2 id="modal-title">Título</h2>
+            </div>
+            
+            <div class="modal-body" id="modal-body"></div>
+
+            <div class="carousel-nav" id="carousel-controls" style="display:none;">
+                <button class="nav-btn" onclick="prevSlide()">❮</button>
+                <span class="nav-counter" id="slide-counter">1 / 10</span>
+                <button class="nav-btn" onclick="nextSlide()">❯</button>
+            </div>
         </div>
     </div>
 
-    <div class="area-player-visual">
-        <div id="bg-blur" class="bg-blur" style="background-image: url('top1.jpg');"></div>
-        <img id="capa-album" src="top1.jpg" class="capa-destaque" alt="Capa do Álbum">
-    </div>
-
-    <div class="noticias-ticker">
-        <div style="background:var(--magenta); color:white; padding:0 15px; z-index:10;">PLANTÃO</div>
-        <div class="ticker-content">
-            <span class="noticia-item">Carregando informações...</span>
+    <div id="splash-screen">
+        <div class="splash-content">
+            <img src="top1.jpg" alt="Rádio Top" class="splash-logo">
+            <h1 style="color: white; margin-bottom: 25px; letter-spacing: 2px;">BEM-VINDO À RADIO TOP ITATIBA!</h1>
+            <button class="btn-entrar-top" onclick="iniciarSite()">OUVIR AGORA</button>
         </div>
     </div>
+
+    <a href="https://wa.me/5511945914382" class="whatsapp-float" target="_blank">
+        <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
+    </a>
+
+    <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
+        <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
+        <button class="r-btn option" onclick="selectReaction('🎵')">🎵</button>
+        <button class="r-btn option" onclick="selectReaction('🔥')">🔥</button>
+        <button class="r-btn main" onclick="toggleReactions()">❤️</button>
+    </div>
+
+    <div class="banner-container"><img src="banner.jpg"></div>
 
     <nav>
         <a href="#">HOME</a>
-        <a href="#pedir">PEDIR MÚSICA</a>
+        <a href="javascript:void(0)" id="btnInstalar" style="display:none;" onclick="instalarPWA()">BAIXAR APP</a>
+        <a href="#video">TV TOP</a>
+        <a href="#pedido">PEDIR MÚSICA</a>
         <a href="#mural">MURAL</a>
-        <a href="javascript:void(0)" onclick="location.reload()">ATUALIZAR</a>
     </nav>
 
+    <div class="noticias-ticker">
+        <div class="ticker-label">PLANTÃO TOP</div>
+        <div class="ticker-content">
+            <span class="noticia-item">Carregando notícias...</span>
+        </div>
+    </div>
+
+    <div class="studio-header">🔴 TV TOP ITATIBA</div>
+    <div class="video-embed-container">
+        <div class="video-embed">
+            <img id="capa-album-tv" src="top1.jpg" class="capa-tv-img" alt="Capa do Álbum">
+        </div>
+    </div>
+
     <div class="player-bar">
-        <div class="info-musica-container">
-            <span id="nome-musica">Carregando...</span>
-            <span id="artista-musica">Rádio Top Itatiba</span>
+        <div class="player-info">
+            <div class="album-cover"><div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>
+            <div style="text-align: left; flex: 1;">
+                <span class="status-text">NO AR AGORA:</span>
+                <span id="nome-musica" style="font-size: 18px; font-weight: bold; display: block; color:white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 280px;">Carregando informações...</span>
+                <span class="ouvintes-count">🎧 <span id="qtd-ouvintes">...</span> OUVINTES</span>
+            </div>
         </div>
 
-        <audio id="radio-top" preload="none"><source src="https://server27.srvsh.com.br:6674/stream" type="audio/mpeg"></audio>
+        <audio id="radio-top"><source src="https://server27.srvsh.com.br:6674/stream" type="audio/mpeg"></audio>
 
         <div class="glass-controls">
             <button id="btn-player" class="btn-player-modern" onclick="togglePlay()">
                 <svg id="icon-play" width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
                 <svg id="icon-pause" width="30" height="30" viewBox="0 0 24 24" fill="white" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
-            <input type="range" min="0" max="1" step="0.1" value="0.5" onchange="document.getElementById('radio-top').volume=this.value" style="width: 80px;">
+            <div class="volume-control-modern">
+                <span class="vol-label">VOL</span>
+                <input type="range" id="vol-control" class="custom-volume" min="0" max="1" step="0.1" value="0.3" onchange="changeVolume(this.value)">
+            </div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-top:10px;">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%;">
             <a href="https://www.youtube.com/watch?v=HoP0JQ9MV6g" target="_blank" id="link-studio" class="btn-studio"><span class="dot"></span> STUDIO AO VIVO</a>
-            <span style="font-size:12px; color:#888; align-self:center;">🎧 <span id="ouvintes">...</span> OUVINTES</span>
+            <a href="#" id="share-whatsapp" class="btn-share-zap">COMPARTILHAR RÁDIO</a>
+        </div>
+    </div>
+
+    <div class="painel-tempo-real">
+        <div class="tempo-item">
+            <span class="tempo-label">Itatiba Agora</span>
+            <span class="tempo-valor" id="clock">00:00:00</span>
+        </div>
+        <div class="tempo-item">
+            <span class="tempo-label" id="label-clima">FELIZ 2026!</span>
+            <span class="tempo-valor" id="temp-itatiba">🎆 🥂</span>
         </div>
     </div>
 
     <div class="container">
-        
-        <div class="painel-clima">
-            <span id="clock">00:00</span>
-            <span id="temp-itatiba">🌤️ Carregando...</span>
-        </div>
-
-        <h2 id="pedir" class="section-title">🎵 PEÇA SUA MÚSICA</h2>
-        <div style="background:#111; padding:20px; border-radius:10px; border:1px solid #333;">
+        <h2 id="pedido" class="section-title">🎵 PEÇA SUA MÚSICA NO WHATSAPP</h2>
+        <div class="painel-pedido">
             <input type="text" id="pedido-nome" class="mural-input" placeholder="Seu Nome">
-            <input type="text" id="pedido-musica" class="mural-input" placeholder="Nome da Música">
-            <button onclick="enviarZap()" class="btn-enviar" style="background:var(--verde-whatsapp); color:black;">PEDIR NO WHATSAPP</button>
+            <input type="text" id="pedido-musica" class="mural-input" placeholder="Nome da Música / Cantor">
+            <button onclick="enviarPedidoZap()" class="btn-pedido-zap">ENVIAR PEDIDO AGORA</button>
         </div>
 
-        <h2 class="section-title">📅 PROGRAMAÇÃO</h2>
-        <div id="prog-lista" style="display:flex; flex-direction:column; gap:10px;"></div>
+        <h2 class="section-title">📅 PROGRAMAÇÃO DIÁRIA</h2>
+        <div class="prog-lista" id="prog-lista">
+            <p style="text-align:center;">Carregando programação...</p>
+        </div>
 
         <h2 id="mural" class="section-title">💬 MURAL DE RECADOS</h2>
         <div class="mural-container">
             <form id="form-mural">
-                <input type="text" id="mural-nome" class="mural-input" placeholder="Seu Nome" required>
-                <textarea id="mural-msg" class="mural-input" rows="3" placeholder="Sua mensagem..." required></textarea>
-                <button type="submit" class="btn-enviar">ENVIAR RECADO</button>
+                <input type="text" id="nome-ouvinte" class="mural-input" placeholder="Seu Nome" required>
+                <textarea id="msg-ouvinte" class="mural-input" rows="3" placeholder="Deixe seu recado para a rádio..." required></textarea>
+                <button type="submit" class="btn-enviar" id="btn-status">ENVIAR RECADO AO ESTÚDIO</button>
             </form>
         </div>
+        
+        <h2 id="video" class="section-title">📺 VÍDEO DA SEMANA: ZÉ FELIPE & ANA CASTELA</h2>
+        <div class="video-container"><iframe src="https://www.youtube.com/embed/FCMyTR1SJM8" frameborder="0" allowfullscreen></iframe></div>
 
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:30px;">
-            <button onclick="abrirModal('getTopHits','TOP HITS')" style="background:#1a1a2e; border:1px solid var(--magenta); color:white; padding:20px; border-radius:10px; cursor:pointer;">🏆 TOP HITS</button>
-            <button onclick="abrirModal('getEquipe','EQUIPE')" style="background:#1a1a2e; border:1px solid var(--magenta); color:white; padding:20px; border-radius:10px; cursor:pointer;">🎙️ EQUIPE</button>
+        <h2 class="section-title">🏆 TOP 5 - AS MAIS PEDIDAS</h2>
+        <div id="ranking-container" class="ranking-box"></div>
+
+        <h2 class="section-title">✨ DESTAQUES DA TOP</h2>
+        <div class="grid-cards">
+            <div class="card" onclick="abrirModal('getTopHits', 'TOP HITS 2026')">
+                <img src="tophits.jpg">
+                <h3>Top Hits</h3>
+                <span class="btn-neon">VER LISTA</span>
+            </div>
+            <div class="card" onclick="abrirModal('getEquipe', 'NOSSA EQUIPE')">
+                <img src="nossa equipe.jpg">
+                <h3>Nossa Equipe</h3>
+                <span class="btn-neon">LOCUTORES</span>
+            </div>
+            <div class="card" onclick="abrirModal('getPromocoes', 'PROMOÇÕES TOP')">
+                <img src="promocoes_top.jpg">
+                <h3>Promoções</h3>
+                <span class="btn-neon">PARTICIPAR</span>
+            </div>
         </div>
 
+        <h2 class="section-title">🤝 NOSSOS PARCEIROS</h2>
+        <div class="carousel-container">
+            <div class="carousel-track" id="track-parceiros">
+                <p style="text-align:center; color:#888; width: 100%;">Carregando parceiros...</p>
+            </div>
+        </div>
     </div>
 
-    <a href="https://wa.me/5511945914382" class="whatsapp-float" target="_blank">
-        <svg style="width:30px;height:30px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
-    </a>
-
     <footer>
-        <p style="color:#666;">© 2026 Rádio Top Itatiba - 91.5 FM</p>
+        <p style="color: var(--dourado); font-weight: bold; margin-bottom: 20px;">91.5 FM - A RADIO TOP DE ITATIBA</p>
+        <a href="https://www.instagram.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3955/3955024.png" class="social-icon"></a>
+        <a href="https://www.facebook.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" class="social-icon"></a>
+        <a href="https://www.amazon.com.br/dp/B0C3814C66/" target="_blank"><img src="logo-Alexa.jpg" class="social-icon alexa-icon" title="Ouça na Alexa"></a>
+        <div class="footer-rights">© RadioTop Itatiba 2026</div>
     </footer>
 
     <script>
         const urlGoogle = "https://script.google.com/macros/s/AKfycbxDl8bLK77gE83X-X6Va8GK6lVGsJBVCukxL6DsLUy6RRpO78iqM7Z5sdu_U9tbA6oLUg/exec";
+        
+        let ultimaMusica = "";
         let audio = document.getElementById('radio-top');
         let isPlaying = false;
-        let currentCover = 'top1.jpg'; // Variável para guardar a capa atual
+        let fadeInterval;
+        let modalData = []; let modalIndex = 0; let currentAction = '';
 
-        function iniciarSite() {
-            document.getElementById('splash-screen').style.transform = 'translateY(-100%)';
-            audio.play().then(() => { 
-                isPlaying = true;
-                updatePlayerUI();
-            }).catch(e => console.log("Play bloqueado"));
-            
-            atualizarTudo();
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(() => console.log("Service Worker Registado!"));
+        }
+
+        let eventoInstalacao;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            eventoInstalacao = e;
+            const btn = document.getElementById('btnInstalar');
+            if (btn) btn.style.display = 'inline-block';
+        });
+
+        function instalarPWA() {
+            if (!eventoInstalacao) {
+                alert("Para instalar: no iPhone use 'Adicionar à tela de início' no Safari.");
+                return;
+            }
+            eventoInstalacao.prompt();
+            eventoInstalacao.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    document.getElementById('btnInstalar').style.display = 'none';
+                }
+                eventoInstalacao = null;
+            });
         }
 
         function togglePlay() {
-            if(isPlaying) { audio.pause(); isPlaying = false; }
-            else { audio.load(); audio.play(); isPlaying = true; }
-            updatePlayerUI();
+            const btn = document.getElementById('btn-player');
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+
+            if(isPlaying) {
+                audio.pause(); audio.currentTime = 0; 
+                iconPlay.style.display = 'block'; iconPause.style.display = 'none';
+                btn.classList.remove('playing-pulse');
+                isPlaying = false;
+                document.querySelectorAll('.bar').forEach(b => b.style.animation = 'none');
+            } else {
+                audio.load(); audio.play();
+                iconPlay.style.display = 'none'; iconPause.style.display = 'block';
+                btn.classList.add('playing-pulse');
+                isPlaying = true;
+                document.querySelectorAll('.bar').forEach(b => b.style.animation = 'equalizer 1s infinite ease-in-out');
+            }
         }
 
-        function updatePlayerUI() {
-            document.getElementById('icon-play').style.display = isPlaying ? 'none' : 'block';
-            document.getElementById('icon-pause').style.display = isPlaying ? 'block' : 'none';
-            if(isPlaying) document.getElementById('btn-player').classList.add('playing-pulse');
-            else document.getElementById('btn-player').classList.remove('playing-pulse');
+        function fadeInAudio() {
+            audio.volume = 0;
+            audio.play().then(() => {
+                isPlaying = true;
+                const btn = document.getElementById('btn-player');
+                document.getElementById('icon-play').style.display = 'none';
+                document.getElementById('icon-pause').style.display = 'block';
+                btn.classList.add('playing-pulse');
+                let vol = 0;
+                fadeInterval = setInterval(() => { if (vol < 0.3) { vol += 0.01; audio.volume = vol; } else { clearInterval(fadeInterval); } }, 50);
+            }).catch(e => { console.log("Autoplay bloqueado."); });
         }
 
-        // --- SISTEMA INTELIGENTE DE CAPA E METADADOS ---
-        function carregarConfig() {
-            // Adiciona timestamp para não pegar cache
-            fetch(urlGoogle + "?action=getConfig&t=" + new Date().getTime()).then(r => r.json()).then(data => {
-                
-                // 1. Atualiza Letreiro e Botão
-                if (data.noticias) {
-                    const html = data.noticias.split('.').map(t => `<span class="noticia-item">✨ ${t.trim()}</span>`).join('');
-                    document.querySelector('.ticker-content').innerHTML = html + html;
+        function changeVolume(val) { audio.volume = val; clearInterval(fadeInterval); }
+
+        function abrirModal(acao, titulo) {
+            const modal = document.getElementById('modal-container');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const controls = document.getElementById('carousel-controls');
+
+            currentAction = acao; modalData = []; modalIndex = 0;
+            modalTitle.innerText = "CARREGANDO...";
+            modalBody.innerHTML = '<p style="text-align:center; color:white;">Buscando informações...</p>';
+            controls.style.display = 'none'; modal.style.display = 'flex';
+
+            fetch(urlGoogle + "?action=" + acao).then(r => r.json()).then(data => {
+                if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Nenhuma informação disponível.</p>'; }
+                else { 
+                    modalData = data; 
+                    modalTitle.innerText = titulo; 
+                    renderSlide(); 
+                    controls.style.display = 'flex'; 
                 }
-                if (data.botao) document.getElementById('link-studio').href = data.botao;
+            }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
+        }
 
-                // 2. Lógica da Capa + Nome da Música
-                // O script do Google já fez o trabalho difícil. Vamos ler da Célula F2 e A2 (via JSON do config)
-                // Nota: Vou ajustar sua função getConfig no HTML para ler A2/F2 indiretamente pelo texto do letreiro ou podemos fazer melhor:
-                // Como o getConfig retorna TV (A2), usamos ele.
-                
-                let capaUrl = data.tv || 'top1.jpg';
-                
-                // DETECTAR COMERCIAL: Se a capa for a padrão, assume que é comercial ou fala
-                let nomeMusicaDisplay = "Rádio Top Itatiba";
-                
-                // Tenta extrair o nome da música do letreiro (gambiarra inteligente) ou usa o proxy
-                atualizarMetadadosProxy(capaUrl);
+        function renderSlide() {
+            const modalBody = document.getElementById('modal-body');
+            const counter = document.getElementById('slide-counter');
+            const item = modalData[modalIndex];
+            
+            let img = item.imagem || item.foto || 'top1.jpg';
+            let titulo = item.musica || item.titulo || item.nome || 'Informação Top';
+            let subtitulo = item.cargo || item.descricao || (item.posicao ? '#' + item.posicao : '');
+            let linkAcao = item.link || item.instagram || '#';
 
+            let html = '<div class="slide-container">';
+            if(currentAction === 'getEquipe') {
+                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-circle"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">VER PERFIL</a>`;
+            } else if (currentAction === 'getTopHits') {
+                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><span style="color:var(--dourado); font-weight:bold; font-size:30px; display:block; margin:10px 0;">${subtitulo}</span><h3 class="slide-title">${titulo}</h3><a href="${linkAcao}" target="_blank" class="btn-slide-action">OUVIR AGORA</a>`;
+            } else {
+                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">QUERO PARTICIPAR</a>`;
+            }
+            html += '</div>';
+            modalBody.innerHTML = html;
+            counter.innerText = `${modalIndex + 1} / ${modalData.length}`;
+        }
+
+        function nextSlide() { if(modalIndex < modalData.length - 1) { modalIndex++; renderSlide(); } else { modalIndex = 0; renderSlide(); } }
+        function prevSlide() { if(modalIndex > 0) { modalIndex--; renderSlide(); } else { modalIndex = modalData.length - 1; renderSlide(); } }
+        function fecharModal() { document.getElementById('modal-container').style.display = 'none'; }
+        window.onclick = function(event) { if (event.target == document.getElementById('modal-container')) { fecharModal(); } }
+
+        function startFireworks() {
+            const colors = ['#ff00ff', '#f3b644', '#00ffff', '#ffffff', '#ff0000'];
+            for(let i=0; i<15; i++) {
+                setTimeout(() => {
+                    const fw = document.createElement('div'); fw.className = 'firework';
+                    fw.style.left = Math.random() * 100 + 'vw'; fw.style.top = Math.random() * 100 + 'vh';
+                    fw.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    fw.style.animation = 'explode 1s forwards';
+                    document.body.appendChild(fw); setTimeout(() => fw.remove(), 1000);
+                }, i * 200);
+            }
+        }
+
+        function updateClock() { const now = new Date(); document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR'); } setInterval(updateClock, 1000);
+        function getClima() { fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.0019&longitude=-46.8406&current_weather=true").then(r => r.json()).then(data => { document.getElementById('temp-itatiba').innerHTML = `☀️ ${Math.round(data.current_weather.temperature)}°C 🥂`; }).catch(() => {}); } getClima(); setInterval(getClima, 600000);
+
+        function enviarPedidoZap() {
+            const nome = document.getElementById('pedido-nome').value; const musica = document.getElementById('pedido-musica').value;
+            if(!nome || !musica) { alert("Por favor, preencha seu nome e a música!"); return; }
+            window.open(`https://wa.me/5511945914382?text=${encodeURIComponent(`Olá Rádio Top! Sou o(a) ${nome}, toca pra mim a música: ${musica}! Feliz 2026!`)}`, '_blank');
+        }
+
+        function carregarRanking() {
+            fetch(urlGoogle + "?action=getRanking").then(r => r.json()).then(data => {
+                const container = document.getElementById('ranking-container'); container.innerHTML = "";
+                const lista = (data && data.length > 0) ? data : [{posicao: "01", musica: "Aguardando Ranking..."}];
+                lista.forEach(item => {
+                    let linkYT = item.link || "https://www.youtube.com/results?search_query=" + encodeURIComponent(item.musica);
+                    container.innerHTML += `<div class="ranking-item"><div class="rank-content"><span class="rank-num">${item.posicao}</span><span class="rank-info">${item.musica}</span></div><div class="rank-buttons"><a href="${linkYT}" target="_blank" class="btn-ouvir">OUVIR</a><a href="https://wa.me/5511945914382" class="btn-pedir">ZAP</a></div></div>`;
+                });
             }).catch(() => {});
         }
 
-        function atualizarMetadadosProxy(capaSheet) {
-            // Usa o AllOrigins para pegar o nome real da música do streaming
-            fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime()))
-            .then(r => r.json()).then(data => {
-                let musicaRaw = data.contents;
+        function carregarAnuncios() {
+            fetch(urlGoogle + "?action=getAnuncios").then(r => r.json()).then(data => {
+                const track = document.getElementById('track-parceiros');
+                if (data && data.length > 0) {
+                    let html = ""; data.forEach(item => { html += `<div class="card-anuncio"><a href="${item.link}" target="_blank"><img src="${item.imagem}" alt="${item.nome}"><div style="padding:15px; color:var(--dourado); text-align: center;"><h3>${item.nome}</h3></div></a></div>`; });
+                    track.innerHTML = html + html; 
+                } else { track.innerHTML = '<p style="text-align:center; color:#888; width:100%;">Seja um parceiro!</p>'; }
+            }).catch(() => {});
+        }
+
+        // --- ATUALIZADO: Carrega a CAPA da planilha em vez de vídeo ---
+        function carregarConfig() {
+            fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 
-                // LÓGICA DE COMERCIAL
-                if(!musicaRaw || musicaRaw.trim() == "" || musicaRaw.includes("Vinheta") || musicaRaw.includes("Comercial")) {
-                    currentCover = 'top1.jpg'; // Força Logo
-                    document.getElementById('nome-musica').innerText = "Rádio Top Itatiba";
-                    document.getElementById('artista-musica').innerText = "A Melhor da Região";
-                } else {
-                    currentCover = capaSheet; // Usa capa do Google Sheet (iTunes)
-                    document.getElementById('nome-musica').innerText = musicaRaw;
-                    document.getElementById('artista-musica').innerText = "No Ar Agora";
+                // Agora o data.tv é a FOTO que vem da célula A2
+                if (data.tv) {
+                    let capaImg = document.getElementById('capa-album-tv');
+                    // Só atualiza se mudou o link, pra não piscar
+                    if(capaImg.src !== data.tv) {
+                        capaImg.src = data.tv;
+                    }
+                }
+                
+                if (data.botao) document.getElementById('link-studio').href = data.botao;
+                
+                if (data.noticias) {
+                    const ticker = document.querySelector('.ticker-content');
+                    const arrayNews = data.noticias.split('.');
+                    let htmlNews = "";
+                    arrayNews.forEach(msg => {
+                        if(msg.trim() != "") htmlNews += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
+                    });
+                    ticker.innerHTML = htmlNews + htmlNews;
+                }
+            }).catch(e => console.log("Erro config"));
+        }
+        
+        setInterval(carregarConfig, 30000);
+
+        document.getElementById('form-mural').addEventListener('submit', function(e) {
+            e.preventDefault(); const btn = document.getElementById('btn-status'); btn.innerText = "ENVIANDO..."; btn.disabled = true;
+            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ nome: document.getElementById('nome-ouvinte').value, mensagem: document.getElementById('msg-ouvinte').value }) })
+            .then(() => { btn.innerText = "ENVIADO!"; btn.disabled = false; this.reset(); setTimeout(() => { btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; }, 2000); });
+        });
+
+        function iniciarSite() {
+            document.getElementById('splash-screen').style.transform = 'translateY(-100%)';
+            document.getElementById('reactionMenu').style.display = 'block';
+
+            fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
+                if(data.efeitos !== "OFF") startFireworks();
+            });
+
+            fadeInAudio();
+            atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
+        }
+
+        // --- ATUALIZADO: Lógica de Comercial + Tela de Bloqueio ---
+        function atualizarMetadados() {
+            // Usa o Proxy para garantir a leitura
+            fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime())).then(r => r.json()).then(data => {
+                if (!data.contents) return;
+                
+                let nomeMusica = data.contents.trim();
+                let capaParaMostrar = document.getElementById('capa-album-tv').src; // Pega a capa que já está no site (vinda do Google)
+
+                // Lógica de Comercial / Vinheta
+                if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
+                    nomeMusica = "Rádio Top Itatiba";
+                    // Se for comercial, força o Logo (opcional, ou mantém a capa)
+                    // document.getElementById('capa-album-tv').src = "top1.jpg"; 
                 }
 
-                // ATUALIZA O VISUAL (BLUR E CAPA)
-                document.getElementById('capa-album').src = currentCover;
-                document.getElementById('bg-blur').style.backgroundImage = `url('${currentCover}')`;
-
-                // ATUALIZA SEGUNDO PLANO (TELA DE BLOQUEIO)
+                document.getElementById('nome-musica').innerText = nomeMusica;
+                
+                // Código para Tela de Bloqueio do Celular (MediaSession)
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
-                        title: document.getElementById('nome-musica').innerText,
-                        artist: "Rádio Top 91.5 FM",
+                        title: nomeMusica,
+                        artist: 'Rádio Top 91.5 FM',
+                        album: 'Ao Vivo',
                         artwork: [
-                            { src: currentCover, sizes: '96x96', type: 'image/jpg' },
-                            { src: currentCover, sizes: '512x512', type: 'image/jpg' }
+                            { src: capaParaMostrar, sizes: '96x96', type: 'image/jpg' },
+                            { src: capaParaMostrar, sizes: '512x512', type: 'image/jpg' }
                         ]
                     });
                     
                     navigator.mediaSession.setActionHandler('play', togglePlay);
                     navigator.mediaSession.setActionHandler('pause', togglePlay);
                 }
+            });
+            
+            // Busca ouvintes (separado para não travar)
+            fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html")).then(r => r.json()).then(d => {
+                 if(d.contents) {
+                     let p = d.contents.split(',');
+                     if(p.length > 0) document.getElementById('qtd-ouvintes').innerText = (parseInt(p[0]) || 0) + 125;
+                 }
+            });
+        }
 
+        function atualizarProgramacao() {
+            fetch(urlGoogle + "?action=getProgramacao").then(r => r.json()).then(data => {
+                const hora = new Date().getHours();
+                const listaProg = document.getElementById('prog-lista');
+                let html = "";
+                let idNoAr = "prog-23";
+
+                if (hora >= 6 && hora < 9) idNoAr = "prog-06";
+                else if (hora >= 9 && hora < 12) idNoAr = "prog-09";
+                else if (hora >= 12 && hora < 14) idNoAr = "prog-12";
+                else if (hora >= 14 && hora < 17) idNoAr = "prog-14";
+                else if (hora >= 17 && hora < 20) idNoAr = "prog-17";
+                else if (hora >= 20 && hora < 23) idNoAr = "prog-20";
+
+                data.forEach(item => {
+                    const noAr = (item.id === idNoAr) ? 'no-ar' : '';
+                    html += `
+                        <div class="prog-card ${noAr}" id="${item.id}">
+                            <div class="prog-hora">${item.hora}</div>
+                            <div class="prog-info">
+                                <h4>${item.titulo}</h4>
+                                <p>${item.descricao}</p>
+                            </div>
+                            <div class="badge-live">NO AR 🔴</div>
+                        </div>`;
+                });
+                listaProg.innerHTML = html;
             }).catch(() => {});
         }
 
-        function carregarProgramacao() {
-            fetch(urlGoogle + "?action=getProgramacao").then(r => r.json()).then(data => {
-                let html = "";
-                data.forEach(p => {
-                    html += `<div style="background:#1a1a2e; padding:10px; border-radius:8px; border-left:4px solid var(--magenta); display:flex; align-items:center;">
-                        <div style="background:var(--magenta); padding:5px 10px; border-radius:5px; font-weight:bold; margin-right:10px;">${p.hora}</div>
-                        <div><div style="font-weight:bold;">${p.titulo}</div><div style="font-size:12px; color:#aaa;">${p.descricao}</div></div>
-                    </div>`;
-                });
-                document.getElementById('prog-lista').innerHTML = html;
-            });
+        let isReactionsOpen = false;
+        function toggleReactions() { if (isReactionsOpen) { enviarReacao('❤️'); closeStack(); } else { openStack(); } }
+        function openStack() { document.getElementById('reactionMenu').classList.add('expanded'); isReactionsOpen = true; }
+        function closeStack() { document.getElementById('reactionMenu').classList.remove('expanded'); isReactionsOpen = false; }
+        function selectReaction(emoji) { enviarReacao(emoji); closeStack(); }
+
+        function enviarReacao(emoji) {
+            createReaction(emoji);
+            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "salvar_reacao", tipo: emoji }) });
         }
 
-        // --- UTILITÁRIOS ---
-        function enviarZap() {
-            let n = document.getElementById('pedido-nome').value;
-            let m = document.getElementById('pedido-musica').value;
-            if(n && m) window.open(`https://wa.me/5511945914382?text=Olá! Sou ${n} e quero pedir: ${m}`, '_blank');
+        function createReaction(emoji) {
+            const el = document.createElement('div');
+            el.innerText = emoji; el.className = 'floater';
+            el.style.right = (20 + Math.random() * 50) + 'px'; 
+            document.body.appendChild(el);
+            setTimeout(() => { el.remove(); }, 2000);
+            if (navigator.vibrate) navigator.vibrate(30);
         }
 
-        document.getElementById('form-mural').addEventListener('submit', function(e){
-            e.preventDefault();
-            let btn = this.querySelector('button'); btn.innerText = "ENVIANDO...";
-            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ nome: document.getElementById('mural-nome').value, mensagem: document.getElementById('mural-msg').value }) })
-            .then(() => { alert("Recado Enviado!"); btn.innerText = "ENVIAR RECADO"; this.reset(); });
-        });
-
-        function abrirModal(action, title) {
-            document.getElementById('modal-container').style.display = 'flex';
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-body').innerHTML = "Carregando...";
-            fetch(urlGoogle + "?action=" + action).then(r => r.json()).then(data => {
-                let html = "";
-                data.forEach(d => {
-                    let img = d.imagem || d.foto || 'top1.jpg';
-                    let txt = d.musica || d.nome || '';
-                    html += `<div style="margin-bottom:20px;"><img src="${img}" class="img-slide"><div style="font-weight:bold;">${txt}</div></div>`;
-                });
-                document.getElementById('modal-body').innerHTML = html;
-            });
-        }
-
-        function atualizarTudo() {
-            carregarConfig();
-            carregarProgramacao();
-            
-            // Relógio
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR').substring(0,5);
-            
-            // Clima
-            fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.00&longitude=-46.84&current_weather=true")
-            .then(r => r.json()).then(d => {
-                document.getElementById('temp-itatiba').innerText = "🌤️ " + Math.round(d.current_weather.temperature) + "°C";
-            });
-        }
-
-        // Atualização Rápida (10 segundos) para tentar sincronizar capa e música
-        setInterval(carregarConfig, 10000); 
+        atualizarMetadados(); setInterval(atualizarMetadados, 15000); setInterval(atualizarProgramacao, 60000);
     </script>
 </body>
 </html>
