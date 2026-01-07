@@ -193,13 +193,52 @@
 
         .btn-share-zap { background-color: var(--verde-whatsapp); color: #000; border: none; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s; }
 
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-neon); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; transition: transform 0.8s ease-in-out; text-align: center; }
+        /* --- TELA DE BOAS VINDAS PREMIUM --- */
+        #splash-screen { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            /* Fundo Animado */
+            background: linear-gradient(-45deg, #050816, #2e003e, #000000, #1a1a2e);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            z-index: 20000; transition: transform 0.8s ease-in-out; text-align: center; 
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .splash-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
-        .splash-logo { width: 200px; height: 200px; border-radius: 50%; border: 4px solid var(--magenta); box-shadow: 0 0 30px var(--magenta); margin-bottom: 30px; animation: pulse-logo 2s infinite; object-fit: cover; }
-        .btn-entrar-top { position: relative; background: var(--magenta); color: white; padding: 15px 45px; border-radius: 30px; font-size: 18px; font-weight: bold; text-decoration: none; border: none; cursor: pointer; box-shadow: 0 0 20px var(--magenta); text-transform: uppercase; overflow: hidden; }
-        .btn-entrar-top::after { content: ''; position: absolute; top: -50%; left: -60%; width: 20%; height: 200%; background: rgba(255, 255, 255, 0.4); transform: rotate(30deg); animation: shine 3s infinite; }
-        @keyframes shine { 0% { left: -60%; } 20% { left: 120%; } 100% { left: 120%; } }
-        @keyframes pulse-logo { 0% { transform: scale(1); box-shadow: 0 0 20px var(--magenta); } 50% { transform: scale(1.05); box-shadow: 0 0 50px var(--magenta); } 100% { transform: scale(1); box-shadow: 0 0 20px var(--magenta); } }
+        
+        .splash-logo { 
+            width: 220px; height: 220px; border-radius: 50%; 
+            border: 4px solid var(--magenta); 
+            box-shadow: 0 0 50px var(--magenta); 
+            margin-bottom: 30px; object-fit: cover;
+            animation: pulse-beat 1.5s infinite; /* Batida do Coração */
+        }
+        
+        @keyframes pulse-beat {
+            0% { transform: scale(1); box-shadow: 0 0 30px var(--magenta); }
+            50% { transform: scale(1.08); box-shadow: 0 0 60px var(--roxo-neon); }
+            100% { transform: scale(1); box-shadow: 0 0 30px var(--magenta); }
+        }
+
+        .btn-entrar-top { 
+            position: relative; background: var(--magenta); color: white; 
+            padding: 18px 60px; border-radius: 50px; font-size: 20px; 
+            font-weight: 900; text-decoration: none; border: none; cursor: pointer; 
+            box-shadow: 0 0 30px var(--magenta); text-transform: uppercase; 
+            overflow: hidden; letter-spacing: 2px; transition: 0.3s;
+        }
+        
+        .btn-entrar-top:hover {
+            background: white; color: var(--magenta); transform: scale(1.1);
+            box-shadow: 0 0 50px white;
+        }
+        /* ----------------------------------- */
 
         .glass-controls {
             position: relative; background: rgba(40, 0, 60, 0.6); backdrop-filter: blur(8px);
@@ -389,8 +428,9 @@
     <div id="splash-screen">
         <div class="splash-content">
             <img src="top1.jpg" alt="Rádio Top" class="splash-logo">
-            <h1 style="color: white; margin-bottom: 25px; letter-spacing: 2px;">BEM-VINDO À RADIO TOP ITATIBA!</h1>
-            <button class="btn-entrar-top" onclick="iniciarSite()">OUVIR AGORA</button>
+            <h1 style="color: white; margin-bottom: 15px; letter-spacing: 2px;">BEM-VINDO À RADIO TOP ITATIBA!</h1>
+            <p style="color: var(--dourado); font-weight: bold; margin-bottom: 25px;">A Conexão que te Move!</p>
+            <button class="btn-entrar-top" onclick="iniciarSite()">ENTRAR AGORA</button>
         </div>
     </div>
 
