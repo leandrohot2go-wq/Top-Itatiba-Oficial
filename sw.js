@@ -6,7 +6,11 @@ const staticAssets = [
   './',
   './index.html',
   './top1.jpg',
-  './banner.jpg'
+  './banner.jpg',
+  './tophits.jpg',
+  './nossa_equipe.jpg',
+  './promocoes_top.jpg',
+  './logo-Alexa.jpg'
 ];
 
 // Instala o Service Worker e guarda os arquivos no cache
