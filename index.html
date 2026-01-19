@@ -103,11 +103,11 @@
         }
         .card:hover { border-color: var(--magenta); box-shadow: 0 0 30px var(--magenta); transform: translateY(-10px); }
         
-        /* CORREÇÃO DO TAMANHO DAS IMAGENS */
+        /* CORREÇÃO DO TAMANHO DAS IMAGENS NA HOME */
         .card img { 
             width: 100%; 
-            height: 200px; /* Altura fixa para alinhar */
-            object-fit: cover; /* Corta o excesso sem esticar */
+            height: 200px; 
+            object-fit: cover; 
             object-position: center; 
         }
         
@@ -151,28 +151,28 @@
         .modal-header h2 { color: var(--dourado); text-transform: uppercase; margin: 0; letter-spacing: 2px; }
         .modal-body { padding: 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 350px; }
 
-        /* --- CORREÇÃO DAS IMAGENS DO MODAL (ESTILO BARALHO/PERFIL) --- */
+        /* --- CSS CORRIGIDO PARA IMAGENS DENTRO DOS MODAIS --- */
         .slide-container { animation: fadeSlide 0.4s ease-in-out; width: 100%; }
         @keyframes fadeSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
         /* Estilo Baralho (Top Hits e Promoções) */
         .img-slide-rect { 
             width: auto; 
-            max-width: 80%; /* Não ocupa tudo, parece uma carta */
+            max-width: 85%; /* Limita a largura para parecer uma carta */
             height: auto; 
-            max-height: 280px; 
-            object-fit: contain; 
+            max-height: 280px; /* Limita a altura */
+            object-fit: contain; /* Garante que a imagem não corte */
             border-radius: 12px; 
             border: 1px solid rgba(255,255,255,0.2); 
             margin-bottom: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8); /* Sombra forte pra parecer flutuando */
-            background: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8); 
+            display: block; margin-left: auto; margin-right: auto; /* Centraliza */
         }
 
         /* Estilo Perfil (Nossa Equipe) */
         .img-slide-circle { 
-            width: 130px; /* Reduzido para ficar elegante */
-            height: 130px; 
+            width: 140px; 
+            height: 140px; 
             border-radius: 50%; 
             object-fit: cover; 
             border: 3px solid var(--magenta); 
@@ -396,7 +396,8 @@
     </footer>
 
     <script>
-        const urlGoogle = "https://script.google.com/macros/s/AKfycbxDl8bLK77gE83X-X6Va8GK6lVGsJBVCukxL6DsLUy6RRpO78iqM7Z5sdu_U9tbA6oLUg/exec";
+        // ATENÇÃO: Link atualizado conforme sua solicitação
+        const urlGoogle = "https://script.google.com/macros/s/AKfycbx6ziX6OLr6qXy1kDSOIX3yGZx4YvbQZQ5LDm6E7CtFigkWqYAcrbPM03joatzGeMtpFw/exec";
         
         let ultimaMusica = "";
         let audio = document.getElementById('radio-top');
