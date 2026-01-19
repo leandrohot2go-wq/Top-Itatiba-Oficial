@@ -102,7 +102,15 @@
             display: flex; flex-direction: column; 
         }
         .card:hover { border-color: var(--magenta); box-shadow: 0 0 30px var(--magenta); transform: translateY(-10px); }
-        .card img { width: 100%; height: 200px; object-fit: cover; object-position: center; }
+        
+        /* CORREÇÃO DO TAMANHO DAS IMAGENS NA HOME */
+        .card img { 
+            width: 100%; 
+            height: 200px; 
+            object-fit: cover; 
+            object-position: center; 
+        }
+        
         .card h3 { margin: 15px 0 5px; color: white; text-transform: uppercase; font-size: 18px; }
         .btn-neon { background: var(--magenta); color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: auto; margin-bottom: 10px; transition: 0.3s; width: fit-content; align-self: center; }
         .btn-neon:hover { box-shadow: 0 0 25px var(--magenta); transform: scale(1.05); }
@@ -389,7 +397,7 @@
     </footer>
 
     <script>
-        // LINK ATUALIZADO PARA O NOVO SCRIPT
+        // ATENÇÃO: Link atualizado conforme sua solicitação
         const urlGoogle = "https://script.google.com/macros/s/AKfycbx6ziX6OLr6qXy1kDSOIX3yGZx4YvbQZQ5LDm6E7CtFigkWqYAcrbPM03joatzGeMtpFw/exec";
         
         let ultimaMusica = "";
@@ -704,7 +712,7 @@
         //  A CORREÇÃO FINAL DOS OUVINTES E MÚSICA (CodeTabs)
         // ==========================================
         function atualizarMetadados() {
-            // URL com CodeTabs para furar bloqueios
+            // 1. MÚSICA - Usando CodeTabs para furar bloqueios
             const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
             fetch(proxyUrl).then(r => r.text()).then(data => {
@@ -727,12 +735,12 @@
                         artist: 'Rádio Top 91.5 FM',
                         album: 'Ao Vivo',
                         artwork: [
-                            { src: capaParaMostrar, sizes: '96x96',   type: 'image/png' },
-                            { src: capaParaMostrar, sizes: '128x128', type: 'image/png' },
-                            { src: capaParaMostrar, sizes: '192x192', type: 'image/png' },
-                            { src: capaParaMostrar, sizes: '256x256', type: 'image/png' },
-                            { src: capaParaMostrar, sizes: '384x384', type: 'image/png' },
-                            { src: capaParaMostrar, sizes: '512x512', type: 'image/png' },
+                            { src: capaParaMostrar, sizes: '96x96',   type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '128x128', type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '192x192', type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '256x256', type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '384x384', type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '512x512', type: 'image/jpeg' },
                         ]
                     });
                     navigator.mediaSession.setActionHandler('play', togglePlay);
@@ -744,12 +752,15 @@
                 document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
             });
             
-            // Busca Ouvintes (Via CodeTabs também para garantir)
-            const proxyOuvintes = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
+            // 2. OUVINTES - Usando um proxy mais direto (corsproxy.io) para evitar falhas do CodeTabs
+            // Trocamos para corsproxy.io pois ele lida melhor com raw text
+            const proxyOuvintes = "https://corsproxy.io/?" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
             fetch(proxyOuvintes).then(r => r.text()).then(d => {
-                 let p = d.split(',');
-                 // Tenta pegar o número de ouvintes. Em CSV shoutcast o primeiro número costuma ser os ouvintes.
-                 if(p.length > 0 && !d.includes("<html")) { 
+                 // Remove tags HTML se vierem junto
+                 let cleanText = d.replace(/<\/?[^>]+(>|$)/g, "");
+                 let p = cleanText.split(',');
+                 
+                 if(p.length > 0) { 
                      // Tenta encontrar um número válido no início da string
                      let num = parseInt(p[0]); 
                      if (!isNaN(num)) {
