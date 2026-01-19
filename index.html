@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -106,7 +105,6 @@
         .banner-container { width: 100%; background-color: var(--azul-escuro); text-align: center; }
         .banner-container img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
         
-        /* NOVO INDICADOR "NO AR" (Visual Profissional) */
         .no-ar-indicator {
             display: flex; align-items: center; justify-content: center; gap: 15px;
             background: linear-gradient(90deg, #1a0000 0%, #3d0000 50%, #1a0000 100%);
@@ -130,7 +128,6 @@
             100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px var(--vermelho-no-ar); }
         }
 
-        /* CONFIGURAÇÃO DA CAPA (EFEITO BLUR NO PC) */
         .video-embed-container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
         
         .video-embed { 
@@ -143,7 +140,6 @@
             transition: border-color 1s ease, box-shadow 1s ease;
         }
 
-        /* NO PC: Deixa o quadro mais retangular e largo */
         @media (min-width: 768px) {
             .video-embed-container { max-width: 700px; } 
             .video-embed { padding-bottom: 50%; } 
@@ -245,7 +241,7 @@
             border: 4px solid var(--magenta); 
             box-shadow: 0 0 50px var(--magenta); 
             margin-bottom: 30px; object-fit: cover;
-            animation: pulse-beat 1.5s infinite; /* Batida do Coração */
+            animation: pulse-beat 1.5s infinite;
         }
         
         @keyframes pulse-beat {
@@ -261,11 +257,7 @@
             box-shadow: 0 0 30px var(--magenta); text-transform: uppercase; 
             overflow: hidden; letter-spacing: 2px; transition: 0.3s;
         }
-        
-        .btn-entrar-top:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 60px var(--magenta), 0 0 20px var(--roxo-neon); /* CORRIGIDO: Neon Magenta de volta */
-        }
+        .btn-entrar-top:hover { transform: scale(1.1); box-shadow: 0 0 60px var(--magenta), 0 0 20px var(--roxo-neon); }
 
         .glass-controls {
             position: relative; background: rgba(40, 0, 60, 0.6); backdrop-filter: blur(8px);
@@ -282,7 +274,7 @@
         
         .btn-player-modern {
             width: 70px; height: 70px; background: linear-gradient(135deg, var(--magenta), var(--roxo-neon));
-            border-radius: 50%; border: 2px solid var(--magenta); /* CORRIGIDO: Borda Magenta */
+            border-radius: 50%; border: 2px solid var(--magenta); 
             color: white; font-size: 28px; cursor: pointer;
             display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(176, 26, 122, 0.6);
             transition: all 0.3s ease; position: relative; z-index: 10;
@@ -303,9 +295,6 @@
 
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .section-title { border-left: 5px solid var(--magenta); padding-left: 15px; margin: 40px 0 20px; font-size: 26px; color: #fff; text-transform: uppercase; text-shadow: 0 0 10px var(--magenta); }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px; border: 2px solid var(--magenta); margin-bottom: 40px; box-shadow: 0 0 20px var(--magenta); }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-
         .ranking-box { background: #111428; border-radius: 15px; border: 1px solid #222; margin-bottom: 40px; overflow: hidden;}
         .ranking-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #222; justify-content: space-between; gap: 10px; }
         .rank-content { display: flex; align-items: center; gap: 15px; flex: 1; }
@@ -334,27 +323,34 @@
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: var(--verde-whatsapp); color: #000; border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; animation: pulse-green 2s infinite; text-decoration: none; box-shadow: 0 0 20px rgba(0,255,85,0.4); transition: 0.3s;}
         .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 0 40px var(--verde-whatsapp); }
         
-        /* BOTÃO VS FLUTUANTE */
+        /* BOTÃO VS FLUTUANTE (TOP TRENDS) */
         .poll-float { 
-            position: fixed; bottom: 25px; left: 25px; width: 65px; height: 65px;
+            position: fixed; bottom: 25px; left: 25px; width: 70px; height: 70px;
             background: linear-gradient(135deg, var(--magenta), #5e0046);
-            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-align: center;
             z-index: 10001; box-shadow: 0 0 15px var(--magenta); cursor: pointer;
-            border: 2px solid white; font-weight: 900; font-style: italic; font-size: 24px;
+            border: 2px solid white; font-weight: 900; font-size: 11px; line-height: 1.1;
             transition: 0.3s; animation: pulse-vs 2s infinite;
         }
         .poll-float:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 0 30px var(--roxo-neon); }
         @keyframes pulse-vs { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
 
-        /* MODAL DE BATALHA */
-        .battle-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
-        .battle-option { background: rgba(255,255,255,0.05); border: 2px solid #444; border-radius: 10px; padding: 15px; position: relative; overflow: hidden; transition: 0.3s; cursor: pointer; }
-        .battle-option:hover { border-color: var(--dourado); background: rgba(255,255,255,0.1); }
-        .battle-bar-bg { position: absolute; bottom: 0; left: 0; height: 5px; width: 100%; background: #333; }
-        .battle-bar-fill { height: 100%; background: var(--magenta); width: 0%; transition: width 1s ease-out; }
-        .battle-name { font-size: 20px; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .battle-perc { float: right; color: var(--dourado); font-weight: bold; }
-        .vs-divider { text-align: center; font-weight: 900; color: #ff0000; font-size: 24px; font-style: italic; text-shadow: 0 0 10px red; margin: -10px 0; z-index: 10; }
+        /* MODAL TOP TRENDS */
+        .battle-container { display: flex; flex-direction: column; gap: 20px; width: 100%; margin-top: 15px; }
+        .battle-option { 
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.5) 100%);
+            border: 2px solid #444; border-radius: 15px; 
+            padding: 20px; position: relative; overflow: hidden; transition: 0.3s; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .battle-option:hover { border-color: var(--dourado); background: rgba(255,255,255,0.1); transform: scale(1.02); }
+        .battle-bar-bg { position: absolute; bottom: 0; left: 0; height: 6px; width: 100%; background: #222; }
+        .battle-bar-fill { height: 100%; background: var(--magenta); width: 0%; transition: width 1s ease-out; box-shadow: 0 0 10px var(--magenta); }
+        .battle-info { z-index: 2; text-align: left; }
+        .battle-name { font-size: 22px; font-weight: 900; text-transform: uppercase; display: block; color: white; letter-spacing: 1px; }
+        .battle-action { font-size: 12px; color: var(--dourado); font-weight: bold; text-transform: uppercase; margin-top: 5px; display: block; }
+        .battle-perc { font-size: 28px; font-weight: 900; color: white; z-index: 2; text-shadow: 0 0 10px var(--magenta); }
+        .vs-divider { text-align: center; font-weight: 900; color: #ff0000; font-size: 24px; font-style: italic; text-shadow: 0 0 10px red; margin: -10px 0; z-index: 10; letter-spacing: 2px; }
 
         footer { background: #000; padding: 50px 20px; text-align: center; border-top: 2px solid var(--magenta); }
         .social-icon { width: 45px; margin: 0 10px; filter: drop-shadow(0 0 5px var(--magenta)); transition: 0.3s; vertical-align: middle; }
@@ -383,9 +379,9 @@
         .nav-btn:hover { background: var(--magenta); box-shadow: 0 0 15px var(--magenta); }
         .nav-counter { color: #888; font-size: 12px; font-weight: bold; }
 
-        @media (max-width: 600px) { 
+        @media (max-width: 600px) { 
             nav { gap: 5px; flex-wrap: wrap; padding: 10px 5px; } nav a { font-size: 10px; padding: 6px 10px; }
-            .ranking-item { flex-direction: column; align-items: flex-start; } .rank-buttons { width: 100%; justify-content: space-between; } 
+            .ranking-item { flex-direction: column; align-items: flex-start; } .rank-buttons { width: 100%; justify-content: space-between; } 
         }
 
         .reaction-wrapper { position: fixed; bottom: 100px; right: 25px; z-index: 10000; width: 50px; height: 50px; display: none; }
@@ -431,7 +427,9 @@
         <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
     </a>
     
-    <div class="poll-float" onclick="abrirModal('getEnquete', 'BATALHA TOP')">VS</div>
+    <div class="poll-float" onclick="abrirModal('getEnquete', 'TOP TRENDS')">
+        <span>TOP</span>TRENDS
+    </div>
 
     <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
         <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
@@ -659,21 +657,28 @@
             modalBody.innerHTML = '<p style="text-align:center; color:white;">Buscando informações...</p>';
             controls.style.display = 'none'; modal.style.display = 'flex';
 
-            // NOVO: LOGICA DA BATALHA REAL (Puxando da planilha)
+            // --- LÓGICA DA ENQUETE / BATALHA TOP TRENDS ---
             if (acao === 'getEnquete') {
-                modalTitle.innerText = "BATALHA TOP"; // Nome atualizado
+                modalTitle.innerText = "TOP TRENDS"; 
                 fetch(urlGoogle + "?action=getEnquete").then(r => r.json()).then(data => {
                     modalBody.innerHTML = `
-                        <h3 style="color:var(--dourado); text-transform:uppercase; margin-bottom:20px;">QUEM GANHA ESTA BATALHA?</h3>
                         <div class="battle-container">
                             <div class="battle-option" onclick="votarBatalha(1)">
-                                <span class="battle-name">${data.op1}</span>
+                                <div class="battle-info">
+                                    <span class="battle-name">${data.op1}</span>
+                                    <span class="btn-votar-item">VOTO ${data.op1}</span>
+                                </div>
                                 <span class="battle-perc">${data.porc1}%</span>
                                 <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc1}%"></div></div>
                             </div>
+                            
                             <div class="vs-divider">VS</div>
+                            
                             <div class="battle-option" onclick="votarBatalha(2)">
-                                <span class="battle-name">${data.op2}</span>
+                                <div class="battle-info">
+                                    <span class="battle-name">${data.op2}</span>
+                                    <span class="btn-votar-item">VOTO ${data.op2}</span>
+                                </div>
                                 <span class="battle-perc">${data.porc2}%</span>
                                 <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc2}%"></div></div>
                             </div>
@@ -694,10 +699,9 @@
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
         }
 
-        // NOVO: Função para Votar e Salvar na Planilha
         function votarBatalha(opcao) {
             const modalBody = document.getElementById('modal-body');
-            modalBody.innerHTML = '<p style="color:var(--verde-whatsapp); font-size:20px; font-weight:bold;">VOTO COMPUTADO! ✅</p>';
+            modalBody.innerHTML = '<p style="color:var(--verde-whatsapp); font-size:20px; font-weight:bold; text-align:center; padding:50px;">VOTO COMPUTADO! ✅</p>';
             fetch(urlGoogle, { 
                 method: 'POST', 
                 mode: 'no-cors', 
@@ -871,44 +875,37 @@
             atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
         }
 
-        // ==========================================
-        //  FUNÇÃO DE MÚSICA PROTEGIDA (SEM ERRO 502)
-        // ==========================================
         function atualizarMetadados() {
-            const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
+            // Usar CodeTabs para evitar bloqueio e cache
+            const proxy = "https://api.codetabs.com/v1/proxy?quest=";
             
-            fetch(proxyUrl).then(r => r.text()).then(data => { 
-                let nomeMusica = data.trim();
-                let capaParaMostrar = document.getElementById('capa-album-tv').src; 
-
-                // PROTEÇÃO: Se vier código de erro, mostra mensagem padrão
-                if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error")) {
-                    nomeMusica = "Rádio Top - A Conexão que te Move"; 
-                } else if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
-                    nomeMusica = "Rádio Top Itatiba";
-                }
-
-                document.getElementById('nome-musica').innerText = nomeMusica;
+            // 1. MÚSICA
+            const urlSong = encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + Date.now());
+            fetch(proxy + urlSong).then(r => r.text()).then(data => {
+                let nome = data.trim();
+                if (nome.includes("<html") || nome.length < 2) nome = "Rádio Top - A Conexão que te Move";
+                document.getElementById('nome-musica').innerText = nome;
                 
+                // Atualiza MediaSession (Controle da tela bloqueada/carro)
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
-                        title: nomeMusica,
+                        title: nome,
                         artist: 'Rádio Top 91.5 FM',
                         album: 'Ao Vivo',
-                        artwork: [ { src: capaParaMostrar, sizes: '512x512', type: 'image/jpg' } ]
+                        artwork: [{ src: document.getElementById('capa-album-tv').src, sizes: '512x512', type: 'image/jpg' }]
                     });
-                    navigator.mediaSession.setActionHandler('play', togglePlay);
-                    navigator.mediaSession.setActionHandler('pause', togglePlay);
                 }
-            }).catch(e => {
-                document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
-            });
-            
-            const proxyOuvintes = "https://corsproxy.io/?" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
-            fetch(proxyOuvintes).then(r => r.text()).then(d => {
+            }).catch(() => { document.getElementById('nome-musica').innerText = "Rádio Top Itatiba"; });
+
+            // 2. OUVINTES (Correção aqui: p[0] em vez de p[6])
+            const urlOuvintes = encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
+            fetch(proxy + urlOuvintes).then(r => r.text()).then(d => {
                  let p = d.split(',');
-                 if(p.length > 0 && !d.includes("<html")) { 
-                     document.getElementById('qtd-ouvintes').innerText = (parseInt(p[6]) || 0) + 125;
+                 if(p.length > 0 && !d.includes("<html")) {
+                     let num = parseInt(p[0]); // Pega o primeiro número (Ouvintes)
+                     if (!isNaN(num)) {
+                        document.getElementById('qtd-ouvintes').innerText = num + 125; // Soma o fake +125
+                     }
                  }
             }).catch(e => {});
         }
