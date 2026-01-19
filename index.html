@@ -74,7 +74,7 @@
         .btn-share-zap:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--verde-whatsapp); }
         .dot { height: 10px; width: 10px; background-color: var(--vermelho-no-ar); border-radius: 50%; display: inline-block; animation: blink-fast 1s infinite; }
 
-        /* CARDS PRINCIPAIS */
+        /* CARDS & LAYOUT - CORREÇÃO DE IMAGENS */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .section-title { border-left: 5px solid var(--magenta); padding-left: 15px; margin: 40px 0 20px; font-size: 26px; color: #fff; text-transform: uppercase; text-shadow: 0 0 10px var(--magenta); }
         .prog-lista { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
@@ -96,9 +96,20 @@
         .btn-pedir:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--magenta); }
         
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 2px solid #333; text-align: center; padding-bottom: 20px; transition: 0.4s; cursor: pointer; position: relative; display: flex; flex-direction: column; }
+        .card { 
+            background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 2px solid #333; 
+            text-align: center; padding-bottom: 20px; transition: 0.4s; cursor: pointer; position: relative; 
+            display: flex; flex-direction: column; 
+        }
         .card:hover { border-color: var(--magenta); box-shadow: 0 0 30px var(--magenta); transform: translateY(-10px); }
-        .card img { width: 100%; height: 180px; object-fit: cover; object-position: center; } /* FOTOS DA HOME OK */
+        
+        /* CORREÇÃO DO TAMANHO DAS IMAGENS */
+        .card img { 
+            width: 100%; 
+            height: 200px; /* Altura fixa para alinhar */
+            object-fit: cover; /* Corta o excesso sem esticar */
+            object-position: center; 
+        }
         
         .card h3 { margin: 15px 0 5px; color: white; text-transform: uppercase; font-size: 18px; }
         .btn-neon { background: var(--magenta); color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: auto; margin-bottom: 10px; transition: 0.3s; width: fit-content; align-self: center; }
@@ -468,34 +479,13 @@
             modalBody.innerHTML = '<p style="text-align:center; color:white;">Buscando informações...</p>';
             controls.style.display = 'none'; modal.style.display = 'flex';
 
+            // --- LÓGICA DA BATALHA ---
             if (acao === 'getEnquete') {
                 modalTitle.innerText = "BATALHA TOP"; 
-                fetch(urlGoogle + "?action=getEnquete").then(r => r.json()).then(data => {
-                    modalBody.innerHTML = `
-                        <h3 style="color:var(--dourado); text-transform:uppercase; margin-bottom:20px;">QUAL É SEU RITMO FAVORITO?</h3>
-                        <div class="battle-container">
-                            <div class="battle-option" onclick="votarBatalha(1)">
-                                <div class="battle-info">
-                                    <span class="battle-name">${data.op1}</span>
-                                    <span class="btn-votar-item">VOTO ${data.op1}</span>
-                                </div>
-                                <span class="battle-perc">${data.porc1}%</span>
-                                <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc1}%"></div></div>
-                            </div>
-                            
-                            <div class="vs-divider">VS</div>
-                            
-                            <div class="battle-option" onclick="votarBatalha(2)">
-                                <div class="battle-info">
-                                    <span class="battle-name">${data.op2}</span>
-                                    <span class="btn-votar-item">VOTO ${data.op2}</span>
-                                </div>
-                                <span class="battle-perc">${data.porc2}%</span>
-                                <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc2}%"></div></div>
-                            </div>
-                        </div>
-                    `;
-                });
+                // Tenta buscar da planilha, mas se falhar mostra padrão pra não travar
+                fetch(urlGoogle + "?action=getEnquete").then(r => r.json())
+                .then(data => renderBatalha(data))
+                .catch(() => renderBatalha({op1: "Sertanejo", op2: "Pagode", porc1: 50, porc2: 50}));
                 return;
             }
 
@@ -508,6 +498,32 @@
                     controls.style.display = 'flex'; 
                 }
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
+        }
+
+        function renderBatalha(data) {
+            document.getElementById('modal-body').innerHTML = `
+                <div class="battle-container">
+                    <div class="battle-option" onclick="votarBatalha(1)">
+                        <div class="battle-info">
+                            <span class="battle-name">${data.op1}</span>
+                            <span class="btn-votar-item">VOTO ${data.op1}</span>
+                        </div>
+                        <span class="battle-perc">${data.porc1}%</span>
+                        <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc1}%"></div></div>
+                    </div>
+                    
+                    <div class="vs-divider">VS</div>
+                    
+                    <div class="battle-option" onclick="votarBatalha(2)">
+                        <div class="battle-info">
+                            <span class="battle-name">${data.op2}</span>
+                            <span class="btn-votar-item">VOTO ${data.op2}</span>
+                        </div>
+                        <span class="battle-perc">${data.porc2}%</span>
+                        <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc2}%"></div></div>
+                    </div>
+                </div>
+            `;
         }
 
         function votarBatalha(opcao) {
