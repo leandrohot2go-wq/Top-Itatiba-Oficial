@@ -74,7 +74,7 @@
         .btn-share-zap:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--verde-whatsapp); }
         .dot { height: 10px; width: 10px; background-color: var(--vermelho-no-ar); border-radius: 50%; display: inline-block; animation: blink-fast 1s infinite; }
 
-        /* CARDS & LAYOUT - CORREÇÃO DE IMAGENS */
+        /* CARDS PRINCIPAIS */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .section-title { border-left: 5px solid var(--magenta); padding-left: 15px; margin: 40px 0 20px; font-size: 26px; color: #fff; text-transform: uppercase; text-shadow: 0 0 10px var(--magenta); }
         .prog-lista { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
@@ -96,20 +96,9 @@
         .btn-pedir:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--magenta); }
         
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { 
-            background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 2px solid #333; 
-            text-align: center; padding-bottom: 20px; transition: 0.4s; cursor: pointer; position: relative; 
-            display: flex; flex-direction: column; 
-        }
+        .card { background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 2px solid #333; text-align: center; padding-bottom: 20px; transition: 0.4s; cursor: pointer; position: relative; display: flex; flex-direction: column; }
         .card:hover { border-color: var(--magenta); box-shadow: 0 0 30px var(--magenta); transform: translateY(-10px); }
-        
-        /* CORREÇÃO DO TAMANHO DAS IMAGENS */
-        .card img { 
-            width: 100%; 
-            height: 200px; /* Altura fixa para alinhar */
-            object-fit: cover; /* Corta o excesso sem esticar */
-            object-position: center; 
-        }
+        .card img { width: 100%; height: 180px; object-fit: cover; object-position: center; } /* FOTOS DA HOME OK */
         
         .card h3 { margin: 15px 0 5px; color: white; text-transform: uppercase; font-size: 18px; }
         .btn-neon { background: var(--magenta); color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: auto; margin-bottom: 10px; transition: 0.3s; width: fit-content; align-self: center; }
@@ -151,6 +140,57 @@
         .modal-header h2 { color: var(--dourado); text-transform: uppercase; margin: 0; letter-spacing: 2px; }
         .modal-body { padding: 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 350px; }
 
+        /* --- CORREÇÃO DAS IMAGENS DO MODAL (ESTILO BARALHO/PERFIL) --- */
+        .slide-container { animation: fadeSlide 0.4s ease-in-out; width: 100%; }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Estilo Baralho (Top Hits e Promoções) */
+        .img-slide-rect { 
+            width: auto; 
+            max-width: 80%; /* Não ocupa tudo, parece uma carta */
+            height: auto; 
+            max-height: 280px; 
+            object-fit: contain; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            margin-bottom: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8); /* Sombra forte pra parecer flutuando */
+            background: #000;
+        }
+
+        /* Estilo Perfil (Nossa Equipe) */
+        .img-slide-circle { 
+            width: 130px; /* Reduzido para ficar elegante */
+            height: 130px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 3px solid var(--magenta); 
+            margin: 0 auto 15px; 
+            display: block; 
+            box-shadow: 0 0 25px var(--magenta); 
+        }
+
+        .slide-title { font-size: 24px; color: white; margin: 10px 0; font-weight: bold; text-transform: uppercase; }
+        .slide-desc { font-size: 14px; color: #ccc; margin-bottom: 20px; line-height: 1.4; }
+        .btn-slide-action { display: inline-block; background: var(--magenta); color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 14px; box-shadow: 0 0 15px var(--magenta); transition: 0.3s; }
+        .btn-slide-action:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); }
+        .carousel-nav { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding: 0 20px; }
+        .nav-btn { background: transparent; border: 1px solid var(--magenta); color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .nav-btn:hover { background: var(--magenta); box-shadow: 0 0 15px var(--magenta); }
+        .nav-counter { color: #888; font-size: 12px; font-weight: bold; }
+
+        @media (max-width: 600px) { nav { gap: 5px; flex-wrap: wrap; padding: 10px 5px; } nav a { font-size: 10px; padding: 6px 10px; } .ranking-item { flex-direction: column; align-items: flex-start; } .rank-buttons { width: 100%; justify-content: space-between; } }
+        
+        .reaction-wrapper { position: fixed; bottom: 100px; right: 25px; z-index: 10000; width: 50px; height: 50px; display: none; }
+        .r-btn { position: absolute; width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--magenta); background: rgba(10, 14, 39, 0.95); color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0,0,0,0.5); padding: 0; left: 0; top: 0; }
+        .r-btn.main { z-index: 10003; box-shadow: 0 4px 0 var(--roxo-neon), 0 8px 10px rgba(0,0,0,0.5); } .r-btn.main:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); }
+        .r-btn.option { z-index: 10001; opacity: 0; transform: scale(0.5) translateY(0); pointer-events: none; }
+        .reaction-wrapper.expanded .r-btn.main { transform: rotate(360deg); background: var(--magenta); box-shadow: 0 0 30px var(--magenta); }
+        .reaction-wrapper.expanded .r-btn.option { opacity: 1; pointer-events: all; transform: scale(1); }
+        .reaction-wrapper.expanded .r-btn.option:nth-child(1) { transform: translateY(-195px); } .reaction-wrapper.expanded .r-btn.option:nth-child(2) { transform: translateY(-130px); } .reaction-wrapper.expanded .r-btn.option:nth-child(3) { transform: translateY(-65px); }
+        .floater { position: fixed; bottom: 130px; right: 40px; font-size: 30px; pointer-events: none; animation: floatUp 2s forwards ease-out; z-index: 2147483647; text-shadow: 0 0 10px black; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 50% { opacity: 1; } 100% { transform: translateY(-300px) scale(1.5); opacity: 0; } }
+
         /* BATALHA (MODAL) */
         .battle-container { display: flex; flex-direction: column; gap: 20px; width: 100%; margin-top: 15px; }
         .battle-option { background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.5) 100%); border: 2px solid #444; border-radius: 15px; padding: 20px; position: relative; overflow: hidden; transition: 0.3s; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
@@ -162,16 +202,6 @@
         .btn-votar-item { background: var(--dourado); color: black; font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; margin-top: 5px; display: inline-block; box-shadow: 0 0 10px var(--dourado); }
         .battle-perc { font-size: 28px; font-weight: 900; color: white; z-index: 2; text-shadow: 0 0 10px var(--magenta); }
         .vs-divider { text-align: center; font-weight: 900; color: #ff0000; font-size: 24px; font-style: italic; text-shadow: 0 0 10px red; margin: -10px 0; z-index: 10; letter-spacing: 2px; }
-
-        .reaction-wrapper { position: fixed; bottom: 100px; right: 25px; z-index: 10000; width: 50px; height: 50px; display: none; }
-        .r-btn { position: absolute; width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--magenta); background: rgba(10, 14, 39, 0.95); color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0,0,0,0.5); padding: 0; left: 0; top: 0; }
-        .r-btn.main { z-index: 10003; box-shadow: 0 4px 0 var(--roxo-neon), 0 8px 10px rgba(0,0,0,0.5); } .r-btn.main:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); }
-        .r-btn.option { z-index: 10001; opacity: 0; transform: scale(0.5) translateY(0); pointer-events: none; }
-        .reaction-wrapper.expanded .r-btn.main { transform: rotate(360deg); background: var(--magenta); box-shadow: 0 0 30px var(--magenta); }
-        .reaction-wrapper.expanded .r-btn.option { opacity: 1; pointer-events: all; transform: scale(1); }
-        .reaction-wrapper.expanded .r-btn.option:nth-child(1) { transform: translateY(-195px); } .reaction-wrapper.expanded .r-btn.option:nth-child(2) { transform: translateY(-130px); } .reaction-wrapper.expanded .r-btn.option:nth-child(3) { transform: translateY(-65px); }
-        .floater { position: fixed; bottom: 130px; right: 40px; font-size: 30px; pointer-events: none; animation: floatUp 2s forwards ease-out; z-index: 2147483647; text-shadow: 0 0 10px black; }
-        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 50% { opacity: 1; } 100% { transform: translateY(-300px) scale(1.5); opacity: 0; } }
     </style>
 </head>
 <body>
