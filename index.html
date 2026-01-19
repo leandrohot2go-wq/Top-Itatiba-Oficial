@@ -74,7 +74,7 @@
         .btn-share-zap:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--verde-whatsapp); }
         .dot { height: 10px; width: 10px; background-color: var(--vermelho-no-ar); border-radius: 50%; display: inline-block; animation: blink-fast 1s infinite; }
 
-        /* CARDS & LAYOUT - CORREÇÃO DE IMAGENS */
+        /* CARDS & LAYOUT */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .section-title { border-left: 5px solid var(--magenta); padding-left: 15px; margin: 40px 0 20px; font-size: 26px; color: #fff; text-transform: uppercase; text-shadow: 0 0 10px var(--magenta); }
         .prog-lista { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
@@ -102,15 +102,7 @@
             display: flex; flex-direction: column; 
         }
         .card:hover { border-color: var(--magenta); box-shadow: 0 0 30px var(--magenta); transform: translateY(-10px); }
-        
-        /* CORREÇÃO DO TAMANHO DAS IMAGENS NA HOME */
-        .card img { 
-            width: 100%; 
-            height: 200px; 
-            object-fit: cover; 
-            object-position: center; 
-        }
-        
+        .card img { width: 100%; height: 180px; object-fit: cover; object-position: center; }
         .card h3 { margin: 15px 0 5px; color: white; text-transform: uppercase; font-size: 18px; }
         .btn-neon { background: var(--magenta); color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: auto; margin-bottom: 10px; transition: 0.3s; width: fit-content; align-self: center; }
         .btn-neon:hover { box-shadow: 0 0 25px var(--magenta); transform: scale(1.05); }
@@ -151,33 +143,32 @@
         .modal-header h2 { color: var(--dourado); text-transform: uppercase; margin: 0; letter-spacing: 2px; }
         .modal-body { padding: 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 350px; }
 
-        /* --- CSS CORRIGIDO PARA IMAGENS DENTRO DOS MODAIS --- */
+        /* --- CORREÇÃO DAS IMAGENS DENTRO DOS MODAIS (SEM MEXER NA ESTRUTURA) --- */
         .slide-container { animation: fadeSlide 0.4s ease-in-out; width: 100%; }
         @keyframes fadeSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-        /* Estilo Baralho (Top Hits e Promoções) */
+        /* Estilo para Top Hits e Promoções (Baralho/Cartas) */
         .img-slide-rect { 
             width: auto; 
-            max-width: 85%; /* Limita a largura para parecer uma carta */
+            max-width: 90%; /* Limita a largura */
             height: auto; 
-            max-height: 280px; /* Limita a altura */
-            object-fit: contain; /* Garante que a imagem não corte */
-            border-radius: 12px; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            margin-bottom: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8); 
-            display: block; margin-left: auto; margin-right: auto; /* Centraliza */
+            max-height: 350px; /* Limita a altura */
+            object-fit: contain; /* Ajusta sem cortar */
+            margin: 0 auto 15px auto; /* Centraliza */
+            display: block; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
         }
 
-        /* Estilo Perfil (Nossa Equipe) */
+        /* Estilo para Nossa Equipe (Redondo) */
         .img-slide-circle { 
-            width: 140px; 
+            width: 140px; /* Tamanho fixo menor */
             height: 140px; 
+            margin: 0 auto 15px auto; 
+            display: block; 
+            border: 3px solid var(--magenta); 
             border-radius: 50%; 
             object-fit: cover; 
-            border: 3px solid var(--magenta); 
-            margin: 0 auto 15px; 
-            display: block; 
             box-shadow: 0 0 25px var(--magenta); 
         }
 
@@ -396,7 +387,6 @@
     </footer>
 
     <script>
-        // ATENÇÃO: Link atualizado conforme sua solicitação
         const urlGoogle = "https://script.google.com/macros/s/AKfycbx6ziX6OLr6qXy1kDSOIX3yGZx4YvbQZQ5LDm6E7CtFigkWqYAcrbPM03joatzGeMtpFw/exec";
         
         let ultimaMusica = "";
