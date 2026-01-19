@@ -102,7 +102,15 @@
             display: flex; flex-direction: column; 
         }
         .card:hover { border-color: var(--magenta); box-shadow: 0 0 30px var(--magenta); transform: translateY(-10px); }
-        .card img { width: 100%; height: 200px; object-fit: cover; object-position: center; }
+        
+        /* CORREÇÃO DO TAMANHO DAS IMAGENS NA HOME */
+        .card img { 
+            width: 100%; 
+            height: 200px; 
+            object-fit: cover; 
+            object-position: center; 
+        }
+        
         .card h3 { margin: 15px 0 5px; color: white; text-transform: uppercase; font-size: 18px; }
         .btn-neon { background: var(--magenta); color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: auto; margin-bottom: 10px; transition: 0.3s; width: fit-content; align-self: center; }
         .btn-neon:hover { box-shadow: 0 0 25px var(--magenta); transform: scale(1.05); }
@@ -158,6 +166,7 @@
             display: block; 
             border-radius: 10px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
+            background: #000;
         }
 
         /* Estilo para Nossa Equipe (Redondo) */
@@ -348,7 +357,7 @@
         <h2 class="section-title">✨ DESTAQUES DA TOP</h2>
         <div class="grid-cards">
             <div class="card" onclick="abrirModal('getEnquete', 'BATALHA TOP')">
-                <img src="batalha.jpg">
+                <img src="batalha.jpg"> 
                 <h3>Batalha Top</h3>
                 <span class="btn-neon">VOTAR AGORA</span>
             </div>
@@ -743,7 +752,7 @@
             });
             
             // 2. OUVINTES - Usando o endpoint 7.html com proxy confiável
-            const urlOuvintes = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
+            const urlOuvintes = "https://corsproxy.io/?" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
             
             fetch(urlOuvintes)
             .then(r => r.text())
@@ -814,4 +823,3 @@
     </script>
 </body>
 </html>
-
