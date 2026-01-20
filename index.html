@@ -355,7 +355,7 @@
             </div>
             
             <div class="card" onclick="abrirModal('getHoroscopo', 'HORÓSCOPO DO DIA 🔮')">
-                <img src="https://img.freepik.com/fotos-premium/fundo-do-circulo-do-zodiaco-com-o-universo_1037189-56.jpg" style="object-fit: cover;">
+                <img src="horoscopo.jpg">
                 <h3>Horóscopo</h3>
                 <span class="btn-neon">PREVISÃO</span>
             </div>
@@ -767,7 +767,8 @@
             });
             
             // 2. OUVINTES - Usando o endpoint 7.html com proxy confiável
-            const urlOuvintes = "https://corsproxy.io/?" + encodeURIComponent("http://server27.srvsh.com.br:6674/7.html");
+            // Usando CodeTabs com o link HTTPS direto que você forneceu
+            const urlOuvintes = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
             
             fetch(urlOuvintes)
             .then(r => r.text())
