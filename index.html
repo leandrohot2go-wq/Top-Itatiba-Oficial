@@ -363,6 +363,12 @@
                 <span class="btn-neon">EM CARTAZ</span>
             </div>
 
+            <div class="card" onclick="abrirModal('getOnibus', 'TEM ÔNIBUS? 🚌')">
+                <img src="https://img.freepik.com/fotos-premium/onibus-urbano-em-movimento-na-cidade-com-borrao-de-movimento_11208-160.jpg" style="object-fit: cover;">
+                <h3>Horários</h3>
+                <span class="btn-neon">VER PRÓXIMO</span>
+            </div>
+
             <div class="card" onclick="abrirModal('getHoroscopo', 'HORÓSCOPO DO DIA 🔮')">
                 <img src="horoscopo.jpg">
                 <h3>Horóscopo</h3>
@@ -496,7 +502,7 @@
                 return;
             }
 
-             // --- LÓGICA DO HORÓSCOPO (NOVO) ---
+             // --- LÓGICA DO HORÓSCOPO ---
              if (acao === 'getHoroscopo') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getHoroscopo").then(r => r.json()).then(data => {
@@ -510,7 +516,7 @@
                 return;
             }
 
-            // --- LÓGICA DO CINEMA (NOVO) ---
+            // --- LÓGICA DO CINEMA ---
             if (acao === 'getCinema') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getCinema").then(r => r.json()).then(data => {
@@ -524,6 +530,19 @@
                 return;
             }
 
+            // --- LÓGICA DO ÔNIBUS (NOVO) ---
+            if (acao === 'getOnibus') {
+                modalTitle.innerText = titulo;
+                fetch(urlGoogle + "?action=getOnibus").then(r => r.json()).then(data => {
+                    if(!data || data.length === 0) { 
+                        modalBody.innerHTML = '<p style="color:white; text-align:center;">Sem horários cadastrados.</p>'; 
+                    } else { 
+                        renderOnibus(data); 
+                    }
+                }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar ônibus.</p>'; });
+                return;
+            }
+
             fetch(urlGoogle + "?action=" + acao).then(r => r.json()).then(data => {
                 if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Nenhuma informação disponível.</p>'; }
                 else { 
@@ -534,6 +553,67 @@
                 }
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
         }
+
+        // --- FUNÇÃO DO ÔNIBUS (NOVA) ---
+        function renderOnibus(data) {
+            let options = `<option value="">Selecione seu Bairro...</option>`;
+            data.forEach((item, index) => {
+                options += `<option value="${index}">${item.linha}</option>`;
+            });
+
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = `
+                <div style="width:100%; text-align:center;">
+                    <select id="select-onibus" onchange="calcularHorario(${JSON.stringify(data).replace(/"/g, '&quot;')})" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
+                        ${options}
+                    </select>
+                    <div id="resultado-onibus" style="font-size:18px; color:white; min-height:100px;"></div>
+                </div>
+            `;
+        }
+
+        window.calcularHorario = function(data) { // Torna global para o HTML acessar
+            const index = document.getElementById('select-onibus').value;
+            const divRes = document.getElementById('resultado-onibus');
+            
+            if(index === "") { divRes.innerHTML = ""; return; }
+
+            const linha = data[index];
+            const agora = new Date();
+            const horasAgora = agora.getHours();
+            const minAgora = agora.getMinutes();
+            const totalMinAgora = (horasAgora * 60) + minAgora;
+
+            const horarios = linha.horarios.split(',').map(h => h.trim());
+            let proximo = null;
+            let diff = 9999;
+
+            for(let h of horarios) {
+                let partes = h.split(':');
+                let hOnibus = parseInt(partes[0]);
+                let mOnibus = parseInt(partes[1]);
+                let totalMinOnibus = (hOnibus * 60) + mOnibus;
+
+                if (totalMinOnibus > totalMinAgora) {
+                    proximo = h;
+                    diff = totalMinOnibus - totalMinAgora;
+                    break; 
+                }
+            }
+
+            if (proximo) {
+                let cor = diff < 15 ? '#00ff55' : '#f3b644'; // Verde se faltar pouco
+                divRes.innerHTML = `
+                    <p style="color:#ccc; font-size:14px; margin-bottom:5px;">PRÓXIMA SAÍDA:</p>
+                    <h1 style="color:${cor}; font-size:50px; margin:0;">${proximo}</h1>
+                    <p style="color:${cor}; font-weight:bold; margin-top:5px;">FALTAM ${diff} MINUTOS</p>
+                    <hr style="border-color:#333; margin:15px 0;">
+                    <p style="font-size:12px; color:#888;">Todos: ${linha.horarios}</p>
+                `;
+            } else {
+                divRes.innerHTML = "<h3 style='color:#ff0000'>Sem mais horários hoje.</h3>";
+            }
+        };
 
         function renderBatalha(data) {
             document.getElementById('modal-body').innerHTML = `
@@ -944,4 +1024,3 @@
     </script>
 </body>
 </html>
-
