@@ -357,6 +357,12 @@
                 <span class="btn-neon">VOTAR AGORA</span>
             </div>
             
+            <div class="card" onclick="abrirModal('getCinema', 'CINE MULTIPLEX 🍿')">
+                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1000&auto=format&fit=crop" style="object-fit: cover;">
+                <h3>Cinema</h3>
+                <span class="btn-neon">EM CARTAZ</span>
+            </div>
+
             <div class="card" onclick="abrirModal('getHoroscopo', 'HORÓSCOPO DO DIA 🔮')">
                 <img src="horoscopo.jpg">
                 <h3>Horóscopo</h3>
@@ -484,7 +490,6 @@
             // --- LÓGICA DA BATALHA ---
             if (acao === 'getEnquete') {
                 modalTitle.innerText = "BATALHA TOP"; 
-                // Tenta buscar da planilha, mas se falhar mostra padrão pra não travar
                 fetch(urlGoogle + "?action=getEnquete").then(r => r.json())
                 .then(data => renderBatalha(data))
                 .catch(() => renderBatalha({op1: "Sertanejo", op2: "Pagode", porc1: 50, porc2: 50}));
@@ -502,6 +507,20 @@
                         controls.style.display = 'flex'; 
                     }
                 }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar horóscopo.</p>'; });
+                return;
+            }
+
+            // --- LÓGICA DO CINEMA (NOVO) ---
+            if (acao === 'getCinema') {
+                modalTitle.innerText = titulo;
+                fetch(urlGoogle + "?action=getCinema").then(r => r.json()).then(data => {
+                    if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Nenhum filme cadastrado.</p>'; }
+                    else { 
+                        modalData = data; 
+                        renderSlide(); 
+                        controls.style.display = 'flex'; 
+                    }
+                }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar cinema.</p>'; });
                 return;
             }
 
@@ -527,9 +546,7 @@
                         <span class="battle-perc">${data.porc1}%</span>
                         <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc1}%"></div></div>
                     </div>
-                    
                     <div class="vs-divider">VS</div>
-                    
                     <div class="battle-option" onclick="votarBatalha(2)">
                         <div class="battle-info">
                             <span class="battle-name">${data.op2}</span>
@@ -564,13 +581,19 @@
             let linkAcao = item.link || item.instagram || '#';
 
             let html = '<div class="slide-container">';
-            if(currentAction === 'getEquipe') {
+            
+            if(currentAction === 'getCinema') {
+                html += `<img src="${img}" class="img-slide-rect" style="aspect-ratio: 2/3; object-fit:cover;"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:14px; color:#ccc;">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">COMPRAR INGRESSO</a>`;
+            
+            } else if(currentAction === 'getEquipe') {
                 html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-circle"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">VER PERFIL</a>`;
+            
             } else if (currentAction === 'getTopHits') {
                 html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><span style="color:var(--dourado); font-weight:bold; font-size:30px; display:block; margin:10px 0;">${subtitulo}</span><h3 class="slide-title">${titulo}</h3><a href="${linkAcao}" target="_blank" class="btn-slide-action">OUVIR AGORA</a>`;
+            
             } else if (currentAction === 'getHoroscopo') {
-                 // Estilo especial para o Horóscopo
                  html += `<img src="${img}" class="img-slide-circle" style="border-color:var(--dourado);"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:16px; color:#fff;">${subtitulo}</p>`;
+            
             } else {
                 html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">QUERO PARTICIPAR</a>`;
             }
@@ -701,20 +724,17 @@
             const nomeMusica = document.getElementById('nome-musica').innerText;
             const capaSrc = document.getElementById('capa-album-tv').src;
 
-            // Cria o Canvas
             const canvas = document.createElement('canvas');
             canvas.width = 1080;
             canvas.height = 1920;
             const ctx = canvas.getContext('2d');
 
-            // 1. Fundo Gradiente
             const grd = ctx.createLinearGradient(0, 0, 0, 1920);
             grd.addColorStop(0, '#0a0e27');
             grd.addColorStop(1, '#b01a7a');
             ctx.fillStyle = grd;
             ctx.fillRect(0,0, 1080, 1920);
 
-            // Carrega imagens
             const imgCapa = new Image();
             imgCapa.crossOrigin = "Anonymous";
             imgCapa.src = capaSrc;
@@ -723,38 +743,31 @@
             imgLogo.src = 'top1.jpg'; // Seu logo local
 
             imgCapa.onload = function() {
-                // 2. Desenha Capa (Centralizada)
                 const size = 800;
                 const x = (1080 - size) / 2;
                 const y = (1920 - size) / 2 - 100;
                 
-                // Sombra da capa
                 ctx.shadowColor = "rgba(0,0,0,0.5)";
                 ctx.shadowBlur = 50;
                 ctx.drawImage(imgCapa, x, y, size, size);
                 ctx.shadowBlur = 0;
 
-                // 3. Texto "Estou ouvindo"
                 ctx.fillStyle = "white";
                 ctx.font = "bold 40px Arial";
                 ctx.textAlign = "center";
                 ctx.fillText("ESTOU OUVINDO NA RÁDIO TOP", 1080/2, y - 50);
 
-                // 4. Nome da Música
                 ctx.font = "bold 60px Arial";
-                ctx.fillStyle = "#f3b644"; // Dourado
+                ctx.fillStyle = "#f3b644"; 
                 ctx.fillText(nomeMusica, 1080/2, y + size + 80);
 
-                // 5. Logo no Rodapé
                 ctx.drawImage(imgLogo, (1080-150)/2, 1600, 150, 150);
                 
-                // 6. Mostra no Modal
                 const dataUrl = canvas.toDataURL("image/png");
                 modalTitle.innerText = "SEU STORY ESTÁ PRONTO!";
                 modalBody.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:300px; border-radius:10px; border:2px solid white;"><br><a href="${dataUrl}" download="story-radiotop.png" class="btn-neon" style="margin-top:15px;">BAIXAR IMAGEM</a>`;
             };
             
-            // Fallback se a capa não carregar (CORS)
             imgCapa.onerror = function() {
                 modalBody.innerHTML = '<p style="color:red;">Erro ao gerar imagem. Tente novamente.</p>';
             }
