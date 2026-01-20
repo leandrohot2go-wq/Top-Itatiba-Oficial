@@ -30,7 +30,13 @@
         /* PAINEL PEDIDO & TEMPO */
         .painel-tempo-real { background: rgba(255, 255, 255, 0.05); border: 2px solid var(--magenta); border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px; display: flex; justify-content: space-around; align-items: center; color: white; animation: animacaoCores 5s infinite ease-in-out; transition: border-color 1s ease; }
         @keyframes animacaoCores { 0% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } 50% { border-color: var(--dourado); box-shadow: 0 0 15px var(--dourado); } 100% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } }
-        .tempo-item { text-align: center; } .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; } .tempo-valor { font-size: 16px; font-weight: bold; }
+        
+        /* ATUALIZADO: Relógio clicável */
+        .tempo-item { text-align: center; } 
+        .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; } 
+        .tempo-valor { font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .tempo-valor:hover { color: var(--magenta); text-shadow: 0 0 10px var(--magenta); transform: scale(1.1); }
+        .active-timer { color: var(--verde-whatsapp); text-shadow: 0 0 10px var(--verde-whatsapp); }
         
         .painel-pedido { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--verde-whatsapp); border-radius: 15px; padding: 20px; margin: 20px 0; box-shadow: 0 0 10px rgba(37, 211, 102, 0.1); }
         .btn-pedido-zap { background: var(--verde-whatsapp); color: #000; border: none; padding: 12px 25px; border-radius: 30px; font-weight: 900; cursor: pointer; width: 100%; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
@@ -76,7 +82,7 @@
         .btn-story:hover { transform: scale(1.05); box-shadow: 0 0 25px #bc1888; }
         .dot { height: 10px; width: 10px; background-color: var(--vermelho-no-ar); border-radius: 50%; display: inline-block; animation: blink-fast 1s infinite; }
 
-        /* CARDS & LAYOUT - CORREÇÃO DE IMAGENS */
+        /* CARDS & LAYOUT */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .section-title { border-left: 5px solid var(--magenta); padding-left: 15px; margin: 40px 0 20px; font-size: 26px; color: #fff; text-transform: uppercase; text-shadow: 0 0 10px var(--magenta); }
         .prog-lista { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
@@ -145,34 +151,16 @@
         .modal-header h2 { color: var(--dourado); text-transform: uppercase; margin: 0; letter-spacing: 2px; }
         .modal-body { padding: 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 350px; }
 
-        /* --- CSS CORRIGIDO PARA IMAGENS DENTRO DOS MODAIS (SEM MEXER NA ESTRUTURA) --- */
         .slide-container { animation: fadeSlide 0.4s ease-in-out; width: 100%; }
         @keyframes fadeSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-        /* Estilo para Top Hits e Promoções (Baralho/Cartas) */
         .img-slide-rect { 
-            width: auto; 
-            max-width: 90%; /* Limita a largura */
-            height: auto; 
-            max-height: 350px; /* Limita a altura */
-            object-fit: contain; /* Ajusta sem cortar */
-            margin: 0 auto 15px auto; /* Centraliza */
-            display: block; 
-            border-radius: 10px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
-            background: #000;
+            width: auto; max-width: 90%; height: auto; max-height: 350px; object-fit: contain; 
+            margin: 0 auto 15px auto; display: block; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); background: #000;
         }
-
-        /* Estilo para Nossa Equipe (Redondo) */
         .img-slide-circle { 
-            width: 140px; /* Tamanho fixo menor */
-            height: 140px; 
-            margin: 0 auto 15px auto; 
-            display: block; 
-            border: 3px solid var(--magenta); 
-            border-radius: 50%; 
-            object-fit: cover; 
-            box-shadow: 0 0 25px var(--magenta); 
+            width: 140px; height: 140px; margin: 0 auto 15px auto; display: block; 
+            border: 3px solid var(--magenta); border-radius: 50%; object-fit: cover; box-shadow: 0 0 25px var(--magenta); 
         }
 
         .slide-title { font-size: 24px; color: white; margin: 10px 0; font-weight: bold; text-transform: uppercase; }
@@ -311,9 +299,9 @@
     </div>
 
     <div class="painel-tempo-real">
-        <div class="tempo-item">
+        <div class="tempo-item" onclick="abrirModalRelogio()" title="Configurar Alarme/Soneca">
             <span class="tempo-label">Itatiba Agora</span>
-            <span class="tempo-valor" id="clock">00:00:00</span>
+            <span class="tempo-valor" id="clock">00:00:00 ⏰</span>
         </div>
         <div class="tempo-item">
             <span class="tempo-label" id="label-clima">FELIZ 2026!</span>
@@ -417,6 +405,7 @@
         let isPlaying = false;
         let fadeInterval;
         let modalData = []; let modalIndex = 0; let currentAction = '';
+        let sleepTimer = null; let alarmInterval = null;
 
         const colorThief = new ColorThief();
 
@@ -554,7 +543,76 @@
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
         }
 
-        // --- FUNÇÃO DO ÔNIBUS (NOVA) ---
+        // --- RELÓGIO E SONECA (NOVO) ---
+        function abrirModalRelogio() {
+            const modal = document.getElementById('modal-container');
+            document.getElementById('modal-title').innerText = "PROGRAMAR TEMPO";
+            document.getElementById('carousel-controls').style.display = 'none';
+            
+            document.getElementById('modal-body').innerHTML = `
+                <div style="text-align:center; color:white;">
+                    <h3 style="color:var(--dourado);">😴 MODO SONECA (SLEEP)</h3>
+                    <p>Desligar o som automaticamente em:</p>
+                    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px;">
+                        <button onclick="setSleep(15)" class="btn-votar-item" style="font-size:14px; padding:8px 15px;">15 min</button>
+                        <button onclick="setSleep(30)" class="btn-votar-item" style="font-size:14px; padding:8px 15px;">30 min</button>
+                        <button onclick="setSleep(60)" class="btn-votar-item" style="font-size:14px; padding:8px 15px;">60 min</button>
+                    </div>
+                    <button onclick="cancelSleep()" style="background:#333; border:none; color:white; padding:5px 10px; border-radius:5px;">Cancelar Soneca</button>
+                    
+                    <hr style="border-color:#333; margin:20px 0;">
+                    
+                    <h3 style="color:var(--verde-whatsapp);">⏰ DESPERTADOR</h3>
+                    <p>Ligar o rádio automaticamente às:</p>
+                    <input type="time" id="alarm-time" style="padding:10px; border-radius:10px; border:none; font-size:18px; text-align:center;">
+                    <br><br>
+                    <button onclick="setAlarm()" class="btn-neon">DEFINIR ALARME</button>
+                    <p style="font-size:12px; color:#888; margin-top:10px;">*Mantenha esta aba aberta para o alarme funcionar.</p>
+                </div>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function setSleep(min) {
+            clearTimeout(sleepTimer);
+            sleepTimer = setTimeout(() => {
+                if(isPlaying) togglePlay();
+                alert("Rádio desligada pelo Modo Soneca. Bons sonhos! 😴");
+                document.getElementById('clock').classList.remove('active-timer');
+            }, min * 60 * 1000);
+            document.getElementById('clock').classList.add('active-timer');
+            fecharModal();
+            alert(`Soneca definida para ${min} minutos.`);
+        }
+
+        function cancelSleep() {
+            clearTimeout(sleepTimer);
+            document.getElementById('clock').classList.remove('active-timer');
+            fecharModal();
+            alert("Modo Soneca cancelado.");
+        }
+
+        function setAlarm() {
+            const timeVal = document.getElementById('alarm-time').value;
+            if(!timeVal) return;
+            
+            clearInterval(alarmInterval);
+            document.getElementById('clock').classList.add('active-timer');
+            fecharModal();
+            alert(`Alarme definido para ${timeVal}. Deixe o site aberto!`);
+
+            alarmInterval = setInterval(() => {
+                const now = new Date();
+                const current = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+                if(current === timeVal) {
+                    if(!isPlaying) togglePlay();
+                    clearInterval(alarmInterval);
+                    document.getElementById('clock').classList.remove('active-timer');
+                    alert("⏰ HORA DE ACORDAR COM A TOP!");
+                }
+            }, 1000);
+        }
+
         function renderOnibus(data) {
             let options = `<option value="">Selecione seu Bairro...</option>`;
             data.forEach((item, index) => {
@@ -564,7 +622,7 @@
             const modalBody = document.getElementById('modal-body');
             modalBody.innerHTML = `
                 <div style="width:100%; text-align:center;">
-                    <select id="select-onibus" onchange="calcularHorario(${JSON.stringify(data).replace(/"/g, '&quot;')})" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
+                    <select id="select-onibus" onchange="calcularHorario(${JSON.stringify(data).replace(/"/g, '"')})" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
                         ${options}
                     </select>
                     <div id="resultado-onibus" style="font-size:18px; color:white; min-height:100px;"></div>
@@ -700,7 +758,7 @@
             }
         }
 
-        function updateClock() { const now = new Date(); document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR'); } setInterval(updateClock, 1000);
+        function updateClock() { const now = new Date(); document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR') + ' ⏰'; } setInterval(updateClock, 1000);
         function getClima() { fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.0019&longitude=-46.8406&current_weather=true").then(r => r.json()).then(data => { document.getElementById('temp-itatiba').innerHTML = `☀️ ${Math.round(data.current_weather.temperature)}°C 🥂`; }).catch(() => {}); } getClima(); setInterval(getClima, 600000);
 
         function enviarPedidoZap() {
