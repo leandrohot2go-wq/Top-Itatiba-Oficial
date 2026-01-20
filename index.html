@@ -394,7 +394,7 @@
     </footer>
 
     <script>
-        // ATENÇÃO: Link atualizado conforme sua solicitação
+        // ATENÇÃO: LINK ATUALIZADO DO SEU SCRIPT
         const urlGoogle = "https://script.google.com/macros/s/AKfycbx6ziX6OLr6qXy1kDSOIX3yGZx4YvbQZQ5LDm6E7CtFigkWqYAcrbPM03joatzGeMtpFw/exec";
         
         let ultimaMusica = "";
@@ -626,11 +626,9 @@
 
         function carregarConfig() {
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
-                
                 if (data.tv) {
                     let capaImg = document.getElementById('capa-album-tv');
                     let bgBlur = document.getElementById('blur-bg');
-                    
                     if(capaImg.src !== data.tv) {
                         capaImg.src = data.tv;
                         capaImg.crossOrigin = "Anonymous"; 
@@ -644,12 +642,9 @@
                         if(bgBlur) bgBlur.style.backgroundImage = `url('${data.tv}')`;
                     }
                 }
-                
                 if (data.botao) document.getElementById('link-studio').href = data.botao;
-                
                 const ticker = document.querySelector('.ticker-content');
                 let textoFinal = "";
-
                 if (data.texto && data.texto.length > 10) {
                     textoFinal = `<span class="noticia-item" style="color:white;">${data.texto}</span>`;
                 } else if (data.noticias) {
@@ -658,15 +653,35 @@
                         if(msg.trim() != "") textoFinal += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
                     });
                 }
-                
                 if(textoFinal && ticker.innerHTML.length !== (textoFinal + textoFinal).length) {
                     ticker.innerHTML = textoFinal + textoFinal;
                 }
-
             }).catch(e => console.log("Erro config"));
         }
         
         setInterval(carregarConfig, 30000);
+
+        // --- CORREÇÃO DO MURAL AQUI ---
+        document.getElementById('form-mural').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            const btn = document.getElementById('btn-status');
+            const nome = document.getElementById('nome-ouvinte').value;
+            const msg = document.getElementById('msg-ouvinte').value;
+
+            btn.innerText = "ENVIANDO..."; btn.disabled = true;
+
+            fetch(urlGoogle, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({ nome: nome, mensagem: msg })
+            }).then(() => {
+                alert("Recado enviado com sucesso! 🚀");
+                document.getElementById('form-mural').reset();
+                btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; btn.disabled = false;
+            }).catch(() => {
+                btn.innerText = "ERRO AO ENVIAR";
+            });
+        });
 
         let cliquesSegredo = 0;
         let timerSegredo;
