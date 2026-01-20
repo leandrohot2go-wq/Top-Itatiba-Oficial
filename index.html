@@ -65,6 +65,11 @@
         .btn-player-modern { width: 70px; height: 70px; background: linear-gradient(135deg, var(--magenta), var(--roxo-neon)); border-radius: 50%; border: 2px solid var(--magenta); color: white; font-size: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(176, 26, 122, 0.6); transition: all 0.3s ease; position: relative; z-index: 10; }
         .btn-player-modern:hover { transform: scale(1.05); box-shadow: 0 0 40px var(--magenta); border-color: var(--dourado); }
         .btn-player-modern:active { transform: scale(0.95); }
+        
+        .btn-timer-mini { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--magenta); background: rgba(0,0,0,0.5); color: white; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: 0.3s; margin-left: 10px; }
+        .btn-timer-mini:hover { background: var(--magenta); transform: scale(1.1); }
+        .active-timer { background: var(--verde-whatsapp); color: black; animation: pulse-green 1s infinite; border-color: var(--verde-whatsapp); }
+
         .playing-pulse { animation: pulse-ring 2s infinite; } @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
         .volume-control-modern { display: flex; align-items: center; gap: 10px; } .vol-label { font-size: 10px; font-weight: bold; color: #ddd; letter-spacing: 1px; }
         input[type=range].custom-volume { -webkit-appearance: none; width: 100px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 5px; outline: none; opacity: 0.9; } input[type=range].custom-volume::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; background: var(--dourado); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px var(--dourado); }
@@ -297,6 +302,9 @@
                 <svg id="icon-play" width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
                 <svg id="icon-pause" width="30" height="30" viewBox="0 0 24 24" fill="white" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
+            
+            <button class="btn-timer-mini" onclick="abrirModalRelogio()" id="btn-timer">⏰</button>
+
             <div class="volume-control-modern">
                 <span class="vol-label">VOL</span>
                 <input type="range" id="vol-control" class="custom-volume" min="0" max="1" step="0.1" value="0.3" onchange="changeVolume(this.value)">
@@ -364,7 +372,7 @@
             </div>
 
             <div class="card" onclick="abrirModal('getOnibus', 'TEM ÔNIBUS? 🚌')">
-                <img src="logo Onibus.jpg" style="object-fit: cover;">
+                <img src="logo-onibus.jpg" style="object-fit: cover;">
                 <h3>Horários</h3>
                 <span class="btn-neon">VER PRÓXIMO</span>
             </div>
@@ -417,6 +425,7 @@
         let isPlaying = false;
         let fadeInterval;
         let modalData = []; let modalIndex = 0; let currentAction = '';
+        let sleepTimer = null; let alarmInterval = null;
 
         const colorThief = new ColorThief();
 
@@ -530,7 +539,7 @@
                 return;
             }
 
-            // --- LÓGICA DO ÔNIBUS (NOVO) ---
+            // --- LÓGICA DO ÔNIBUS ---
             if (acao === 'getOnibus') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getOnibus").then(r => r.json()).then(data => {
@@ -554,7 +563,76 @@
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
         }
 
-        // --- FUNÇÃO DO ÔNIBUS (NOVA) ---
+        // --- RELÓGIO E SONECA ---
+        function abrirModalRelogio() {
+            const modal = document.getElementById('modal-container');
+            document.getElementById('modal-title').innerText = "PROGRAMAR TEMPO";
+            document.getElementById('carousel-controls').style.display = 'none';
+            
+            document.getElementById('modal-body').innerHTML = `
+                <div style="text-align:center; color:white;">
+                    <h3 style="color:var(--dourado);">😴 MODO SONECA (SLEEP)</h3>
+                    <p>Desligar o som automaticamente em:</p>
+                    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px;">
+                        <button onclick="setSleep(15)" class="btn-votar-item" style="font-size:14px; padding:8px 15px;">15 min</button>
+                        <button onclick="setSleep(30)" class="btn-votar-item" style="font-size:14px; padding:8px 15px;">30 min</button>
+                        <button onclick="setSleep(60)" class="btn-votar-item" style="font-size:14px; padding:8px 15px;">60 min</button>
+                    </div>
+                    <button onclick="cancelSleep()" style="background:#333; border:none; color:white; padding:5px 10px; border-radius:5px;">Cancelar Soneca</button>
+                    
+                    <hr style="border-color:#333; margin:20px 0;">
+                    
+                    <h3 style="color:var(--verde-whatsapp);">⏰ DESPERTADOR</h3>
+                    <p>Ligar o rádio automaticamente às:</p>
+                    <input type="time" id="alarm-time" style="padding:10px; border-radius:10px; border:none; font-size:18px; text-align:center;">
+                    <br><br>
+                    <button onclick="setAlarm()" class="btn-neon">DEFINIR ALARME</button>
+                    <p style="font-size:12px; color:#888; margin-top:10px;">*Mantenha esta aba aberta para o alarme funcionar.</p>
+                </div>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function setSleep(min) {
+            clearTimeout(sleepTimer);
+            sleepTimer = setTimeout(() => {
+                if(isPlaying) togglePlay();
+                alert("Rádio desligada pelo Modo Soneca. Bons sonhos! 😴");
+                document.getElementById('btn-timer').classList.remove('active-timer');
+            }, min * 60 * 1000);
+            document.getElementById('btn-timer').classList.add('active-timer');
+            fecharModal();
+            alert(`Soneca definida para ${min} minutos.`);
+        }
+
+        function cancelSleep() {
+            clearTimeout(sleepTimer);
+            document.getElementById('btn-timer').classList.remove('active-timer');
+            fecharModal();
+            alert("Modo Soneca cancelado.");
+        }
+
+        function setAlarm() {
+            const timeVal = document.getElementById('alarm-time').value;
+            if(!timeVal) return;
+            
+            clearInterval(alarmInterval);
+            document.getElementById('btn-timer').classList.add('active-timer');
+            fecharModal();
+            alert(`Alarme definido para ${timeVal}. Deixe o site aberto!`);
+
+            alarmInterval = setInterval(() => {
+                const now = new Date();
+                const current = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
+                if(current === timeVal) {
+                    if(!isPlaying) togglePlay();
+                    clearInterval(alarmInterval);
+                    document.getElementById('btn-timer').classList.remove('active-timer');
+                    alert("⏰ HORA DE ACORDAR COM A TOP!");
+                }
+            }, 1000);
+        }
+
         function renderOnibus(data) {
             let options = `<option value="">Selecione seu Bairro...</option>`;
             data.forEach((item, index) => {
@@ -564,7 +642,7 @@
             const modalBody = document.getElementById('modal-body');
             modalBody.innerHTML = `
                 <div style="width:100%; text-align:center;">
-                    <select id="select-onibus" onchange="calcularHorario(${JSON.stringify(data).replace(/"/g, '&quot;')})" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
+                    <select id="select-onibus" onchange="calcularHorario(${JSON.stringify(data).replace(/"/g, '"')})" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
                         ${options}
                     </select>
                     <div id="resultado-onibus" style="font-size:18px; color:white; min-height:100px;"></div>
