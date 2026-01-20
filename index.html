@@ -72,6 +72,8 @@
         .btn-studio:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--vermelho-no-ar); }
         .btn-share-zap { background-color: var(--verde-whatsapp); color: #000; border: none; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s; z-index: 2; }
         .btn-share-zap:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--verde-whatsapp); }
+        .btn-story { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; border: none; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(220, 39, 67, 0.3); transition: 0.3s; cursor: pointer; z-index: 2; }
+        .btn-story:hover { transform: scale(1.05); box-shadow: 0 0 25px #bc1888; }
         .dot { height: 10px; width: 10px; background-color: var(--vermelho-no-ar); border-radius: 50%; display: inline-block; animation: blink-fast 1s infinite; }
 
         /* CARDS & LAYOUT - CORREÇÃO DE IMAGENS */
@@ -304,6 +306,7 @@
         <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%;">
             <a href="https://www.youtube.com/watch?v=HoP0JQ9MV6g" target="_blank" id="link-studio" class="btn-studio"><span class="dot"></span> STUDIO AO VIVO</a>
             <a href="#" id="share-whatsapp" class="btn-share-zap">COMPARTILHAR RÁDIO</a>
+            <button onclick="gerarStory()" class="btn-story">📸 CRIAR STORY</button>
         </div>
     </div>
 
@@ -682,6 +685,80 @@
                 btn.innerText = "ERRO AO ENVIAR";
             });
         });
+
+        // --- GERADOR DE STORY (NOVA FUNÇÃO) ---
+        function gerarStory() {
+            const modal = document.getElementById('modal-container');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const controls = document.getElementById('carousel-controls');
+
+            modalTitle.innerText = "GERANDO STORY...";
+            modalBody.innerHTML = '<p style="color:white; text-align:center;">Criando sua imagem... aguarde! 🎨</p>';
+            controls.style.display = 'none';
+            modal.style.display = 'flex';
+
+            const nomeMusica = document.getElementById('nome-musica').innerText;
+            const capaSrc = document.getElementById('capa-album-tv').src;
+
+            // Cria o Canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = 1080;
+            canvas.height = 1920;
+            const ctx = canvas.getContext('2d');
+
+            // 1. Fundo Gradiente
+            const grd = ctx.createLinearGradient(0, 0, 0, 1920);
+            grd.addColorStop(0, '#0a0e27');
+            grd.addColorStop(1, '#b01a7a');
+            ctx.fillStyle = grd;
+            ctx.fillRect(0,0, 1080, 1920);
+
+            // Carrega imagens
+            const imgCapa = new Image();
+            imgCapa.crossOrigin = "Anonymous";
+            imgCapa.src = capaSrc;
+
+            const imgLogo = new Image();
+            imgLogo.src = 'top1.jpg'; // Seu logo local
+
+            imgCapa.onload = function() {
+                // 2. Desenha Capa (Centralizada)
+                const size = 800;
+                const x = (1080 - size) / 2;
+                const y = (1920 - size) / 2 - 100;
+                
+                // Sombra da capa
+                ctx.shadowColor = "rgba(0,0,0,0.5)";
+                ctx.shadowBlur = 50;
+                ctx.drawImage(imgCapa, x, y, size, size);
+                ctx.shadowBlur = 0;
+
+                // 3. Texto "Estou ouvindo"
+                ctx.fillStyle = "white";
+                ctx.font = "bold 40px Arial";
+                ctx.textAlign = "center";
+                ctx.fillText("ESTOU OUVINDO NA RÁDIO TOP", 1080/2, y - 50);
+
+                // 4. Nome da Música
+                ctx.font = "bold 60px Arial";
+                ctx.fillStyle = "#f3b644"; // Dourado
+                ctx.fillText(nomeMusica, 1080/2, y + size + 80);
+
+                // 5. Logo no Rodapé
+                ctx.drawImage(imgLogo, (1080-150)/2, 1600, 150, 150);
+                
+                // 6. Mostra no Modal
+                const dataUrl = canvas.toDataURL("image/png");
+                modalTitle.innerText = "SEU STORY ESTÁ PRONTO!";
+                modalBody.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:300px; border-radius:10px; border:2px solid white;"><br><a href="${dataUrl}" download="story-radiotop.png" class="btn-neon" style="margin-top:15px;">BAIXAR IMAGEM</a>`;
+            };
+            
+            // Fallback se a capa não carregar (CORS)
+            imgCapa.onerror = function() {
+                modalBody.innerHTML = '<p style="color:red;">Erro ao gerar imagem. Tente novamente.</p>';
+            }
+        }
 
         let cliquesSegredo = 0;
         let timerSegredo;
