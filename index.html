@@ -30,7 +30,12 @@
         /* PAINEL PEDIDO & TEMPO */
         .painel-tempo-real { background: rgba(255, 255, 255, 0.05); border: 2px solid var(--magenta); border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px; display: flex; justify-content: space-around; align-items: center; color: white; animation: animacaoCores 5s infinite ease-in-out; transition: border-color 1s ease; }
         @keyframes animacaoCores { 0% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } 50% { border-color: var(--dourado); box-shadow: 0 0 15px var(--dourado); } 100% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } }
-        .tempo-item { text-align: center; } .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; } .tempo-valor { font-size: 16px; font-weight: bold; }
+        
+        /* AQUI: Ajustei para o relógio ser clicável */
+        .tempo-item { text-align: center; } 
+        .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; } 
+        .tempo-valor { font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .tempo-valor:hover { color: var(--magenta); text-shadow: 0 0 10px var(--magenta); transform: scale(1.1); }
         
         .painel-pedido { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--verde-whatsapp); border-radius: 15px; padding: 20px; margin: 20px 0; box-shadow: 0 0 10px rgba(37, 211, 102, 0.1); }
         .btn-pedido-zap { background: var(--verde-whatsapp); color: #000; border: none; padding: 12px 25px; border-radius: 30px; font-weight: 900; cursor: pointer; width: 100%; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
@@ -66,9 +71,7 @@
         .btn-player-modern:hover { transform: scale(1.05); box-shadow: 0 0 40px var(--magenta); border-color: var(--dourado); }
         .btn-player-modern:active { transform: scale(0.95); }
         
-        .btn-timer-mini { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--magenta); background: rgba(0,0,0,0.5); color: white; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: 0.3s; margin-left: 10px; }
-        .btn-timer-mini:hover { background: var(--magenta); transform: scale(1.1); }
-        .active-timer { background: var(--verde-whatsapp); color: black; animation: pulse-green 1s infinite; border-color: var(--verde-whatsapp); }
+        .active-timer { color: var(--verde-whatsapp); text-shadow: 0 0 10px var(--verde-whatsapp); }
 
         .playing-pulse { animation: pulse-ring 2s infinite; } @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
         .volume-control-modern { display: flex; align-items: center; gap: 10px; } .vol-label { font-size: 10px; font-weight: bold; color: #ddd; letter-spacing: 1px; }
@@ -303,8 +306,6 @@
                 <svg id="icon-pause" width="30" height="30" viewBox="0 0 24 24" fill="white" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
             
-            <button class="btn-timer-mini" onclick="abrirModalRelogio()" id="btn-timer">⏰</button>
-
             <div class="volume-control-modern">
                 <span class="vol-label">VOL</span>
                 <input type="range" id="vol-control" class="custom-volume" min="0" max="1" step="0.1" value="0.3" onchange="changeVolume(this.value)">
@@ -319,9 +320,9 @@
     </div>
 
     <div class="painel-tempo-real">
-        <div class="tempo-item">
+        <div class="tempo-item" onclick="abrirModalRelogio()" title="Configurar Alarme/Soneca">
             <span class="tempo-label">Itatiba Agora</span>
-            <span class="tempo-valor" id="clock">00:00:00</span>
+            <span class="tempo-valor" id="clock">00:00:00 ⏰</span>
         </div>
         <div class="tempo-item">
             <span class="tempo-label" id="label-clima">FELIZ 2026!</span>
@@ -563,7 +564,7 @@
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
         }
 
-        // --- RELÓGIO E SONECA ---
+        // --- RELÓGIO E SONECA (NOVO) ---
         function abrirModalRelogio() {
             const modal = document.getElementById('modal-container');
             document.getElementById('modal-title').innerText = "PROGRAMAR TEMPO";
@@ -598,16 +599,16 @@
             sleepTimer = setTimeout(() => {
                 if(isPlaying) togglePlay();
                 alert("Rádio desligada pelo Modo Soneca. Bons sonhos! 😴");
-                document.getElementById('btn-timer').classList.remove('active-timer');
+                document.getElementById('clock').classList.remove('active-timer');
             }, min * 60 * 1000);
-            document.getElementById('btn-timer').classList.add('active-timer');
+            document.getElementById('clock').classList.add('active-timer');
             fecharModal();
             alert(`Soneca definida para ${min} minutos.`);
         }
 
         function cancelSleep() {
             clearTimeout(sleepTimer);
-            document.getElementById('btn-timer').classList.remove('active-timer');
+            document.getElementById('clock').classList.remove('active-timer');
             fecharModal();
             alert("Modo Soneca cancelado.");
         }
@@ -617,7 +618,7 @@
             if(!timeVal) return;
             
             clearInterval(alarmInterval);
-            document.getElementById('btn-timer').classList.add('active-timer');
+            document.getElementById('clock').classList.add('active-timer');
             fecharModal();
             alert(`Alarme definido para ${timeVal}. Deixe o site aberto!`);
 
@@ -627,7 +628,7 @@
                 if(current === timeVal) {
                     if(!isPlaying) togglePlay();
                     clearInterval(alarmInterval);
-                    document.getElementById('btn-timer').classList.remove('active-timer');
+                    document.getElementById('clock').classList.remove('active-timer');
                     alert("⏰ HORA DE ACORDAR COM A TOP!");
                 }
             }, 1000);
