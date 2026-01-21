@@ -31,7 +31,7 @@
         .painel-tempo-real { background: rgba(255, 255, 255, 0.05); border: 2px solid var(--magenta); border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px; display: flex; justify-content: space-around; align-items: center; color: white; animation: animacaoCores 5s infinite ease-in-out; transition: border-color 1s ease; }
         @keyframes animacaoCores { 0% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } 50% { border-color: var(--dourado); box-shadow: 0 0 15px var(--dourado); } 100% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } }
         
-        /* ATUALIZADO: Relógio clicável */
+        /* Relógio clicável */
         .tempo-item { text-align: center; } 
         .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; } 
         .tempo-valor { font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
@@ -352,7 +352,7 @@
             </div>
 
             <div class="card" onclick="abrirModal('getOnibus', 'TEM ÔNIBUS? 🚌')">
-                <img src="logo Onibus.jpg" style="object-fit: cover;">
+                <img src="logo-onibus.jpg" style="object-fit: cover;">
                 <h3>Horários</h3>
                 <span class="btn-neon">VER PRÓXIMO</span>
             </div>
@@ -406,6 +406,7 @@
         let fadeInterval;
         let modalData = []; let modalIndex = 0; let currentAction = '';
         let sleepTimer = null; let alarmInterval = null;
+        let dadosOnibusCache = []; // BANCO DE DADOS TEMPORÁRIO (CORREÇÃO)
 
         const colorThief = new ColorThief();
 
@@ -519,7 +520,7 @@
                 return;
             }
 
-            // --- LÓGICA DO ÔNIBUS (NOVO) ---
+            // --- LÓGICA DO ÔNIBUS (CORRIGIDA) ---
             if (acao === 'getOnibus') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getOnibus").then(r => r.json()).then(data => {
@@ -613,16 +614,19 @@
             }, 1000);
         }
 
+        // --- CORREÇÃO DO ÔNIBUS (SALVA NA MEMÓRIA) ---
         function renderOnibus(data) {
+            dadosOnibusCache = data; // Salva os dados na variavel global
             let options = `<option value="">Selecione seu Bairro...</option>`;
             data.forEach((item, index) => {
                 options += `<option value="${index}">${item.linha}</option>`;
             });
 
             const modalBody = document.getElementById('modal-body');
+            // Removemos o JSON do HTML para evitar erro de aspas
             modalBody.innerHTML = `
                 <div style="width:100%; text-align:center;">
-                    <select id="select-onibus" onchange="calcularHorario(${JSON.stringify(data).replace(/"/g, '"')})" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
+                    <select id="select-onibus" onchange="calcularHorario()" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
                         ${options}
                     </select>
                     <div id="resultado-onibus" style="font-size:18px; color:white; min-height:100px;"></div>
@@ -630,13 +634,15 @@
             `;
         }
 
-        window.calcularHorario = function(data) { // Torna global para o HTML acessar
+        window.calcularHorario = function() { 
             const index = document.getElementById('select-onibus').value;
             const divRes = document.getElementById('resultado-onibus');
             
             if(index === "") { divRes.innerHTML = ""; return; }
 
-            const linha = data[index];
+            // Pega direto da memória (cache) em vez do HTML
+            const linha = dadosOnibusCache[index];
+            
             const agora = new Date();
             const horasAgora = agora.getHours();
             const minAgora = agora.getMinutes();
