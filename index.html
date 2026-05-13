@@ -27,7 +27,7 @@
         nav a { color: #ddd; text-decoration: none; font-weight: 800; text-transform: uppercase; font-size: 11px; transition: all 0.3s ease; padding: 8px 14px; border-radius: 20px; letter-spacing: 0.5px; position: relative; }
         nav a:hover, nav a:active { color: white !important; background: var(--magenta); box-shadow: 0 0 15px var(--magenta); transform: translateY(-2px); }
 
-        /* NOVO ESTILO DO CHAT */
+        /* ESTILO DO CHAT */
         .chat-msg { padding: 10px 15px; border-radius: 15px; max-width: 85%; font-size: 14px; animation: slideIn 0.3s ease; line-height: 1.4; }
         .bot-msg { background: rgba(176, 26, 122, 0.2); border: 1px solid var(--magenta); color: #fff; align-self: flex-start; border-bottom-left-radius: 0; }
         .user-msg { background: rgba(0, 255, 85, 0.1); border: 1px solid var(--verde-whatsapp); color: #fff; align-self: flex-end; border-bottom-right-radius: 0; text-align: right; }
@@ -37,7 +37,6 @@
         /* PAINEL PEDIDO & TEMPO */
         .painel-tempo-real { background: rgba(255, 255, 255, 0.05); border: 2px solid var(--magenta); border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px; display: flex; justify-content: space-around; align-items: center; color: white; animation: animacaoCores 5s infinite ease-in-out; transition: border-color 1s ease; }
         @keyframes animacaoCores { 0% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } 50% { border-color: var(--dourado); box-shadow: 0 0 15px var(--dourado); } 100% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } }
-        
         .tempo-item { text-align: center; } 
         .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; } 
         .tempo-valor { font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
@@ -46,161 +45,54 @@
         
         .painel-pedido { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--verde-whatsapp); border-radius: 15px; padding: 20px; margin: 20px 0; box-shadow: 0 0 10px rgba(37, 211, 102, 0.1); }
         .btn-pedido-zap { background: var(--verde-whatsapp); color: #000; border: none; padding: 12px 25px; border-radius: 30px; font-weight: 900; cursor: pointer; width: 100%; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
-        .btn-pedido-zap:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--verde-whatsapp); background: #50ff7d; }
 
         /* IMAGENS & VIDEO */
         .banner-container { width: 100%; background-color: var(--azul-escuro); text-align: center; } .banner-container img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-        
         .no-ar-indicator { display: flex; align-items: center; justify-content: center; gap: 15px; background: linear-gradient(90deg, #1a0000 0%, #3d0000 50%, #1a0000 100%); color: var(--vermelho-no-ar); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; padding: 12px; border-radius: 12px; border: 2px solid var(--vermelho-no-ar); margin: 15px auto 10px auto; max-width: 600px; box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); animation: broadcast-pulse 3s infinite alternate ease-in-out; }
         .pulsing-dot { width: 10px; height: 10px; background-color: var(--vermelho-no-ar); border-radius: 50%; box-shadow: 0 0 10px var(--vermelho-no-ar); animation: blink-fast 0.8s infinite alternate; }
-        @keyframes broadcast-pulse { 0% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); border-color: #a10000; color: #a10000; } 100% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.7); border-color: #ff3333; color: #ff3333; } }
-        @keyframes blink-fast { 0% { opacity: 0.3; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px var(--vermelho-no-ar); } }
 
         .video-embed-container { max-width: 600px; margin: 10px auto; padding: 0 10px; }
-        .video-embed { position: relative; padding-bottom: 100%; height: 0; overflow: hidden; background: #000; border: 3px solid var(--magenta); box-shadow: 0 0 20px var(--magenta); border-radius: 15px; animation: video-glow 5s infinite alternate; transition: border-color 1s ease, box-shadow 1s ease; }
-        @media (min-width: 768px) { .video-embed-container { max-width: 700px; } .video-embed { padding-bottom: 50%; } }
-        .bg-blur-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; filter: blur(20px) brightness(0.6); z-index: 1; transition: background-image 0.5s ease; }
-        .capa-tv-img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 90%; width: auto; aspect-ratio: 1/1; object-fit: cover; z-index: 2; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.3); transition: box-shadow 1s ease; }
-        @keyframes video-glow { 0% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); } 25% { box-shadow: 0 0 20px var(--roxo-neon); border-color: var(--roxo-neon); } 50% { box-shadow: 0 0 20px var(--dourado); border-color: var(--dourado); } 75% { box-shadow: 0 0 20px var(--verde-whatsapp); border-color: var(--verde-whatsapp); } 100% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); } }
+        .video-embed { position: relative; padding-bottom: 100%; height: 0; overflow: hidden; background: #000; border: 3px solid var(--magenta); box-shadow: 0 0 20px var(--magenta); border-radius: 15px; animation: video-glow 5s infinite alternate; }
+        .bg-blur-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; filter: blur(20px) brightness(0.6); z-index: 1; }
+        .capa-tv-img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 90%; width: auto; aspect-ratio: 1/1; object-fit: cover; z-index: 2; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3); }
 
         /* PLAYER & CONTROLES */
-        .player-bar { background: linear-gradient(90deg, #120c22 0%, #2e003e 100%); color: white; padding: 25px 15px; display: flex; flex-direction: column; align-items: center; gap: 15px; box-shadow: 0 -5px 30px rgba(0,0,0,0.9); border-top: 2px solid var(--magenta); position: relative; overflow: hidden; transition: border-color 1s ease; }
+        .player-bar { background: linear-gradient(90deg, #120c22 0%, #2e003e 100%); color: white; padding: 25px 15px; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 2px solid var(--magenta); position: relative; overflow: hidden; }
         #visualizer-canvas { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.4; pointer-events: none; }
-        .album-cover { width: 50px; height: 50px; background: #000; border-radius: 10px; border: 2px solid var(--magenta); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 15px var(--magenta); flex-shrink: 0; z-index: 2;}
-        .bars { display: flex; align-items: flex-end; height: 30px; gap: 3px; } .bar { width: 6px; background: var(--dourado); animation: equalizer 1s infinite ease-in-out; } @keyframes equalizer { 0% { height: 10px; } 50% { height: 25px; background: var(--magenta); } 100% { height: 10px; } }
-        .status-text { font-size: 10px; color: var(--dourado); letter-spacing: 1px; font-weight: bold; text-transform: uppercase; }
+        .album-cover { width: 50px; height: 50px; background: #000; border-radius: 10px; border: 2px solid var(--magenta); display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 2;}
+        .bars { display: flex; align-items: flex-end; height: 30px; gap: 3px; } .bar { width: 6px; background: var(--dourado); animation: equalizer 1s infinite ease-in-out; }
         .player-info { display: flex; align-items: center; gap: 20px; width: 100%; max-width: 800px; justify-content: center; flex-wrap: wrap; z-index: 2; }
-        .ouvintes-count { color: var(--dourado); font-weight: bold; font-size: 14px; text-shadow: 1px 1px 2px black; }
-        .glass-controls { position: relative; background: rgba(40, 0, 60, 0.6); backdrop-filter: blur(8px); border-radius: 50px; padding: 10px 25px; display: flex; align-items: center; gap: 20px; width: fit-content; margin: 10px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 10; }
-        .glass-controls::before { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, #b01a7a, #9d00ff, #ff0055, #b01a7a); background-size: 400%; z-index: -1; filter: blur(5px); border-radius: 55px; animation: rgb-glow 10s linear infinite; opacity: 0.9; }
-        @keyframes rgb-glow { 0% { background-position: 0 0; } 50% { background-position: 100% 0; } 100% { background-position: 0 0; } }
-        .btn-player-modern { width: 70px; height: 70px; background: linear-gradient(135deg, var(--magenta), var(--roxo-neon)); border-radius: 50%; border: 2px solid var(--magenta); color: white; font-size: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(176, 26, 122, 0.6); transition: all 0.3s ease; position: relative; z-index: 10; }
-        .btn-player-modern:hover { transform: scale(1.05); box-shadow: 0 0 40px var(--magenta); border-color: var(--dourado); }
-        .btn-player-modern:active { transform: scale(0.95); }
-        .playing-pulse { animation: pulse-ring 2s infinite; } @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(176, 26, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 26, 122, 0); } }
-        .volume-control-modern { display: flex; align-items: center; gap: 10px; } .vol-label { font-size: 10px; font-weight: bold; color: #ddd; letter-spacing: 1px; }
-        input[type=range].custom-volume { -webkit-appearance: none; width: 100px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 5px; outline: none; opacity: 0.9; } input[type=range].custom-volume::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; background: var(--dourado); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px var(--dourado); }
-        .btn-studio { background: #000; color: #fff; border: 2px solid var(--vermelho-no-ar); padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); transition: 0.3s; z-index: 2;}
-        .btn-studio:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--vermelho-no-ar); }
-        .btn-share-zap { background-color: var(--verde-whatsapp); color: #000; border: none; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s; z-index: 2; }
-        .btn-share-zap:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--verde-whatsapp); }
-        .btn-story { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; border: none; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(220, 39, 67, 0.3); transition: 0.3s; cursor: pointer; z-index: 2; }
-        .btn-story:hover { transform: scale(1.05); box-shadow: 0 0 25px #bc1888; }
-        .dot { height: 10px; width: 10px; background-color: var(--vermelho-no-ar); border-radius: 50%; display: inline-block; animation: blink-fast 1s infinite; }
+        .glass-controls { position: relative; background: rgba(40, 0, 60, 0.6); backdrop-filter: blur(8px); border-radius: 50px; padding: 10px 25px; display: flex; align-items: center; gap: 20px; width: fit-content; margin: 10px 0; z-index: 10; }
+        .btn-player-modern { width: 70px; height: 70px; background: linear-gradient(135deg, var(--magenta), var(--roxo-neon)); border-radius: 50%; border: 2px solid var(--magenta); color: white; font-size: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; z-index: 10; }
 
         /* CARDS & LAYOUT */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .section-title { border-left: 5px solid var(--magenta); padding-left: 15px; margin: 40px 0 20px; font-size: 26px; color: #fff; text-transform: uppercase; text-shadow: 0 0 10px var(--magenta); }
         .prog-lista { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
-        .prog-card { display: flex; align-items: center; background: linear-gradient(90deg, #1a1a2e 0%, #111 100%); border-right: 4px solid var(--magenta); border-radius: 10px; padding: 15px; border: 1px solid #333; position: relative; transition: all 0.3s ease; animation: slideCard 0.6s ease-out; }
-        .prog-card:hover { transform: translateX(10px); background: #222; border-color: var(--dourado); box-shadow: -5px 0 15px rgba(176, 26, 122, 0.4); }
-        @keyframes slideCard { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:translateX(0); } }
-        .prog-hora { background-color: var(--magenta); color: white; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 16px; margin-right: 15px; box-shadow: 0 0 10px rgba(176, 26, 122, 0.4); min-width: 60px; text-align: center; }
-        .prog-info h4 { margin: 0; color: white; font-size: 16px; text-transform: uppercase; } .prog-info p { margin: 5px 0 0 0; color: var(--dourado); font-size: 13px; font-weight: bold; }
-        .prog-card.no-ar { border: 2px solid var(--vermelho-no-ar); background: linear-gradient(90deg, #2e0a0a 0%, #000 100%); transform: scale(1.03); box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); z-index: 10; }
-        .badge-live { display: none; background: var(--vermelho-no-ar); color: white; font-size: 10px; font-weight: bold; padding: 4px 10px; border-radius: 20px; margin-left: auto; animation: blink-fast 1s infinite; }
-        .prog-card.no-ar .badge-live { display: block; }
-
         .ranking-box { background: #111428; border-radius: 15px; border: 1px solid #222; margin-bottom: 40px; overflow: hidden;}
-        .ranking-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #222; justify-content: space-between; gap: 10px; }
-        .rank-content { display: flex; align-items: center; gap: 15px; flex: 1; } .rank-num { font-size: 22px; font-weight: bold; color: var(--dourado); min-width: 35px; } .rank-info { font-weight: bold; font-size: 15px; color: white; } .rank-buttons { display: flex; gap: 10px; }
-        .btn-ouvir { background: transparent; color: var(--dourado); padding: 6px 15px; border: 1px solid var(--dourado); border-radius: 20px; text-decoration: none; font-size: 10px; font-weight: bold; white-space: nowrap; transition: 0.3s; }
-        .btn-ouvir:hover { background: var(--dourado); color: #000; box-shadow: 0 0 15px var(--dourado); }
-        .btn-pedir { background: var(--magenta); color: white; padding: 6px 20px; border-radius: 20px; text-decoration: none; font-size: 10px; font-weight: bold; box-shadow: 0 0 10px var(--magenta); white-space: nowrap; transition: 0.3s; }
-        .btn-pedir:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--magenta); }
-        
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { 
-            background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 2px solid #333; 
-            text-align: center; padding-bottom: 20px; transition: 0.4s; cursor: pointer; position: relative; 
-            display: flex; flex-direction: column; 
-        }
+        .card { background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 2px solid #333; text-align: center; padding-bottom: 20px; transition: 0.4s; cursor: pointer; position: relative; display: flex; flex-direction: column; }
         .card:hover { border-color: var(--magenta); box-shadow: 0 0 30px var(--magenta); transform: translateY(-10px); }
-        .card img { width: 100%; height: 200px; object-fit: cover; object-position: center; }
-        .card h3 { margin: 15px 0 5px; color: white; text-transform: uppercase; font-size: 18px; }
-        .btn-neon { background: var(--magenta); color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: auto; margin-bottom: 10px; transition: 0.3s; width: fit-content; align-self: center; }
-        .btn-neon:hover { box-shadow: 0 0 25px var(--magenta); transform: scale(1.05); }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
         
         .carousel-container { width: 100%; overflow: hidden; padding: 20px 0; margin-top: 50px; background: rgba(255,255,255,0.03); border-radius: 15px; }
         .carousel-track { display: flex; gap: 20px; animation: scroll 25s linear infinite; width: max-content; }
-        .card-anuncio { min-width: 280px; background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 1px solid #333; text-align: center; padding-bottom: 15px; transition: 0.3s; }
-        .card-anuncio:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta);} .card-anuncio img { width: 100%; height: 180px; object-fit: cover; }
+        .card-anuncio { min-width: 280px; background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 1px solid #333; text-align: center; padding-bottom: 15px; }
+        .card-anuncio img { width: 100%; height: 180px; object-fit: cover; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         
         /* MURAL & FOOTER */
-        .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; display: flex; flex-direction: column; }
-        .mural-input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #333; background: #0a0e27; color: white; box-sizing:border-box; font-size: 14px; transition: 0.3s ease; }
-        .mural-input:focus { outline: none; border-color: var(--verde-whatsapp); box-shadow: 0 0 15px var(--verde-whatsapp); background: #05190a; }
-        .btn-enviar { background: var(--magenta); color: white; border: none; padding: 12px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.3s; }
-        .btn-enviar:hover { box-shadow: 0 0 25px var(--magenta); transform: scale(1.02); }
-        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: var(--verde-whatsapp); color: #000; border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; animation: pulse-green 2s infinite; text-decoration: none; box-shadow: 0 0 20px rgba(0,255,85,0.4); transition: 0.3s;}
-        .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 0 40px var(--verde-whatsapp); }
+        .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; }
+        .mural-input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #333; background: #0a0e27; color: white; box-sizing:border-box; }
+        .btn-enviar { background: var(--magenta); color: white; border: none; padding: 12px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; }
+        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: var(--verde-whatsapp); color: #000; border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; }
         footer { background: #000; padding: 50px 20px; text-align: center; border-top: 2px solid var(--magenta); }
-        .social-icon { width: 45px; margin: 0 10px; filter: drop-shadow(0 0 5px var(--magenta)); transition: 0.3s; vertical-align: middle; }
-        .social-icon:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px var(--magenta)); }
-        .footer-rights { color: white; font-size: 14px; margin-top: 25px; opacity: 0.9; }
-        .alexa-icon { background: #fff; border-radius: 50%; padding: 5px; box-sizing: border-box; width: 45px; height: 45px; object-fit: contain; }
+        .social-icon { width: 45px; margin: 0 10px; }
 
-        /* SPLASH & MODAL */
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(-45deg, #050816, #2e003e, #000000, #1a1a2e); background-size: 400% 400%; animation: gradientBG 10s ease infinite; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; transition: transform 0.8s ease-in-out; text-align: center; }
-        .splash-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
-        .splash-logo { width: 220px; height: 220px; border-radius: 50%; border: 4px solid var(--magenta); box-shadow: 0 0 50px var(--magenta); margin-bottom: 30px; object-fit: cover; animation: pulse-beat 1.5s infinite; }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes pulse-beat { 0% { transform: scale(1); box-shadow: 0 0 30px var(--magenta); } 50% { transform: scale(1.08); box-shadow: 0 0 60px var(--roxo-neon); } 100% { transform: scale(1); box-shadow: 0 0 30px var(--magenta); } }
-        .btn-entrar-top { position: relative; background: var(--magenta); color: white; padding: 18px 60px; border-radius: 50px; font-size: 20px; font-weight: 900; text-decoration: none; border: none; cursor: pointer; box-shadow: 0 0 30px var(--magenta); text-transform: uppercase; overflow: hidden; letter-spacing: 2px; transition: 0.3s; }
-        .btn-entrar-top:hover { transform: scale(1.1); box-shadow: 0 0 60px var(--magenta), 0 0 20px var(--roxo-neon); }
+        /* MODAL */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); z-index: 50000; justify-content: center; align-items: center; }
-        .modal-content { background: #0a0e27; border: 2px solid var(--magenta); border-radius: 20px; width: 90%; max-width: 450px; margin: 0 auto; position: relative; box-shadow: 0 0 40px var(--magenta); animation: modalIn 0.4s ease-out; padding-bottom: 20px; display: flex; flex-direction: column; overflow: hidden; max-height: 90vh; }
-        @keyframes modalIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-        .close-modal { position: absolute; top: 15px; right: 20px; color: white; font-size: 30px; cursor: pointer; z-index: 50; font-weight: bold; }
-        .modal-header { padding: 30px 20px 10px; text-align: center; border-bottom: 1px solid #333; }
-        .modal-header h2 { color: var(--dourado); text-transform: uppercase; margin: 0; letter-spacing: 2px; }
-        .modal-body { padding: 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 350px; }
-
-        .slide-container { animation: fadeSlide 0.4s ease-in-out; width: 100%; }
-        @keyframes fadeSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-
-        .img-slide-rect { 
-            width: auto; max-width: 90%; height: auto; max-height: 350px; object-fit: contain; 
-            margin: 0 auto 15px auto; display: block; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); background: #000;
-        }
-        .img-slide-circle { 
-            width: 140px; height: 140px; margin: 0 auto 15px auto; display: block; 
-            border: 3px solid var(--magenta); border-radius: 50%; object-fit: cover; box-shadow: 0 0 25px var(--magenta); 
-        }
-
-        .slide-title { font-size: 24px; color: white; margin: 10px 0; font-weight: bold; text-transform: uppercase; }
-        .slide-desc { font-size: 14px; color: #ccc; margin-bottom: 20px; line-height: 1.4; }
-        .btn-slide-action { display: inline-block; background: var(--magenta); color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 14px; box-shadow: 0 0 15px var(--magenta); transition: 0.3s; }
-        .btn-slide-action:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); }
-        .carousel-nav { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding: 0 20px; }
-        .nav-btn { background: transparent; border: 1px solid var(--magenta); color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .nav-btn:hover { background: var(--magenta); box-shadow: 0 0 15px var(--magenta); }
-        .nav-counter { color: #888; font-size: 12px; font-weight: bold; }
-
-        @media (max-width: 600px) { nav { gap: 5px; flex-wrap: wrap; padding: 10px 5px; } nav a { font-size: 10px; padding: 6px 10px; } .ranking-item { flex-direction: column; align-items: flex-start; } .rank-buttons { width: 100%; justify-content: space-between; } }
-        
-        .reaction-wrapper { position: fixed; bottom: 100px; right: 25px; z-index: 10000; width: 50px; height: 50px; display: none; }
-        .r-btn { position: absolute; width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--magenta); background: rgba(10, 14, 39, 0.95); color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0,0,0,0.5); padding: 0; left: 0; top: 0; }
-        .r-btn.main { z-index: 10003; box-shadow: 0 4px 0 var(--roxo-neon), 0 8px 10px rgba(0,0,0,0.5); } .r-btn.main:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); }
-        .r-btn.option { z-index: 10001; opacity: 0; transform: scale(0.5) translateY(0); pointer-events: none; }
-        .reaction-wrapper.expanded .r-btn.main { transform: rotate(360deg); background: var(--magenta); box-shadow: 0 0 30px var(--magenta); }
-        .reaction-wrapper.expanded .r-btn.option { opacity: 1; pointer-events: all; transform: scale(1); }
-        .reaction-wrapper.expanded .r-btn.option:nth-child(1) { transform: translateY(-195px); } .reaction-wrapper.expanded .r-btn.option:nth-child(2) { transform: translateY(-130px); } .reaction-wrapper.expanded .r-btn.option:nth-child(3) { transform: translateY(-65px); }
-        .floater { position: fixed; bottom: 130px; right: 40px; font-size: 30px; pointer-events: none; animation: floatUp 2s forwards ease-out; z-index: 2147483647; text-shadow: 0 0 10px black; }
-        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 50% { opacity: 1; } 100% { transform: translateY(-300px) scale(1.5); opacity: 0; } }
-
-        /* BATALHA (MODAL) */
-        .battle-container { display: flex; flex-direction: column; gap: 20px; width: 100%; margin-top: 15px; }
-        .battle-option { background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.5) 100%); border: 2px solid #444; border-radius: 15px; padding: 20px; position: relative; overflow: hidden; transition: 0.3s; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .battle-option:hover { border-color: var(--dourado); background: rgba(255,255,255,0.1); transform: scale(1.02); }
-        .battle-bar-bg { position: absolute; bottom: 0; left: 0; height: 6px; width: 100%; background: #222; }
-        .battle-bar-fill { height: 100%; background: var(--magenta); width: 0%; transition: width 1s ease-out; box-shadow: 0 0 10px var(--magenta); }
-        .battle-info { z-index: 2; text-align: left; }
-        .battle-name { font-size: 22px; font-weight: 900; text-transform: uppercase; display: block; color: white; letter-spacing: 1px; }
-        .btn-votar-item { background: var(--dourado); color: black; font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; margin-top: 5px; display: inline-block; box-shadow: 0 0 10px var(--dourado); }
-        .battle-perc { font-size: 28px; font-weight: 900; color: white; z-index: 2; text-shadow: 0 0 10px var(--magenta); }
-        .vs-divider { text-align: center; font-weight: 900; color: #ff0000; font-size: 24px; font-style: italic; text-shadow: 0 0 10px red; margin: -10px 0; z-index: 10; letter-spacing: 2px; }
+        .modal-content { background: #0a0e27; border: 2px solid var(--magenta); border-radius: 20px; width: 90%; max-width: 450px; position: relative; padding-bottom: 20px; overflow: hidden; }
+        .close-modal { position: absolute; top: 15px; right: 20px; color: white; font-size: 30px; cursor: pointer; z-index: 50; }
     </style>
 </head>
 <body>
@@ -208,422 +100,109 @@
     <div id="modal-container" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" onclick="fecharModal()">×</span>
-            <div class="modal-header">
-                <h2 id="modal-title">Título</h2>
-            </div>
-            
-            <div class="modal-body" id="modal-body"></div>
-
-            <div class="carousel-nav" id="carousel-controls" style="display:none;">
-                <button class="nav-btn" onclick="prevSlide()">❮</button>
-                <span class="nav-counter" id="slide-counter">1 / 10</span>
-                <button class="nav-btn" onclick="nextSlide()">❯</button>
+            <div class="modal-header" style="padding: 20px; text-align: center;"><h2 id="modal-title" style="color: var(--dourado);">Título</h2></div>
+            <div class="modal-body" id="modal-body" style="padding: 20px; text-align: center; color: white;"></div>
+            <div class="carousel-nav" id="carousel-controls" style="display:none; justify-content: space-between; padding: 0 20px;">
+                <button onclick="prevSlide()" style="background:none; border:1px solid var(--magenta); color:white; border-radius:50%; width:40px; height:40px;">❮</button>
+                <span id="slide-counter" style="color: #888;">1 / 10</span>
+                <button onclick="nextSlide()" style="background:none; border:1px solid var(--magenta); color:white; border-radius:50%; width:40px; height:40px;">❯</button>
             </div>
         </div>
     </div>
 
     <div id="splash-screen">
         <div class="splash-content">
-            <img src="top1.jpg" alt="Rádio Top" class="splash-logo">
-            <h1 style="color: white; margin-bottom: 15px; letter-spacing: 2px;">BEM-VINDO À RADIO TOP ITATIBA!</h1>
-            <p style="color: var(--dourado); font-weight: bold; margin-bottom: 25px;">A Conexão que te Move!</p>
+            <img src="top1.jpg" alt="Rádio Top" class="splash-logo" style="width: 200px; border-radius: 50%;">
+            <h1 style="color: white;">RADIO TOP ITATIBA</h1>
             <button class="btn-entrar-top" onclick="iniciarSite()">ENTRAR AGORA</button>
         </div>
     </div>
 
-    <a href="https://wa.me/5511945914382" class="whatsapp-float" target="_blank">
-        <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
-    </a>
-    
-    <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
-        <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
-        <button class="r-btn option" onclick="selectReaction('🎵')">🎵</button>
-        <button class="r-btn option" onclick="selectReaction('🔥')">🔥</button>
-        <button class="r-btn main" onclick="toggleReactions()">❤️</button>
-    </div>
-
-    <div class="banner-container"><img src="banner.jpg"></div>
-
     <nav>
         <a href="#">HOME</a>
-        <a href="javascript:void(0)" id="btnInstalar" style="display:none;" onclick="instalarPWA()">BAIXAR APP</a>
         <a href="#video">TV TOP</a>
         <a href="#pedido">PEDIR MÚSICA</a>
         <a href="#mural">MURAL</a>
     </nav>
 
-    <div class="noticias-ticker">
-        <div class="ticker-label">PLANTÃO TOP</div>
-        <div class="ticker-content">
-            <span class="noticia-item">Carregando notícias...</span>
-        </div>
-    </div>
-
-    <div class="no-ar-indicator">
-        <span class="pulsing-dot"></span>
-        TRANSMISSÃO VIA SATÉLITE - NO AR
-        <span class="pulsing-dot"></span>
-    </div>
-    
     <div class="video-embed-container">
         <div class="video-embed">
             <div id="blur-bg" class="bg-blur-layer" style="background-image: url('top1.jpg');"></div>
-            <img id="capa-album-tv" src="top1.jpg" class="capa-tv-img" alt="Capa do Álbum">
+            <img id="capa-album-tv" src="top1.jpg" class="capa-tv-img" alt="Capa">
         </div>
     </div>
 
     <div class="player-bar">
-        <canvas id="visualizer-canvas"></canvas>
-
         <div class="player-info">
-            <div class="album-cover"><div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>
-            <div style="text-align: left; flex: 1;">
-                <span class="status-text">NO AR AGORA:</span>
-                <span id="nome-musica" style="font-size: 18px; font-weight: bold; display: block; color:white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 280px;">Carregando informações...</span>
+            <div style="text-align: center;">
+                <span id="nome-musica" style="font-size: 18px; font-weight: bold; color:white;">Carregando...</span><br>
                 <span class="ouvintes-count">🎧 <span id="qtd-ouvintes">...</span> OUVINTES</span>
             </div>
         </div>
-
         <audio id="radio-top" crossorigin="anonymous"><source src="https://server27.srvsh.com.br:6674/stream" type="audio/mpeg"></audio>
-
         <div class="glass-controls">
-            <button id="btn-player" class="btn-player-modern" onclick="togglePlay()">
-                <svg id="icon-play" width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-                <svg id="icon-pause" width="30" height="30" viewBox="0 0 24 24" fill="white" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-            <div class="volume-control-modern">
-                <span class="vol-label">VOL</span>
-                <input type="range" id="vol-control" class="custom-volume" min="0" max="1" step="0.1" value="0.3" onchange="changeVolume(this.value)">
-            </div>
+            <button id="btn-player" class="btn-player-modern" onclick="togglePlay()">▶</button>
+            <input type="range" id="vol-control" min="0" max="1" step="0.1" value="0.5" onchange="changeVolume(this.value)">
         </div>
-
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%;">
-            <a href="https://www.youtube.com/watch?v=HoP0JQ9MV6g" target="_blank" id="link-studio" class="btn-studio"><span class="dot"></span> STUDIO AO VIVO</a>
-            <a href="#" id="share-whatsapp" class="btn-share-zap">COMPARTILHAR RÁDIO</a>
-            <button onclick="gerarStory()" class="btn-story">📸 CRIAR STORY</button>
-        </div>
-    </div>
-
-    <div class="painel-tempo-real">
-        <div class="tempo-item" onclick="abrirModalRelogio()" title="Configurar Alarme/Soneca">
-            <span class="tempo-label">Itatiba Agora</span>
-            <span class="tempo-valor" id="clock">00:00:00 ⏰</span>
-        </div>
-        <div class="tempo-item">
-            <span class="tempo-label" id="label-clima">FELIZ 2026!</span>
-            <span class="tempo-valor" id="temp-itatiba">🎆 🥂</span>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button onclick="gerarStory()" style="background: var(--magenta); border:none; color:white; padding:10px; border-radius:20px;">📸 STORY</button>
         </div>
     </div>
 
     <div class="container">
-        <h2 id="pedido" class="section-title">🎵 PEÇA SUA MÚSICA NO WHATSAPP</h2>
-        <div class="painel-pedido">
-            <input type="text" id="pedido-nome" class="mural-input" placeholder="Seu Nome">
-            <input type="text" id="pedido-musica" class="mural-input" placeholder="Nome da Música / Cantor">
-            <button onclick="enviarPedidoZap()" class="btn-pedido-zap">ENVIAR PEDIDO AGORA</button>
-        </div>
-
-        <h2 class="section-title">📅 PROGRAMAÇÃO DIÁRIA</h2>
-        <div class="prog-lista" id="prog-lista">
-            <p style="text-align:center;">Carregando programação...</p>
-        </div>
-
         <h2 id="mural" class="section-title">💬 CHAT COM O ESTÚDIO</h2>
-        <div class="mural-container" style="border-color: var(--magenta);">
-            <div id="chat-box" style="height: 280px; overflow-y: auto; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border: 1px solid #333; margin-bottom: 15px; display: flex; flex-direction: column; gap: 12px;">
-                <div class="chat-msg bot-msg">
-                    <strong>🤖 Assistente Top:</strong> Olá! Mande seu recado ou peça sua música. O Marcão e a equipe estão de olho aqui! 👀
-                </div>
+        <div class="mural-container">
+            <div id="chat-box" style="height: 250px; overflow-y: auto; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px;">
+                <div class="chat-msg bot-msg"><strong>🤖 Top:</strong> Olá! Mande seu recado aqui!</div>
             </div>
             <form id="form-chat">
                 <input type="text" id="nome-chat" class="mural-input" placeholder="Seu Nome" required>
                 <div style="display: flex; gap: 10px;">
-                    <input type="text" id="msg-chat" class="mural-input" placeholder="Escreva seu recado aqui..." required style="flex: 1; margin-bottom: 0;">
-                    <button type="submit" class="btn-enviar" id="btn-enviar-chat" style="width: 60px; margin: 0;">🚀</button>
+                    <input type="text" id="msg-chat" class="mural-input" placeholder="Mensagem..." required style="flex:1;">
+                    <button type="submit" class="btn-enviar" style="width:60px;">🚀</button>
                 </div>
             </form>
-            <button onclick="ativarNotificacoes()" style="background: none; border: 1px solid #444; color: #888; font-size: 10px; margin-top: 15px; cursor: pointer; border-radius: 5px; padding: 5px; align-self: center;">🔔 ATIVAR NOTIFICAÇÕES DE PROGRAMAÇÃO</button>
-        </div>
-        
-        <h2 id="video" class="section-title">📺 VÍDEO DA SEMANA: ZÉ FELIPE & ANA CASTELA</h2>
-        <div class="video-container"><iframe src="https://www.youtube.com/embed/FCMyTR1SJM8" frameborder="0" allowfullscreen></iframe></div>
-
-        <h2 class="section-title">🏆 TOP 5 - AS MAIS PEDIDAS</h2>
-        <div id="ranking-container" class="ranking-box"></div>
-
-        <h2 class="section-title">✨ DESTAQUES DA TOP</h2>
-        <div class="grid-cards">
-            <div class="card" onclick="abrirModal('getEnquete', 'BATALHA TOP')">
-                <img src="batalha.jpg"> 
-                <h3>Batalha Top</h3>
-                <span class="btn-neon">VOTAR AGORA</span>
-            </div>
-            
-            <div class="card" onclick="abrirModal('getCinema', 'CINE MULTIPLEX 🍿')">
-                <img src="cinema.jpg" style="object-fit: cover;">
-                <h3>Cinema</h3>
-                <span class="btn-neon">EM CARTAZ</span>
-            </div>
-
-            <div class="card" onclick="abrirModal('getOnibus', 'TEM ÔNIBUS? 🚌')">
-                <img src="logo Onibus.jpg" style="object-fit: cover;">
-                <h3>Horários</h3>
-                <span class="btn-neon">VER PRÓXIMO</span>
-            </div>
-
-            <div class="card" onclick="abrirModal('getHoroscopo', 'HORÓSCOPO DO DIA 🔮')">
-                <img src="horoscopo.jpg">
-                <h3>Horóscopo</h3>
-                <span class="btn-neon">PREVISÃO</span>
-            </div>
-
-            <div class="card" onclick="abrirModal('getTopHits', 'TOP HITS 2026')">
-                <img src="tophits.jpg">
-                <h3>Top Hits</h3>
-                <span class="btn-neon">VER LISTA</span>
-            </div>
-            <div class="card" onclick="abrirModal('getEquipe', 'NOSSA EQUIPE')">
-                <img src="nossa equipe.jpg">
-                <h3>Nossa Equipe</h3>
-                <span class="btn-neon">LOCUTORES</span>
-            </div>
-            <div class="card" onclick="abrirModal('getPromocoes', 'PROMOÇÕES TOP')">
-                <img src="promocoes_top.jpg">
-                <h3>Promoções</h3>
-                <span class="btn-neon">PARTICIPAR</span>
-            </div>
+            <button onclick="ativarNotificacoes()" style="background:none; border:none; color:#555; font-size:10px; width:100%; margin-top:10px;">🔔 Ativar Notificações</button>
         </div>
 
         <h2 class="section-title">🤝 NOSSOS PARCEIROS</h2>
         <div class="carousel-container">
             <div class="carousel-track" id="track-parceiros">
-                <p style="text-align:center; color:#888; width: 100%;">Carregando parceiros...</p>
+                <p style="color:#888; text-align: center; width: 100%;">Buscando parceiros...</p>
             </div>
         </div>
     </div>
 
-    <footer>
-        <p id="segredo-rodape" style="color: var(--dourado); font-weight: bold; margin-bottom: 20px; cursor: pointer; user-select: none;">91.5 FM - A RADIO TOP DE ITATIBA</p>
-        <a href="https://www.instagram.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3955/3955024.png" class="social-icon"></a>
-        <a href="https://www.facebook.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" class="social-icon"></a>
-        <a href="https://www.amazon.com.br/dp/B0C3814C66/" target="_blank"><img src="logo-Alexa.jpg" class="social-icon alexa-icon" title="Ouça na Alexa"></a>
-        <div class="footer-rights">© RadioTop Itatiba 2026</div>
-    </footer>
-
     <script>
         const urlGoogle = "https://script.google.com/macros/s/AKfycbx6ziX6OLr6qXy1kDSOIX3yGZx4YvbQZQ5LDm6E7CtFigkWqYAcrbPM03joatzGeMtpFw/exec";
-        
-        let ultimaMusica = "";
         let audio = document.getElementById('radio-top');
         let isPlaying = false;
-        let fadeInterval;
-        let modalData = []; let modalIndex = 0; let currentAction = '';
-        let sleepTimer = null; let alarmInterval = null;
-
-        const colorThief = new ColorThief();
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then(() => console.log("Service Worker Registado!"));
-        }
-
-        let eventoInstalacao;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            eventoInstalacao = e;
-            const btn = document.getElementById('btnInstalar');
-            if (btn) btn.style.display = 'inline-block';
-        });
-
-        function instalarPWA() {
-            if (!eventoInstalacao) {
-                alert("Para instalar: no iPhone use 'Adicionar à tela de início' no Safari.");
-                return;
-            }
-            eventoInstalacao.prompt();
-            eventoInstalacao.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    document.getElementById('btnInstalar').style.display = 'none';
-                }
-                eventoInstalacao = null;
-            });
-        }
+        let modalData = []; let modalIndex = 0;
 
         function togglePlay() {
-            const btn = document.getElementById('btn-player');
-            const iconPlay = document.getElementById('icon-play');
-            const iconPause = document.getElementById('icon-pause');
-
-            if(isPlaying) {
-                audio.pause(); audio.currentTime = 0; 
-                iconPlay.style.display = 'block'; iconPause.style.display = 'none';
-                btn.classList.remove('playing-pulse');
-                isPlaying = false;
-                document.querySelectorAll('.bar').forEach(b => b.style.animation = 'none');
-            } else {
-                audio.load(); audio.play();
-                iconPlay.style.display = 'none'; iconPause.style.display = 'block';
-                btn.classList.add('playing-pulse');
-                isPlaying = true;
-                document.querySelectorAll('.bar').forEach(b => b.style.animation = 'equalizer 1s infinite ease-in-out');
-            }
+            if(isPlaying) { audio.pause(); isPlaying = false; document.getElementById('btn-player').innerText = "▶"; }
+            else { audio.play(); isPlaying = true; document.getElementById('btn-player').innerText = "⏸"; }
         }
 
-        function fadeInAudio() {
-            audio.volume = 0;
-            audio.play().then(() => {
-                isPlaying = true;
-                const btn = document.getElementById('btn-player');
-                document.getElementById('icon-play').style.display = 'none';
-                document.getElementById('icon-pause').style.display = 'block';
-                btn.classList.add('playing-pulse');
-                let vol = 0;
-                fadeInterval = setInterval(() => { if (vol < 0.3) { vol += 0.01; audio.volume = vol; } else { clearInterval(fadeInterval); } }, 50);
-                startSimulatedVisualizer();
-            }).catch(e => { console.log("Autoplay bloqueado."); });
+        function changeVolume(v) { audio.volume = v; }
+
+        // --- CARREGAR PARCEIROS (CORRIGIDO) ---
+        function carregarAnuncios() {
+            fetch(urlGoogle + "?action=getAnuncios").then(r => r.json()).then(data => {
+                const track = document.getElementById('track-parceiros');
+                if (data && data.length > 0) {
+                    let html = ""; 
+                    data.forEach(item => { 
+                        html += `<div class="card-anuncio"><a href="${item.link}" target="_blank"><img src="${item.imagem}" alt="${item.nome}"><div style="padding:10px; color:var(--dourado);"><h4>${item.nome}</h4></div></a></div>`; 
+                    });
+                    track.innerHTML = html + html; // Duplica para o scroll infinito
+                } else { track.innerHTML = '<p style="color:#888;">Seja um parceiro!</p>'; }
+            }).catch(() => { document.getElementById('track-parceiros').innerHTML = "Erro ao carregar."; });
         }
 
-        function changeVolume(val) { audio.volume = val; clearInterval(fadeInterval); }
-
-        function abrirModal(acao, titulo) {
-            const modal = document.getElementById('modal-container');
-            const modalTitle = document.getElementById('modal-title');
-            const modalBody = document.getElementById('modal-body');
-            const controls = document.getElementById('carousel-controls');
-
-            currentAction = acao; modalData = []; modalIndex = 0;
-            modalTitle.innerText = "CARREGANDO...";
-            modalBody.innerHTML = '<p style="text-align:center; color:white;">Buscando informações...</p>';
-            controls.style.display = 'none'; modal.style.display = 'flex';
-
-            if (acao === 'getEnquete') {
-                modalTitle.innerText = "BATALHA TOP"; 
-                fetch(urlGoogle + "?action=getEnquete").then(r => r.json())
-                .then(data => renderBatalha(data))
-                .catch(() => renderBatalha({op1: "Sertanejo", op2: "Pagode", porc1: 50, porc2: 50}));
-                return;
-            }
-
-             if (acao === 'getHoroscopo') {
-                modalTitle.innerText = titulo;
-                fetch(urlGoogle + "?action=getHoroscopo").then(r => r.json()).then(data => {
-                    if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Sem previsões hoje.</p>'; }
-                    else { modalData = data; renderSlide(); controls.style.display = 'flex'; }
-                }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar horóscopo.</p>'; });
-                return;
-            }
-
-            if (acao === 'getCinema') {
-                modalTitle.innerText = titulo;
-                fetch(urlGoogle + "?action=getCinema").then(r => r.json()).then(data => {
-                    if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Nenhum filme cadastrado.</p>'; }
-                    else { modalData = data; renderSlide(); controls.style.display = 'flex'; }
-                }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar cinema.</p>'; });
-                return;
-            }
-
-            if (acao === 'getOnibus') {
-                modalTitle.innerText = titulo;
-                fetch(urlGoogle + "?action=getOnibus").then(r => r.json()).then(data => {
-                    if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Sem horários cadastrados.</p>'; }
-                    else { renderOnibus(data); }
-                }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar ônibus.</p>'; });
-                return;
-            }
-
-            fetch(urlGoogle + "?action=" + acao).then(r => r.json()).then(data => {
-                if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Nenhuma informação disponível.</p>'; }
-                else { modalData = data; modalTitle.innerText = titulo; renderSlide(); controls.style.display = 'flex'; }
-            }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
-        }
-
-        function abrirModalRelogio() {
-            const modal = document.getElementById('modal-container');
-            document.getElementById('modal-title').innerText = "PROGRAMAR TEMPO";
-            document.getElementById('carousel-controls').style.display = 'none';
-            document.getElementById('modal-body').innerHTML = `
-                <div style="text-align:center; color:white;">
-                    <h3 style="color:var(--dourado);">😴 MODO SONECA</h3>
-                    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px;">
-                        <button onclick="setSleep(15)" class="btn-votar-item" style="padding:8px 15px;">15 min</button>
-                        <button onclick="setSleep(30)" class="btn-votar-item" style="padding:8px 15px;">30 min</button>
-                        <button onclick="setSleep(60)" class="btn-votar-item" style="padding:8px 15px;">60 min</button>
-                    </div>
-                    <button onclick="cancelSleep()" style="background:#333; border:none; color:white; padding:5px 10px; border-radius:5px;">Cancelar</button>
-                    <hr style="border-color:#333; margin:20px 0;">
-                    <h3 style="color:var(--verde-whatsapp);">⏰ DESPERTADOR</h3>
-                    <input type="time" id="alarm-time" style="padding:10px; border-radius:10px; border:none; font-size:18px; text-align:center;">
-                    <br><br>
-                    <button onclick="setAlarm()" class="btn-neon">DEFINIR ALARME</button>
-                </div>
-            `;
-            modal.style.display = 'flex';
-        }
-
-        function setSleep(min) {
-            clearTimeout(sleepTimer);
-            sleepTimer = setTimeout(() => { if(isPlaying) togglePlay(); alert("Soneca finalizada!"); }, min * 60 * 1000);
-            fecharModal(); alert(`Soneca definida: ${min} min.`);
-        }
-
-        function cancelSleep() { clearTimeout(sleepTimer); fecharModal(); alert("Soneca cancelada."); }
-
-        function setAlarm() {
-            const timeVal = document.getElementById('alarm-time').value;
-            if(!timeVal) return;
-            clearInterval(alarmInterval);
-            fecharModal(); alert(`Alarme: ${timeVal}. Mantenha o site aberto.`);
-            alarmInterval = setInterval(() => {
-                const now = new Date();
-                const current = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
-                if(current === timeVal) { if(!isPlaying) togglePlay(); clearInterval(alarmInterval); alert("⏰ HORA DE ACORDAR!"); }
-            }, 1000);
-        }
-
-        function renderBatalha(data) {
-            document.getElementById('modal-body').innerHTML = `
-                <div class="battle-container">
-                    <div class="battle-option" onclick="votarBatalha(1)">
-                        <div class="battle-info"><span class="battle-name">${data.op1}</span><span class="btn-votar-item">VOTO</span></div>
-                        <span class="battle-perc">${data.porc1}%</span>
-                        <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc1}%"></div></div>
-                    </div>
-                    <div class="vs-divider">VS</div>
-                    <div class="battle-option" onclick="votarBatalha(2)">
-                        <div class="battle-info"><span class="battle-name">${data.op2}</span><span class="btn-votar-item">VOTO</span></div>
-                        <span class="battle-perc">${data.porc2}%</span>
-                        <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc2}%"></div></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function votarBatalha(opcao) {
-            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "votar_batalha", voto: opcao }) });
-            fecharModal(); alert("Voto computado!");
-        }
-
-        function renderSlide() {
-            const modalBody = document.getElementById('modal-body');
-            const counter = document.getElementById('slide-counter');
-            const item = modalData[modalIndex];
-            let img = item.imagem || item.foto || 'top1.jpg';
-            let titulo = item.musica || item.titulo || item.nome || 'Informação';
-            let subtitulo = item.cargo || item.descricao || '';
-            let linkAcao = item.link || '#';
-            modalBody.innerHTML = `<div class="slide-container"><img src="${img}" class="img-slide-rect"><h3>${titulo}</h3><p>${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">VER MAIS</a></div>`;
-            counter.innerText = `${modalIndex + 1} / ${modalData.length}`;
-        }
-
-        function nextSlide() { modalIndex = (modalIndex + 1) % modalData.length; renderSlide(); }
-        function prevSlide() { modalIndex = (modalIndex - 1 + modalData.length) % modalData.length; renderSlide(); }
-        function fecharModal() { document.getElementById('modal-container').style.display = 'none'; }
-
-        function updateClock() { document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR') + ' ⏰'; } setInterval(updateClock, 1000);
-        function carregarRanking() { fetch(urlGoogle + "?action=getRanking").then(r => r.json()).then(data => { const container = document.getElementById('ranking-container'); container.innerHTML = ""; data.forEach(item => { container.innerHTML += `<div class="ranking-item"><span>${item.posicao} - ${item.musica}</span></div>`; }); }).catch(() => {}); }
-
-        // --- NOVO CHAT INTERATIVO ---
+        // --- CHAT INTERATIVO ---
         document.getElementById('form-chat').addEventListener('submit', function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
             const nome = document.getElementById('nome-chat').value;
             const msgInput = document.getElementById('msg-chat');
             const msg = msgInput.value;
@@ -634,43 +213,41 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             const typingId = "typing-" + Date.now();
-            chatBox.innerHTML += `<div class="typing-indicator" id="${typingId}" style="display:block;">Estúdio digitando...</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            let respostaBot = `Valeu pelo carinho, ${nome}! Já joguei sua mensagem no estúdio! 🎧🔥`;
-            if(msg.toLowerCase().includes("toca") || msg.toLowerCase().includes("musica")) respostaBot = `Anotado, ${nome}! Já pedi pro programador! 🎶`;
+            chatBox.innerHTML += `<div class="typing-indicator" id="${typingId}" style="display:block;">Digitando...</div>`;
 
             fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ nome: nome, mensagem: msg }) });
 
             setTimeout(() => {
                 document.getElementById(typingId).remove();
-                chatBox.innerHTML += `<div class="chat-msg bot-msg"><strong>🤖 Estúdio:</strong> ${respostaBot}</div>`;
+                chatBox.innerHTML += `<div class="chat-msg bot-msg"><strong>🤖 Top:</strong> Valeu, ${nome}! Recado enviado! 🚀</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
-                if (navigator.vibrate) navigator.vibrate(50);
             }, 2000);
         });
 
         function ativarNotificacoes() {
-            if (!("Notification" in window)) return alert("Sem suporte a notificações.");
-            Notification.requestPermission().then(p => { if (p === "granted") new Notification("Rádio Top", { body: "Avisos ativados!", icon: "top1.jpg" }); });
-        }
-
-        function iniciarSite() {
-            const splash = document.getElementById('splash-screen');
-            splash.style.transform = 'translateY(-100%)';
-            setTimeout(() => { splash.style.display = 'none'; }, 800);
-            document.getElementById('reactionMenu').style.display = 'block';
-            fadeInAudio(); atualizarProgramacao(); carregarRanking(); carregarConfig();
+            Notification.requestPermission().then(p => { if(p === "granted") new Notification("Rádio Top", {body: "Notificações ativadas!"}); });
         }
 
         function atualizarMetadados() {
-            const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
-            fetch(proxyUrl).then(r => r.text()).then(data => { document.getElementById('nome-musica').innerText = data.includes("<html") ? "Rádio Top Itatiba" : data; }).catch(() => {});
+            const proxy = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
+            fetch(proxy).then(r => r.text()).then(d => { document.getElementById('nome-musica').innerText = d.includes("<html") ? "Top Itatiba" : d; });
         }
 
-        function atualizarProgramacao() { fetch(urlGoogle + "?action=getProgramacao").then(r => r.json()).then(data => { const lista = document.getElementById('prog-lista'); lista.innerHTML = ""; data.forEach(item => { lista.innerHTML += `<div class="prog-card"><span>${item.hora} - ${item.titulo}</span></div>`; }); }).catch(() => {}); }
+        function carregarConfig() {
+            fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
+                if(data.tv) document.getElementById('capa-album-tv').src = data.tv;
+            });
+        }
 
-        setInterval(atualizarMetadados, 15000);
+        function iniciarSite() {
+            document.getElementById('splash-screen').style.display = 'none';
+            carregarAnuncios();
+            atualizarMetadados();
+            carregarConfig();
+            setInterval(atualizarMetadados, 15000);
+        }
+
+        function fecharModal() { document.getElementById('modal-container').style.display = 'none'; }
     </script>
 </body>
 </html>
