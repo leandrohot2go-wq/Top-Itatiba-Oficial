@@ -27,11 +27,17 @@
         nav a { color: #ddd; text-decoration: none; font-weight: 800; text-transform: uppercase; font-size: 11px; transition: all 0.3s ease; padding: 8px 14px; border-radius: 20px; letter-spacing: 0.5px; position: relative; }
         nav a:hover, nav a:active { color: white !important; background: var(--magenta); box-shadow: 0 0 15px var(--magenta); transform: translateY(-2px); }
 
+        /* NOVO ESTILO DO CHAT */
+        .chat-msg { padding: 10px 15px; border-radius: 15px; max-width: 85%; font-size: 14px; animation: slideIn 0.3s ease; line-height: 1.4; }
+        .bot-msg { background: rgba(176, 26, 122, 0.2); border: 1px solid var(--magenta); color: #fff; align-self: flex-start; border-bottom-left-radius: 0; }
+        .user-msg { background: rgba(0, 255, 85, 0.1); border: 1px solid var(--verde-whatsapp); color: #fff; align-self: flex-end; border-bottom-right-radius: 0; text-align: right; }
+        .typing-indicator { color: var(--dourado); font-size: 11px; font-weight: bold; font-style: italic; align-self: flex-start; margin-bottom: 5px; display: none; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         /* PAINEL PEDIDO & TEMPO */
         .painel-tempo-real { background: rgba(255, 255, 255, 0.05); border: 2px solid var(--magenta); border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px; display: flex; justify-content: space-around; align-items: center; color: white; animation: animacaoCores 5s infinite ease-in-out; transition: border-color 1s ease; }
         @keyframes animacaoCores { 0% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } 50% { border-color: var(--dourado); box-shadow: 0 0 15px var(--dourado); } 100% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } }
         
-        /* ATUALIZADO: Relógio clicável */
         .tempo-item { text-align: center; } 
         .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; } 
         .tempo-valor { font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
@@ -122,7 +128,7 @@
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         
         /* MURAL & FOOTER */
-        .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; }
+        .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; display: flex; flex-direction: column; }
         .mural-input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #333; background: #0a0e27; color: white; box-sizing:border-box; font-size: 14px; transition: 0.3s ease; }
         .mural-input:focus { outline: none; border-color: var(--verde-whatsapp); box-shadow: 0 0 15px var(--verde-whatsapp); background: #05190a; }
         .btn-enviar { background: var(--magenta); color: white; border: none; padding: 12px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.3s; }
@@ -322,13 +328,21 @@
             <p style="text-align:center;">Carregando programação...</p>
         </div>
 
-        <h2 id="mural" class="section-title">💬 MURAL DE RECADOS</h2>
-        <div class="mural-container">
-            <form id="form-mural">
-                <input type="text" id="nome-ouvinte" class="mural-input" placeholder="Seu Nome" required>
-                <textarea id="msg-ouvinte" class="mural-input" rows="3" placeholder="Deixe seu recado para a rádio..." required></textarea>
-                <button type="submit" class="btn-enviar" id="btn-status">ENVIAR RECADO AO ESTÚDIO</button>
+        <h2 id="mural" class="section-title">💬 CHAT COM O ESTÚDIO</h2>
+        <div class="mural-container" style="border-color: var(--magenta);">
+            <div id="chat-box" style="height: 280px; overflow-y: auto; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border: 1px solid #333; margin-bottom: 15px; display: flex; flex-direction: column; gap: 12px;">
+                <div class="chat-msg bot-msg">
+                    <strong>🤖 Assistente Top:</strong> Olá! Mande seu recado ou peça sua música. O Marcão e a equipe estão de olho aqui! 👀
+                </div>
+            </div>
+            <form id="form-chat">
+                <input type="text" id="nome-chat" class="mural-input" placeholder="Seu Nome" required>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="msg-chat" class="mural-input" placeholder="Escreva seu recado aqui..." required style="flex: 1; margin-bottom: 0;">
+                    <button type="submit" class="btn-enviar" id="btn-enviar-chat" style="width: 60px; margin: 0;">🚀</button>
+                </div>
             </form>
+            <button onclick="ativarNotificacoes()" style="background: none; border: 1px solid #444; color: #888; font-size: 10px; margin-top: 15px; cursor: pointer; border-radius: 5px; padding: 5px; align-self: center;">🔔 ATIVAR NOTIFICAÇÕES DE PROGRAMAÇÃO</button>
         </div>
         
         <h2 id="video" class="section-title">📺 VÍDEO DA SEMANA: ZÉ FELIPE & ANA CASTELA</h2>
@@ -397,7 +411,6 @@
     </footer>
 
     <script>
-        // ATENÇÃO: LINK ATUALIZADO DO SEU SCRIPT
         const urlGoogle = "https://script.google.com/macros/s/AKfycbx6ziX6OLr6qXy1kDSOIX3yGZx4YvbQZQ5LDm6E7CtFigkWqYAcrbPM03joatzGeMtpFw/exec";
         
         let ultimaMusica = "";
@@ -482,7 +495,6 @@
             modalBody.innerHTML = '<p style="text-align:center; color:white;">Buscando informações...</p>';
             controls.style.display = 'none'; modal.style.display = 'flex';
 
-            // --- LÓGICA DA BATALHA ---
             if (acao === 'getEnquete') {
                 modalTitle.innerText = "BATALHA TOP"; 
                 fetch(urlGoogle + "?action=getEnquete").then(r => r.json())
@@ -491,83 +503,57 @@
                 return;
             }
 
-             // --- LÓGICA DO HORÓSCOPO ---
              if (acao === 'getHoroscopo') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getHoroscopo").then(r => r.json()).then(data => {
                     if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Sem previsões hoje.</p>'; }
-                    else { 
-                        modalData = data; 
-                        renderSlide(); 
-                        controls.style.display = 'flex'; 
-                    }
+                    else { modalData = data; renderSlide(); controls.style.display = 'flex'; }
                 }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar horóscopo.</p>'; });
                 return;
             }
 
-            // --- LÓGICA DO CINEMA ---
             if (acao === 'getCinema') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getCinema").then(r => r.json()).then(data => {
                     if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Nenhum filme cadastrado.</p>'; }
-                    else { 
-                        modalData = data; 
-                        renderSlide(); 
-                        controls.style.display = 'flex'; 
-                    }
+                    else { modalData = data; renderSlide(); controls.style.display = 'flex'; }
                 }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar cinema.</p>'; });
                 return;
             }
 
-            // --- LÓGICA DO ÔNIBUS (NOVO) ---
             if (acao === 'getOnibus') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getOnibus").then(r => r.json()).then(data => {
-                    if(!data || data.length === 0) { 
-                        modalBody.innerHTML = '<p style="color:white; text-align:center;">Sem horários cadastrados.</p>'; 
-                    } else { 
-                        renderOnibus(data); 
-                    }
+                    if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Sem horários cadastrados.</p>'; }
+                    else { renderOnibus(data); }
                 }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar ônibus.</p>'; });
                 return;
             }
 
             fetch(urlGoogle + "?action=" + acao).then(r => r.json()).then(data => {
                 if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Nenhuma informação disponível.</p>'; }
-                else { 
-                    modalData = data; 
-                    modalTitle.innerText = titulo; 
-                    renderSlide(); 
-                    controls.style.display = 'flex'; 
-                }
+                else { modalData = data; modalTitle.innerText = titulo; renderSlide(); controls.style.display = 'flex'; }
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
         }
 
-        // --- RELÓGIO E SONECA (NOVO) ---
         function abrirModalRelogio() {
             const modal = document.getElementById('modal-container');
             document.getElementById('modal-title').innerText = "PROGRAMAR TEMPO";
             document.getElementById('carousel-controls').style.display = 'none';
-            
             document.getElementById('modal-body').innerHTML = `
                 <div style="text-align:center; color:white;">
-                    <h3 style="color:var(--dourado);">😴 MODO SONECA (SLEEP)</h3>
-                    <p>Desligar o som automaticamente em:</p>
+                    <h3 style="color:var(--dourado);">😴 MODO SONECA</h3>
                     <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px;">
-                        <button onclick="setSleep(15)" class="btn-votar-item" style="font-size:14px; padding:8px 15px;">15 min</button>
-                        <button onclick="setSleep(30)" class="btn-votar-item" style="font-size:14px; padding:8px 15px;">30 min</button>
-                        <button onclick="setSleep(60)" class="btn-votar-item" style="font-size:14px; padding:8px 15px;">60 min</button>
+                        <button onclick="setSleep(15)" class="btn-votar-item" style="padding:8px 15px;">15 min</button>
+                        <button onclick="setSleep(30)" class="btn-votar-item" style="padding:8px 15px;">30 min</button>
+                        <button onclick="setSleep(60)" class="btn-votar-item" style="padding:8px 15px;">60 min</button>
                     </div>
-                    <button onclick="cancelSleep()" style="background:#333; border:none; color:white; padding:5px 10px; border-radius:5px;">Cancelar Soneca</button>
-                    
+                    <button onclick="cancelSleep()" style="background:#333; border:none; color:white; padding:5px 10px; border-radius:5px;">Cancelar</button>
                     <hr style="border-color:#333; margin:20px 0;">
-                    
                     <h3 style="color:var(--verde-whatsapp);">⏰ DESPERTADOR</h3>
-                    <p>Ligar o rádio automaticamente às:</p>
                     <input type="time" id="alarm-time" style="padding:10px; border-radius:10px; border:none; font-size:18px; text-align:center;">
                     <br><br>
                     <button onclick="setAlarm()" class="btn-neon">DEFINIR ALARME</button>
-                    <p style="font-size:12px; color:#888; margin-top:10px;">*Mantenha esta aba aberta para o alarme funcionar.</p>
                 </div>
             `;
             modal.style.display = 'flex';
@@ -575,121 +561,35 @@
 
         function setSleep(min) {
             clearTimeout(sleepTimer);
-            sleepTimer = setTimeout(() => {
-                if(isPlaying) togglePlay();
-                alert("Rádio desligada pelo Modo Soneca. Bons sonhos! 😴");
-                document.getElementById('clock').classList.remove('active-timer');
-            }, min * 60 * 1000);
-            document.getElementById('clock').classList.add('active-timer');
-            fecharModal();
-            alert(`Soneca definida para ${min} minutos.`);
+            sleepTimer = setTimeout(() => { if(isPlaying) togglePlay(); alert("Soneca finalizada!"); }, min * 60 * 1000);
+            fecharModal(); alert(`Soneca definida: ${min} min.`);
         }
 
-        function cancelSleep() {
-            clearTimeout(sleepTimer);
-            document.getElementById('clock').classList.remove('active-timer');
-            fecharModal();
-            alert("Modo Soneca cancelado.");
-        }
+        function cancelSleep() { clearTimeout(sleepTimer); fecharModal(); alert("Soneca cancelada."); }
 
         function setAlarm() {
             const timeVal = document.getElementById('alarm-time').value;
             if(!timeVal) return;
-            
             clearInterval(alarmInterval);
-            document.getElementById('clock').classList.add('active-timer');
-            fecharModal();
-            alert(`Alarme definido para ${timeVal}. Deixe o site aberto!`);
-
+            fecharModal(); alert(`Alarme: ${timeVal}. Mantenha o site aberto.`);
             alarmInterval = setInterval(() => {
                 const now = new Date();
                 const current = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
-                if(current === timeVal) {
-                    if(!isPlaying) togglePlay();
-                    clearInterval(alarmInterval);
-                    document.getElementById('clock').classList.remove('active-timer');
-                    alert("⏰ HORA DE ACORDAR COM A TOP!");
-                }
+                if(current === timeVal) { if(!isPlaying) togglePlay(); clearInterval(alarmInterval); alert("⏰ HORA DE ACORDAR!"); }
             }, 1000);
         }
-
-        function renderOnibus(data) {
-            let options = `<option value="">Selecione seu Bairro...</option>`;
-            data.forEach((item, index) => {
-                options += `<option value="${index}">${item.linha}</option>`;
-            });
-
-            const modalBody = document.getElementById('modal-body');
-            modalBody.innerHTML = `
-                <div style="width:100%; text-align:center;">
-                    <select id="select-onibus" onchange="calcularHorario(${JSON.stringify(data).replace(/"/g, '"')})" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
-                        ${options}
-                    </select>
-                    <div id="resultado-onibus" style="font-size:18px; color:white; min-height:100px;"></div>
-                </div>
-            `;
-        }
-
-        window.calcularHorario = function(data) { // Torna global para o HTML acessar
-            const index = document.getElementById('select-onibus').value;
-            const divRes = document.getElementById('resultado-onibus');
-            
-            if(index === "") { divRes.innerHTML = ""; return; }
-
-            const linha = data[index];
-            const agora = new Date();
-            const horasAgora = agora.getHours();
-            const minAgora = agora.getMinutes();
-            const totalMinAgora = (horasAgora * 60) + minAgora;
-
-            const horarios = linha.horarios.split(',').map(h => h.trim());
-            let proximo = null;
-            let diff = 9999;
-
-            for(let h of horarios) {
-                let partes = h.split(':');
-                let hOnibus = parseInt(partes[0]);
-                let mOnibus = parseInt(partes[1]);
-                let totalMinOnibus = (hOnibus * 60) + mOnibus;
-
-                if (totalMinOnibus > totalMinAgora) {
-                    proximo = h;
-                    diff = totalMinOnibus - totalMinAgora;
-                    break; 
-                }
-            }
-
-            if (proximo) {
-                let cor = diff < 15 ? '#00ff55' : '#f3b644'; // Verde se faltar pouco
-                divRes.innerHTML = `
-                    <p style="color:#ccc; font-size:14px; margin-bottom:5px;">PRÓXIMA SAÍDA:</p>
-                    <h1 style="color:${cor}; font-size:50px; margin:0;">${proximo}</h1>
-                    <p style="color:${cor}; font-weight:bold; margin-top:5px;">FALTAM ${diff} MINUTOS</p>
-                    <hr style="border-color:#333; margin:15px 0;">
-                    <p style="font-size:12px; color:#888;">Todos: ${linha.horarios}</p>
-                `;
-            } else {
-                divRes.innerHTML = "<h3 style='color:#ff0000'>Sem mais horários hoje.</h3>";
-            }
-        };
 
         function renderBatalha(data) {
             document.getElementById('modal-body').innerHTML = `
                 <div class="battle-container">
                     <div class="battle-option" onclick="votarBatalha(1)">
-                        <div class="battle-info">
-                            <span class="battle-name">${data.op1}</span>
-                            <span class="btn-votar-item">VOTO ${data.op1}</span>
-                        </div>
+                        <div class="battle-info"><span class="battle-name">${data.op1}</span><span class="btn-votar-item">VOTO</span></div>
                         <span class="battle-perc">${data.porc1}%</span>
                         <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc1}%"></div></div>
                     </div>
                     <div class="vs-divider">VS</div>
                     <div class="battle-option" onclick="votarBatalha(2)">
-                        <div class="battle-info">
-                            <span class="battle-name">${data.op2}</span>
-                            <span class="btn-votar-item">VOTO ${data.op2}</span>
-                        </div>
+                        <div class="battle-info"><span class="battle-name">${data.op2}</span><span class="btn-votar-item">VOTO</span></div>
                         <span class="battle-perc">${data.porc2}%</span>
                         <div class="battle-bar-bg"><div class="battle-bar-fill" style="width:${data.porc2}%"></div></div>
                     </div>
@@ -698,387 +598,79 @@
         }
 
         function votarBatalha(opcao) {
-            const modalBody = document.getElementById('modal-body');
-            modalBody.innerHTML = '<p style="color:var(--verde-whatsapp); font-size:20px; font-weight:bold; text-align:center; padding:50px;">VOTO COMPUTADO! ✅</p>';
-            fetch(urlGoogle, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                body: JSON.stringify({ action: "votar_batalha", voto: opcao }) 
-            });
-            setTimeout(() => { fecharModal(); }, 1500);
+            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "votar_batalha", voto: opcao }) });
+            fecharModal(); alert("Voto computado!");
         }
 
         function renderSlide() {
             const modalBody = document.getElementById('modal-body');
             const counter = document.getElementById('slide-counter');
             const item = modalData[modalIndex];
-            
             let img = item.imagem || item.foto || 'top1.jpg';
-            let titulo = item.musica || item.titulo || item.nome || 'Informação Top';
-            let subtitulo = item.cargo || item.descricao || (item.posicao ? '#' + item.posicao : '');
-            let linkAcao = item.link || item.instagram || '#';
-
-            let html = '<div class="slide-container">';
-            
-            if(currentAction === 'getCinema') {
-                html += `<img src="${img}" class="img-slide-rect" style="aspect-ratio: 2/3; object-fit:cover;"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:14px; color:#ccc;">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">COMPRAR INGRESSO</a>`;
-            
-            } else if(currentAction === 'getEquipe') {
-                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-circle"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">VER PERFIL</a>`;
-            
-            } else if (currentAction === 'getTopHits') {
-                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><span style="color:var(--dourado); font-weight:bold; font-size:30px; display:block; margin:10px 0;">${subtitulo}</span><h3 class="slide-title">${titulo}</h3><a href="${linkAcao}" target="_blank" class="btn-slide-action">OUVIR AGORA</a>`;
-            
-            } else if (currentAction === 'getHoroscopo') {
-                 html += `<img src="${img}" class="img-slide-circle" style="border-color:var(--dourado);"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:16px; color:#fff;">${subtitulo}</p>`;
-            
-            } else {
-                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">QUERO PARTICIPAR</a>`;
-            }
-            html += '</div>';
-            modalBody.innerHTML = html;
+            let titulo = item.musica || item.titulo || item.nome || 'Informação';
+            let subtitulo = item.cargo || item.descricao || '';
+            let linkAcao = item.link || '#';
+            modalBody.innerHTML = `<div class="slide-container"><img src="${img}" class="img-slide-rect"><h3>${titulo}</h3><p>${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">VER MAIS</a></div>`;
             counter.innerText = `${modalIndex + 1} / ${modalData.length}`;
         }
 
-        function nextSlide() { if(modalIndex < modalData.length - 1) { modalIndex++; renderSlide(); } else { modalIndex = 0; renderSlide(); } }
-        function prevSlide() { if(modalIndex > 0) { modalIndex--; renderSlide(); } else { modalIndex = modalData.length - 1; renderSlide(); } }
+        function nextSlide() { modalIndex = (modalIndex + 1) % modalData.length; renderSlide(); }
+        function prevSlide() { modalIndex = (modalIndex - 1 + modalData.length) % modalData.length; renderSlide(); }
         function fecharModal() { document.getElementById('modal-container').style.display = 'none'; }
-        window.onclick = function(event) { if (event.target == document.getElementById('modal-container')) { fecharModal(); } }
 
-        function startFireworks() {
-            const colors = ['#ff00ff', '#f3b644', '#00ffff', '#ffffff', '#ff0000'];
-            for(let i=0; i<15; i++) {
-                setTimeout(() => {
-                    const fw = document.createElement('div'); fw.className = 'firework';
-                    fw.style.left = Math.random() * 100 + 'vw'; fw.style.top = Math.random() * 100 + 'vh';
-                    fw.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    fw.style.animation = 'explode 1s forwards';
-                    document.body.appendChild(fw); setTimeout(() => fw.remove(), 1000);
-                }, i * 200);
-            }
-        }
+        function updateClock() { document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR') + ' ⏰'; } setInterval(updateClock, 1000);
+        function carregarRanking() { fetch(urlGoogle + "?action=getRanking").then(r => r.json()).then(data => { const container = document.getElementById('ranking-container'); container.innerHTML = ""; data.forEach(item => { container.innerHTML += `<div class="ranking-item"><span>${item.posicao} - ${item.musica}</span></div>`; }); }).catch(() => {}); }
 
-        function updateClock() { const now = new Date(); document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR') + ' ⏰'; } setInterval(updateClock, 1000);
-        function getClima() { fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.0019&longitude=-46.8406&current_weather=true").then(r => r.json()).then(data => { document.getElementById('temp-itatiba').innerHTML = `☀️ ${Math.round(data.current_weather.temperature)}°C 🥂`; }).catch(() => {}); } getClima(); setInterval(getClima, 600000);
-
-        function enviarPedidoZap() {
-            const nome = document.getElementById('pedido-nome').value; const musica = document.getElementById('pedido-musica').value;
-            if(!nome || !musica) { alert("Por favor, preencha seu nome e a música!"); return; }
-            window.open(`https://wa.me/5511945914382?text=${encodeURIComponent(`Olá Rádio Top! Sou o(a) ${nome}, toca pra mim a música: ${musica}! Feliz 2026!`)}`, '_blank');
-        }
-
-        function carregarRanking() {
-            fetch(urlGoogle + "?action=getRanking").then(r => r.json()).then(data => {
-                const container = document.getElementById('ranking-container'); container.innerHTML = "";
-                const lista = (data && data.length > 0) ? data : [{posicao: "01", musica: "Aguardando Ranking..."}];
-                lista.forEach(item => {
-                    let linkYT = item.link || "https://www.youtube.com/results?search_query=" + encodeURIComponent(item.musica);
-                    container.innerHTML += `<div class="ranking-item"><div class="rank-content"><span class="rank-num">${item.posicao}</span><span class="rank-info">${item.musica}</span></div><div class="rank-buttons"><a href="${linkYT}" target="_blank" class="btn-ouvir">OUVIR</a><a href="https://wa.me/5511945914382" class="btn-pedir">ZAP</a></div></div>`;
-                });
-            }).catch(() => {});
-        }
-
-        function carregarAnuncios() {
-            fetch(urlGoogle + "?action=getAnuncios").then(r => r.json()).then(data => {
-                const track = document.getElementById('track-parceiros');
-                if (data && data.length > 0) {
-                    let html = ""; data.forEach(item => { html += `<div class="card-anuncio"><a href="${item.link}" target="_blank"><img src="${item.imagem}" alt="${item.nome}"><div style="padding:15px; color:var(--dourado); text-align: center;"><h3>${item.nome}</h3></div></a></div>`; });
-                    track.innerHTML = html + html; 
-                } else { track.innerHTML = '<p style="text-align:center; color:#888; width:100%;">Seja um parceiro!</p>'; }
-            }).catch(() => {});
-        }
-
-        function carregarConfig() {
-            fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
-                if (data.tv) {
-                    let capaImg = document.getElementById('capa-album-tv');
-                    let bgBlur = document.getElementById('blur-bg');
-                    if(capaImg.src !== data.tv) {
-                        capaImg.src = data.tv;
-                        capaImg.crossOrigin = "Anonymous"; 
-                        capaImg.onload = function() {
-                            try {
-                                const cor = colorThief.getColor(capaImg);
-                                const rgb = `rgb(${cor[0]}, ${cor[1]}, ${cor[2]})`;
-                                document.documentElement.style.setProperty('--magenta', rgb);
-                            } catch(e) { console.log("Erro cor", e); }
-                        };
-                        if(bgBlur) bgBlur.style.backgroundImage = `url('${data.tv}')`;
-                    }
-                }
-                if (data.botao) document.getElementById('link-studio').href = data.botao;
-                const ticker = document.querySelector('.ticker-content');
-                let textoFinal = "";
-                if (data.texto && data.texto.length > 10) {
-                    textoFinal = `<span class="noticia-item" style="color:white;">${data.texto}</span>`;
-                } else if (data.noticias) {
-                    const arrayNews = data.noticias.split('.');
-                    arrayNews.forEach(msg => {
-                        if(msg.trim() != "") textoFinal += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
-                    });
-                }
-                if(textoFinal && ticker.innerHTML.length !== (textoFinal + textoFinal).length) {
-                    ticker.innerHTML = textoFinal + textoFinal;
-                }
-            }).catch(e => console.log("Erro config"));
-        }
-        
-        setInterval(carregarConfig, 30000);
-
-        // --- CORREÇÃO DO MURAL AQUI ---
-        document.getElementById('form-mural').addEventListener('submit', function(e) {
+        // --- NOVO CHAT INTERATIVO ---
+        document.getElementById('form-chat').addEventListener('submit', function(e) {
             e.preventDefault(); 
-            const btn = document.getElementById('btn-status');
-            const nome = document.getElementById('nome-ouvinte').value;
-            const msg = document.getElementById('msg-ouvinte').value;
+            const nome = document.getElementById('nome-chat').value;
+            const msgInput = document.getElementById('msg-chat');
+            const msg = msgInput.value;
+            const chatBox = document.getElementById('chat-box');
 
-            btn.innerText = "ENVIANDO..."; btn.disabled = true;
+            chatBox.innerHTML += `<div class="chat-msg user-msg"><strong>${nome}:</strong> ${msg}</div>`;
+            msgInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
 
-            fetch(urlGoogle, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({ nome: nome, mensagem: msg })
-            }).then(() => {
-                alert("Recado enviado com sucesso! 🚀");
-                document.getElementById('form-mural').reset();
-                btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; btn.disabled = false;
-            }).catch(() => {
-                btn.innerText = "ERRO AO ENVIAR";
-            });
+            const typingId = "typing-" + Date.now();
+            chatBox.innerHTML += `<div class="typing-indicator" id="${typingId}" style="display:block;">Estúdio digitando...</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            let respostaBot = `Valeu pelo carinho, ${nome}! Já joguei sua mensagem no estúdio! 🎧🔥`;
+            if(msg.toLowerCase().includes("toca") || msg.toLowerCase().includes("musica")) respostaBot = `Anotado, ${nome}! Já pedi pro programador! 🎶`;
+
+            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ nome: nome, mensagem: msg }) });
+
+            setTimeout(() => {
+                document.getElementById(typingId).remove();
+                chatBox.innerHTML += `<div class="chat-msg bot-msg"><strong>🤖 Estúdio:</strong> ${respostaBot}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+                if (navigator.vibrate) navigator.vibrate(50);
+            }, 2000);
         });
 
-        // --- GERADOR DE STORY (NOVA FUNÇÃO) ---
-        function gerarStory() {
-            const modal = document.getElementById('modal-container');
-            const modalTitle = document.getElementById('modal-title');
-            const modalBody = document.getElementById('modal-body');
-            const controls = document.getElementById('carousel-controls');
-
-            modalTitle.innerText = "GERANDO STORY...";
-            modalBody.innerHTML = '<p style="color:white; text-align:center;">Criando sua imagem... aguarde! 🎨</p>';
-            controls.style.display = 'none';
-            modal.style.display = 'flex';
-
-            const nomeMusica = document.getElementById('nome-musica').innerText;
-            const capaSrc = document.getElementById('capa-album-tv').src;
-
-            const canvas = document.createElement('canvas');
-            canvas.width = 1080;
-            canvas.height = 1920;
-            const ctx = canvas.getContext('2d');
-
-            const grd = ctx.createLinearGradient(0, 0, 0, 1920);
-            grd.addColorStop(0, '#0a0e27');
-            grd.addColorStop(1, '#b01a7a');
-            ctx.fillStyle = grd;
-            ctx.fillRect(0,0, 1080, 1920);
-
-            const imgCapa = new Image();
-            imgCapa.crossOrigin = "Anonymous";
-            imgCapa.src = capaSrc;
-
-            const imgLogo = new Image();
-            imgLogo.src = 'top1.jpg'; // Seu logo local
-
-            imgCapa.onload = function() {
-                const size = 800;
-                const x = (1080 - size) / 2;
-                const y = (1920 - size) / 2 - 100;
-                
-                ctx.shadowColor = "rgba(0,0,0,0.5)";
-                ctx.shadowBlur = 50;
-                ctx.drawImage(imgCapa, x, y, size, size);
-                ctx.shadowBlur = 0;
-
-                ctx.fillStyle = "white";
-                ctx.font = "bold 40px Arial";
-                ctx.textAlign = "center";
-                ctx.fillText("ESTOU OUVINDO NA RÁDIO TOP", 1080/2, y - 50);
-
-                ctx.font = "bold 60px Arial";
-                ctx.fillStyle = "#f3b644"; 
-                ctx.fillText(nomeMusica, 1080/2, y + size + 80);
-
-                ctx.drawImage(imgLogo, (1080-150)/2, 1600, 150, 150);
-                
-                const dataUrl = canvas.toDataURL("image/png");
-                modalTitle.innerText = "SEU STORY ESTÁ PRONTO!";
-                modalBody.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:300px; border-radius:10px; border:2px solid white;"><br><a href="${dataUrl}" download="story-radiotop.png" class="btn-neon" style="margin-top:15px;">BAIXAR IMAGEM</a>`;
-            };
-            
-            imgCapa.onerror = function() {
-                modalBody.innerHTML = '<p style="color:red;">Erro ao gerar imagem. Tente novamente.</p>';
-            }
-        }
-
-        let cliquesSegredo = 0;
-        let timerSegredo;
-        document.getElementById('segredo-rodape').addEventListener('click', function(e) {
-            cliquesSegredo++;
-            clearTimeout(timerSegredo);
-            timerSegredo = setTimeout(() => { cliquesSegredo = 0; }, 2000);
-
-            if (cliquesSegredo === 5) {
-                cliquesSegredo = 0;
-                alert("🕵️ PARABÉNS! Você descobriu a Playlist Secreta da Madrugada!");
-                window.open("https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6", "_blank"); 
-            }
-        });
-
-        function startSimulatedVisualizer() {
-            const canvas = document.getElementById('visualizer-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-
-            function draw() {
-                if(!isPlaying) {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    requestAnimationFrame(draw);
-                    return;
-                }
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                const bars = 50;
-                const barWidth = canvas.width / bars;
-                for (let i = 0; i < bars; i++) {
-                    const barHeight = Math.random() * (canvas.height * 0.5); 
-                    const color = getComputedStyle(document.documentElement).getPropertyValue('--magenta').trim();
-                    ctx.fillStyle = color || '#b01a7a';
-                    ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 2, barHeight);
-                }
-                setTimeout(() => requestAnimationFrame(draw), 50);
-            }
-            draw();
+        function ativarNotificacoes() {
+            if (!("Notification" in window)) return alert("Sem suporte a notificações.");
+            Notification.requestPermission().then(p => { if (p === "granted") new Notification("Rádio Top", { body: "Avisos ativados!", icon: "top1.jpg" }); });
         }
 
         function iniciarSite() {
             const splash = document.getElementById('splash-screen');
-            // Correção do Bug de Travamento:
             splash.style.transform = 'translateY(-100%)';
-            setTimeout(() => { splash.style.display = 'none'; }, 800); // Remove da tela após a animação
-
+            setTimeout(() => { splash.style.display = 'none'; }, 800);
             document.getElementById('reactionMenu').style.display = 'block';
-            fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
-                if(data.efeitos !== "OFF") startFireworks();
-            });
-            fadeInAudio();
-            atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
+            fadeInAudio(); atualizarProgramacao(); carregarRanking(); carregarConfig();
         }
 
-        // ==========================================
-        //  A CORREÇÃO FINAL DOS OUVINTES E MÚSICA (CodeTabs)
-        // ==========================================
         function atualizarMetadados() {
-            // 1. MÚSICA - Usando CodeTabs para furar bloqueios
             const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
-            
-            fetch(proxyUrl).then(r => r.text()).then(data => {
-                let nomeMusica = data.trim();
-                let capaParaMostrar = document.getElementById('capa-album-tv').src; 
-
-                // PROTEÇÃO: Se o servidor caiu, ele devolve HTML (<!DOCTYPE...). 
-                if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error")) {
-                    nomeMusica = "Rádio Top - A Conexão que te Move"; 
-                } else if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
-                    nomeMusica = "Rádio Top Itatiba";
-                }
-
-                document.getElementById('nome-musica').innerText = nomeMusica;
-                
-                // --- INTEGRAÇÃO ANDROID AUTO / BLUETOOTH ---
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: nomeMusica,
-                        artist: 'Rádio Top 91.5 FM',
-                        album: 'Ao Vivo',
-                        artwork: [
-                            { src: capaParaMostrar, sizes: '96x96',   type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '128x128', type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '192x192', type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '256x256', type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '384x384', type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '512x512', type: 'image/jpeg' },
-                        ]
-                    });
-                    navigator.mediaSession.setActionHandler('play', togglePlay);
-                    navigator.mediaSession.setActionHandler('pause', togglePlay);
-                    navigator.mediaSession.setActionHandler('stop', togglePlay);
-                }
-
-            }).catch(e => {
-                document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
-            });
-            
-            // 2. OUVINTES - Usando o endpoint 7.html com proxy confiável
-            // Usando CodeTabs com o link HTTPS direto que você forneceu
-            const urlOuvintes = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
-            
-            fetch(urlOuvintes)
-            .then(r => r.text())
-            .then(d => {
-                // Remove tags HTML se o proxy retornar erro ou página
-                let cleanText = d.replace(/<[^>]*>/g, '').trim(); 
-                let p = cleanText.split(',');
-                
-                if(p.length > 0) { 
-                    let num = parseInt(p[0]); 
-                    if (!isNaN(num)) {
-                        document.getElementById('qtd-ouvintes').innerText = num + 125; // Soma fake se quiser
-                    }
-                }
-            }).catch(e => {});
+            fetch(proxyUrl).then(r => r.text()).then(data => { document.getElementById('nome-musica').innerText = data.includes("<html") ? "Rádio Top Itatiba" : data; }).catch(() => {});
         }
 
-        function atualizarProgramacao() {
-            fetch(urlGoogle + "?action=getProgramacao").then(r => r.json()).then(data => {
-                const hora = new Date().getHours();
-                const listaProg = document.getElementById('prog-lista');
-                let html = "";
-                let idNoAr = "prog-23";
-                if (hora >= 6 && hora < 9) idNoAr = "prog-06";
-                else if (hora >= 9 && hora < 12) idNoAr = "prog-09";
-                else if (hora >= 12 && hora < 14) idNoAr = "prog-12";
-                else if (hora >= 14 && hora < 17) idNoAr = "prog-14";
-                else if (hora >= 17 && hora < 20) idNoAr = "prog-17";
-                else if (hora >= 20 && hora < 23) idNoAr = "prog-20";
+        function atualizarProgramacao() { fetch(urlGoogle + "?action=getProgramacao").then(r => r.json()).then(data => { const lista = document.getElementById('prog-lista'); lista.innerHTML = ""; data.forEach(item => { lista.innerHTML += `<div class="prog-card"><span>${item.hora} - ${item.titulo}</span></div>`; }); }).catch(() => {}); }
 
-                data.forEach(item => {
-                    const noAr = (item.id === idNoAr) ? 'no-ar' : '';
-                    html += `
-                        <div class="prog-card ${noAr}" id="${item.id}">
-                            <div class="prog-hora">${item.hora}</div>
-                            <div class="prog-info">
-                                <h4>${item.titulo}</h4>
-                                <p>${item.descricao}</p>
-                            </div>
-                            <div class="badge-live">NO AR 🔴</div>
-                        </div>`;
-                });
-                listaProg.innerHTML = html;
-            }).catch(() => {});
-        }
-
-        let isReactionsOpen = false;
-        function toggleReactions() { if (isReactionsOpen) { enviarReacao('❤️'); closeStack(); } else { openStack(); } }
-        function openStack() { document.getElementById('reactionMenu').classList.add('expanded'); isReactionsOpen = true; }
-        function closeStack() { document.getElementById('reactionMenu').classList.remove('expanded'); isReactionsOpen = false; }
-        function selectReaction(emoji) { enviarReacao(emoji); closeStack(); }
-
-        function enviarReacao(emoji) {
-            createReaction(emoji);
-            fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "salvar_reacao", tipo: emoji }) });
-        }
-
-        function createReaction(emoji) {
-            const el = document.createElement('div');
-            el.innerText = emoji; el.className = 'floater';
-            el.style.right = (20 + Math.random() * 50) + 'px'; 
-            document.body.appendChild(el);
-            setTimeout(() => { el.remove(); }, 2000);
-            if (navigator.vibrate) navigator.vibrate(30);
-        }
-
-        atualizarMetadados(); setInterval(atualizarMetadados, 15000); setInterval(atualizarProgramacao, 60000);
+        setInterval(atualizarMetadados, 15000);
     </script>
 </body>
 </html>
