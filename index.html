@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -33,7 +31,7 @@
         .painel-tempo-real { background: rgba(255, 255, 255, 0.05); border: 2px solid var(--magenta); border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px; display: flex; justify-content: space-around; align-items: center; color: white; animation: animacaoCores 5s infinite ease-in-out; transition: border-color 1s ease; }
         @keyframes animacaoCores { 0% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } 50% { border-color: var(--dourado); box-shadow: 0 0 15px var(--dourado); } 100% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } }
         
-        /* ATUALIZADO: Relógio clicável */
+        /* Relógio clicável */
         .tempo-item { text-align: center; } 
         .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; } 
         .tempo-valor { font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
@@ -58,6 +56,10 @@
         .bg-blur-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; filter: blur(20px) brightness(0.6); z-index: 1; transition: background-image 0.5s ease; }
         .capa-tv-img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 90%; width: auto; aspect-ratio: 1/1; object-fit: cover; z-index: 2; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.3); transition: box-shadow 1s ease; }
         @keyframes video-glow { 0% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); } 25% { box-shadow: 0 0 20px var(--roxo-neon); border-color: var(--roxo-neon); } 50% { box-shadow: 0 0 20px var(--dourado); border-color: var(--dourado); } 75% { box-shadow: 0 0 20px var(--verde-whatsapp); border-color: var(--verde-whatsapp); } 100% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); } }
+
+        /* CORREÇÃO MOBILE: Estilização para evitar que o iframe quebre o layout */
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 15px; border: 2px solid #333; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
         /* PLAYER & CONTROLES */
         .player-bar { background: linear-gradient(90deg, #120c22 0%, #2e003e 100%); color: white; padding: 25px 15px; display: flex; flex-direction: column; align-items: center; gap: 15px; box-shadow: 0 -5px 30px rgba(0,0,0,0.9); border-top: 2px solid var(--magenta); position: relative; overflow: hidden; transition: border-color 1s ease; }
@@ -112,7 +114,7 @@
             display: flex; flex-direction: column; 
         }
         .card:hover { border-color: var(--magenta); box-shadow: 0 0 30px var(--magenta); transform: translateY(-10px); }
-        .card img { width: 100%; height: 200px; object-fit: cover; object-position: center; }
+        .card img { width: 100%; height: 200px; object-fit: cover; object-position: center; background-color: #111; }
         .card h3 { margin: 15px 0 5px; color: white; text-transform: uppercase; font-size: 18px; }
         .btn-neon { background: var(--magenta); color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: auto; margin-bottom: 10px; transition: 0.3s; width: fit-content; align-self: center; }
         .btn-neon:hover { box-shadow: 0 0 25px var(--magenta); transform: scale(1.05); }
@@ -120,7 +122,7 @@
         .carousel-container { width: 100%; overflow: hidden; padding: 20px 0; margin-top: 50px; background: rgba(255,255,255,0.03); border-radius: 15px; }
         .carousel-track { display: flex; gap: 20px; animation: scroll 25s linear infinite; width: max-content; }
         .card-anuncio { min-width: 280px; background: #1a1a2e; border-radius: 15px; overflow: hidden; border: 1px solid #333; text-align: center; padding-bottom: 15px; transition: 0.3s; }
-        .card-anuncio:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta);} .card-anuncio img { width: 100%; height: 180px; object-fit: cover; }
+        .card-anuncio:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta);} .card-anuncio img { width: 100%; height: 180px; object-fit: cover; background-color: #111; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         
         /* MURAL & FOOTER */
@@ -238,7 +240,7 @@
         <button class="r-btn main" onclick="toggleReactions()">❤️</button>
     </div>
 
-    <div class="banner-container"><img src="banner.jpg"></div>
+    <div class="banner-container"><img src="banner.jpg" alt="Rádio Top Itatiba FM 91.5"></div>
 
     <nav>
         <a href="#">HOME</a>
@@ -312,7 +314,8 @@
     </div>
 
     <div class="container">
-        <h2 id="pedido" class="section-title">🎵 PEÇA SUA MÚSICA NO WHATSAPP</h2>
+        <div id="pedido"></div>
+        <h2 class="section-title">🎵 PEÇA SUA MÚSICA NO WHATSAPP</h2>
         <div class="painel-pedido">
             <input type="text" id="pedido-nome" class="mural-input" placeholder="Seu Nome">
             <input type="text" id="pedido-musica" class="mural-input" placeholder="Nome da Música / Cantor">
@@ -324,7 +327,8 @@
             <p style="text-align:center;">Carregando programação...</p>
         </div>
 
-        <h2 id="mural" class="section-title">💬 MURAL DE RECADOS</h2>
+        <div id="mural"></div>
+        <h2 class="section-title">💬 MURAL DE RECADOS</h2>
         <div class="mural-container">
             <form id="form-mural">
                 <input type="text" id="nome-ouvinte" class="mural-input" placeholder="Seu Nome" required>
@@ -333,8 +337,9 @@
             </form>
         </div>
         
-        <h2 id="video" class="section-title">📺 VÍDEO DA SEMANA: GUSTTAVO LIMA</h2>
-        <div class="video-container"><iframe src="https://www.youtube.com/embed/aaLYhwadeE0" frameborder="0" allowfullscreen></iframe></div>
+        <div id="video"></div>
+        <h2 class="section-title">📺 VÍDEO DA SEMANA: GUSTTAVO LIMA</h2>
+        <div class="video-container"><iframe src="https://www.youtube.com/embed/aaLYhwadeE0" allowfullscreen></iframe></div>
 
         <h2 class="section-title">🏆 TOP 5 - AS MAIS PEDIDAS</h2>
         <div id="ranking-container" class="ranking-box"></div>
@@ -348,13 +353,13 @@
             </div>
             
             <div class="card" onclick="abrirModal('getCinema', 'CINE MULTIPLEX 🍿')">
-                <img src="cinema.jpg" style="object-fit: cover;">
+                <img src="cinema.jpg">
                 <h3>Cinema</h3>
                 <span class="btn-neon">EM CARTAZ</span>
             </div>
 
             <div class="card" onclick="abrirModal('getOnibus', 'TEM ÔNIBUS? 🚌')">
-                <img src="logo onibus.jpg" style="object-fit: cover;">
+                <img src="logo onibus.jpg">
                 <h3>Horários</h3>
                 <span class="btn-neon">VER PRÓXIMO</span>
             </div>
@@ -399,7 +404,6 @@
     </footer>
 
     <script>
-        // ATENÇÃO: LINK ATUALIZADO DO SEU SCRIPT
         const urlGoogle = "https://script.google.com/macros/s/AKfycbx6ziX6OLr6qXy1kDSOIX3yGZx4YvbQZQ5LDm6E7CtFigkWqYAcrbPM03joatzGeMtpFw/exec";
         
         let ultimaMusica = "";
@@ -408,6 +412,7 @@
         let fadeInterval;
         let modalData = []; let modalIndex = 0; let currentAction = '';
         let sleepTimer = null; let alarmInterval = null;
+        let dadosOnibusGlobais = []; // CORREÇÃO: Armazenamento seguro dos dados do autocarro
 
         const colorThief = new ColorThief();
 
@@ -484,7 +489,6 @@
             modalBody.innerHTML = '<p style="text-align:center; color:white;">Buscando informações...</p>';
             controls.style.display = 'none'; modal.style.display = 'flex';
 
-            // --- LÓGICA DA BATALHA ---
             if (acao === 'getEnquete') {
                 modalTitle.innerText = "BATALHA TOP"; 
                 fetch(urlGoogle + "?action=getEnquete").then(r => r.json())
@@ -493,7 +497,6 @@
                 return;
             }
 
-             // --- LÓGICA DO HORÓSCOPO ---
              if (acao === 'getHoroscopo') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getHoroscopo").then(r => r.json()).then(data => {
@@ -507,7 +510,6 @@
                 return;
             }
 
-            // --- LÓGICA DO CINEMA ---
             if (acao === 'getCinema') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getCinema").then(r => r.json()).then(data => {
@@ -521,7 +523,6 @@
                 return;
             }
 
-            // --- LÓGICA DO ÔNIBUS (NOVO) ---
             if (acao === 'getOnibus') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getOnibus").then(r => r.json()).then(data => {
@@ -545,7 +546,6 @@
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
         }
 
-        // --- RELÓGIO E SONECA (NOVO) ---
         function abrirModalRelogio() {
             const modal = document.getElementById('modal-container');
             document.getElementById('modal-title').innerText = "PROGRAMAR TEMPO";
@@ -584,7 +584,7 @@
             }, min * 60 * 1000);
             document.getElementById('clock').classList.add('active-timer');
             fecharModal();
-            alert(`Soneca definida para ${min} minutos.`);
+            alert(`Soneca definida para ${min} minutes.`);
         }
 
         function cancelSleep() {
@@ -615,7 +615,9 @@
             }, 1000);
         }
 
+        // CORREÇÃO: Função modificada para utilizar o array global de forma correta e sem falhas de aspas no HTML
         function renderOnibus(data) {
+            dadosOnibusGlobais = data;
             let options = `<option value="">Selecione seu Bairro...</option>`;
             data.forEach((item, index) => {
                 options += `<option value="${index}">${item.linha}</option>`;
@@ -624,7 +626,7 @@
             const modalBody = document.getElementById('modal-body');
             modalBody.innerHTML = `
                 <div style="width:100%; text-align:center;">
-                    <select id="select-onibus" onchange="calcularHorario(${JSON.stringify(data).replace(/"/g, '"')})" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
+                    <select id="select-onibus" onchange="calcularHorarioNovo()" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
                         ${options}
                     </select>
                     <div id="resultado-onibus" style="font-size:18px; color:white; min-height:100px;"></div>
@@ -632,13 +634,14 @@
             `;
         }
 
-        window.calcularHorario = function(data) { // Torna global para o HTML acessar
+        // CORREÇÃO: Nova versão de cálculo que lê do escopo global de forma segura
+        window.calcularHorarioNovo = function() {
             const index = document.getElementById('select-onibus').value;
             const divRes = document.getElementById('resultado-onibus');
             
             if(index === "") { divRes.innerHTML = ""; return; }
 
-            const linha = data[index];
+            const linha = dadosOnibusGlobais[index];
             const agora = new Date();
             const horasAgora = agora.getHours();
             const minAgora = agora.getMinutes();
@@ -662,7 +665,7 @@
             }
 
             if (proximo) {
-                let cor = diff < 15 ? '#00ff55' : '#f3b644'; // Verde se faltar pouco
+                let cor = diff < 15 ? '#00ff55' : '#f3b644';
                 divRes.innerHTML = `
                     <p style="color:#ccc; font-size:14px; margin-bottom:5px;">PRÓXIMA SAÍDA:</p>
                     <h1 style="color:${cor}; font-size:50px; margin:0;">${proximo}</h1>
@@ -825,9 +828,8 @@
             }).catch(e => console.log("Erro config"));
         }
         
-        setInterval(carregarConfig, 30000);
+        setInterval(carregarConfig, 60000); // OTIMIZAÇÃO: Alterado de 30s para 60s poupando dados móveis
 
-        // --- CORREÇÃO DO MURAL AQUI ---
         document.getElementById('form-mural').addEventListener('submit', function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btn-status');
@@ -849,7 +851,7 @@
             });
         });
 
-        // --- GERADOR DE STORY (NOVA FUNÇÃO) ---
+        // CORREÇÃO: Função otimizada com Proxy CodeTabs na imagem de capa, anulando quebras de CORS no canvas móvel
         function gerarStory() {
             const modal = document.getElementById('modal-container');
             const modalTitle = document.getElementById('modal-title');
@@ -877,10 +879,11 @@
 
             const imgCapa = new Image();
             imgCapa.crossOrigin = "Anonymous";
-            imgCapa.src = capaSrc;
+            // Aplicação de proxy para não rejeitar a renderização devido ao bloqueio CORS
+            imgCapa.src = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(capaSrc);
 
             const imgLogo = new Image();
-            imgLogo.src = 'top1.jpg'; // Seu logo local
+            imgLogo.src = 'top1.jpg';
 
             imgCapa.onload = function() {
                 const size = 800;
@@ -955,9 +958,8 @@
 
         function iniciarSite() {
             const splash = document.getElementById('splash-screen');
-            // Correção do Bug de Travamento:
             splash.style.transform = 'translateY(-100%)';
-            setTimeout(() => { splash.style.display = 'none'; }, 800); // Remove da tela após a animação
+            setTimeout(() => { splash.style.display = 'none'; }, 800);
 
             document.getElementById('reactionMenu').style.display = 'block';
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
@@ -967,18 +969,13 @@
             atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
         }
 
-        // ==========================================
-        //  A CORREÇÃO FINAL DOS OUVINTES E MÚSICA (CodeTabs)
-        // ==========================================
         function atualizarMetadados() {
-            // 1. MÚSICA - Usando CodeTabs para furar bloqueios
             const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
             fetch(proxyUrl).then(r => r.text()).then(data => {
                 let nomeMusica = data.trim();
                 let capaParaMostrar = document.getElementById('capa-album-tv').src; 
 
-                // PROTEÇÃO: Se o servidor caiu, ele devolve HTML (<!DOCTYPE...). 
                 if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error")) {
                     nomeMusica = "Rádio Top - A Conexão que te Move"; 
                 } else if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
@@ -987,7 +984,9 @@
 
                 document.getElementById('nome-musica').innerText = nomeMusica;
                 
-                // --- INTEGRAÇÃO ANDROID AUTO / BLUETOOTH ---
+                // SEO & USABILIDADE: Altera o título da aba do navegador dinamicamente
+                document.title = "🎵 " + nomeMusica + " | Rádio Top Itatiba";
+                
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
                         title: nomeMusica,
@@ -1011,21 +1010,18 @@
                 document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
             });
             
-            // 2. OUVINTES - Usando o endpoint 7.html com proxy confiável
-            // Usando CodeTabs com o link HTTPS direto que você forneceu
             const urlOuvintes = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
             
             fetch(urlOuvintes)
             .then(r => r.text())
             .then(d => {
-                // Remove tags HTML se o proxy retornar erro ou página
                 let cleanText = d.replace(/<[^>]*>/g, '').trim(); 
                 let p = cleanText.split(',');
                 
                 if(p.length > 0) { 
                     let num = parseInt(p[0]); 
                     if (!isNaN(num)) {
-                        document.getElementById('qtd-ouvintes').innerText = num + 125; // Soma fake se quiser
+                        document.getElementById('qtd-ouvintes').innerText = num + 125;
                     }
                 }
             }).catch(e => {});
