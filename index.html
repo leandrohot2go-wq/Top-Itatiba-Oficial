@@ -764,7 +764,28 @@
         }
 
         function updateClock() { const now = new Date(); document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR') + ' ⏰'; } setInterval(updateClock, 1000);
-        function getClima() { fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.0019&longitude=-46.8406&current_weather=true").then(r => r.json()).then(data => { document.getElementById('temp-itatiba').innerHTML = `☀️ ${Math.round(data.current_weather.temperature)}°C 🥂`; }).catch(() => {}); } getClima(); setInterval(getClima, 600000);
+        function getClima() { 
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.0019&longitude=-46.8406&current_weather=true")
+    .then(r => r.json())
+    .then(data => { 
+        const temp = Math.round(data.current_weather.temperature);
+        document.getElementById('temp-itatiba').innerHTML = `☀️ ${temp}°C 🥂`; 
+
+        // NOVA FUNÇÃO: Dica de música baseada no clima de Itatiba
+        let mensagemClima = "FELIZ 2026!";
+        if (temp >= 28) {
+            mensagemClima = " Calor em Itatiba! ☀️ Bora pedir uma animada no Zap?";
+        } else if (temp <= 18) {
+            mensagemClima = " Friozinho bom... ☕ Curte os clássicos na Top!";
+        } else {
+            mensagemClima = " Clima agradável em Itatiba!  A melhor companhia é aqui.";
+        }
+        
+        // Injeta a frase dinamicamente na estrutura que já tens
+        document.getElementById('label-clima').innerText = mensagemClima;
+
+    }).catch(() => {}); 
+}
 
         function enviarPedidoZap() {
             const nome = document.getElementById('pedido-nome').value; const musica = document.getElementById('pedido-musica').value;
