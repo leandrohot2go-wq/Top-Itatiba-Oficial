@@ -223,8 +223,8 @@
     <div id="splash-screen">
         <div class="splash-content">
             <img src="top1.jpg" alt="Rádio Top" class="splash-logo">
-            <h1 style="color: white; margin-bottom: 15px; letter-spacing: 2px;">BEM-VINDO À RADIO TOP ITATIBA!</h1>
-            <p style="color: var(--dourado); font-weight: bold; margin-bottom: 25px;">A Conexão que te Move!</p>
+            <h1 style="color: white; margin-bottom: 15px; letter-spacing: 2px;">BEM-VINDO À RÁDIO TOP ITATIBA!</h1>
+            <p style="color: var(--dourado); font-weight: bold; margin-bottom: 25px;">A Rádio que te Move!</p>
             <button class="btn-entrar-top" onclick="iniciarSite()">ENTRAR AGORA</button>
         </div>
     </div>
@@ -835,15 +835,20 @@
                 if (data.botao) document.getElementById('link-studio').href = data.botao;
                 const ticker = document.querySelector('.ticker-content');
                 let textoFinal = "";
-                if (data.texto && data.texto.length > 10) {
-                    textoFinal = `<span class="noticia-item" style="color:white;">${data.texto}</span>`;
-                } else if (data.noticias) {
+                
+                // Força o letreiro a exibir o que está tocando ao vivo ou as notícias da planilha
+                if (window.musicaAtualGlobal && window.musicaAtualGlobal.trim() !== "") {
+                    textoFinal += `<span class="noticia-item"><span>🎵 NO AR:</span> ${window.musicaAtualGlobal}</span>`;
+                }
+
+                if (data.noticias) {
                     const arrayNews = data.noticias.split('.');
                     arrayNews.forEach(msg => {
                         if(msg.trim() != "") textoFinal += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
                     });
                 }
-                if(textoFinal && ticker.innerHTML.length !== (textoFinal + textoFinal).length) {
+
+                if(textoFinal) {
                     ticker.innerHTML = textoFinal + textoFinal;
                 }
             }).catch(e => console.log("Erro config"));
@@ -988,8 +993,9 @@
             atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
         }
 
+        window.musicaAtualGlobal = "";
+
         function atualizarMetadados() {
-            // PROXY ATUALIZADO (AllOrigins) para evitar bloqueios de CORS e HTTPS
             const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
             fetch(proxyUrl)
@@ -997,16 +1003,26 @@
             .then(response => {
                 let data = response.contents || "";
                 let nomeMusica = data.trim();
-                let capaParaMostrar = document.getElementById('capa-album-tv').src; 
-
-                if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error")) {
-                    nomeMusica = "Rádio Top - A Conexão que te Move"; 
-                } else if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
-                    nomeMusica = "Rádio Top Itatiba";
+                
+                if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error") || nomeMusica === "") {
+                    nomeMusica = "Rádio Top Itatiba"; 
                 }
 
+                window.musicaAtualGlobal = nomeMusica;
                 document.getElementById('nome-musica').innerText = nomeMusica;
                 document.title = "🎵 " + nomeMusica + " | Rádio Top Itatiba";
+
+                // Atualiza também o letreiro do plantão com a música que está tocando
+                const ticker = document.querySelector('.ticker-content');
+                if(ticker && !ticker.innerHTML.includes(nomeMusica)) {
+                    ticker.innerHTML = `<span class="noticia-item"><span>🎵 NO AR:</span> ${nomeMusica}</span><span class="noticia-item"><span>🎵 NO AR:</span> ${nomeMusica}</span>`;
+                }
+
+                // Atualiza a capa na TV Top pegando do painel (se houver imagem dinâmica)
+                let capaImg = document.getElementById('capa-album-tv');
+                if(capaImg && capaImg.src.includes("top1.jpg")) {
+                    // Mantém a imagem padrão ou atualiza se o servidor fornecer arte do álbum
+                }
                 
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
@@ -1014,12 +1030,8 @@
                         artist: 'Rádio Top 91.5 FM',
                         album: 'Ao Vivo',
                         artwork: [
-                            { src: capaParaMostrar, sizes: '96x96',   type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '128x128', type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '192x192', type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '256x256', type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '384x384', type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '512x512', type: 'image/jpeg' },
+                            { src: capaImg.src, sizes: '96x96',   type: 'image/jpeg' },
+                            { src: capaImg.src, sizes: '512x512', type: 'image/jpeg' },
                         ]
                     });
                     navigator.mediaSession.setActionHandler('play', togglePlay);
