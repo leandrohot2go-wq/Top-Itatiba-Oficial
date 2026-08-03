@@ -409,7 +409,7 @@
     </footer>
 
     <script>
-        const urlGoogle = "https://script.google.com/macros/s/AKfycbx6ziX6OLr6qXy1kDSOIX3yGZx4YvbQZQ5LDm6E7CtFigkWqYAcrbPM03joatzGeMtpFw/exec";
+        const urlGoogle = "https://script.google.com/macros/s/AKfycbz3wdNSlg5ln_PpsudN0p1U5Ht4UJ3jTf5DVuPeCAgWMD_n0ajeemv9H3SmFgI3ThFknQ/exec";
         
         let ultimaMusica = "";
         let audio = document.getElementById('radio-top');
@@ -994,6 +994,7 @@
         }
 
         window.musicaAtualGlobal = "";
+        let ultimaMusicaBuscada = ""; // Evita buscar a mesma capa várias vezes
 
         function atualizarMetadados() {
             const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
@@ -1018,30 +1019,59 @@
                     ticker.innerHTML = `<span class="noticia-item"><span>🎵 NO AR:</span> ${nomeMusica}</span><span class="noticia-item"><span>🎵 NO AR:</span> ${nomeMusica}</span>`;
                 }
 
-                // Atualiza a capa na TV Top pegando do painel (se houver imagem dinâmica)
-                let capaImg = document.getElementById('capa-album-tv');
-                if(capaImg && capaImg.src.includes("top1.jpg")) {
-                    // Mantém a imagem padrão ou atualiza se o servidor fornecer arte do álbum
-                }
-                
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: nomeMusica,
-                        artist: 'Rádio Top 91.5 FM',
-                        album: 'Ao Vivo',
-                        artwork: [
-                            { src: capaImg.src, sizes: '96x96',   type: 'image/jpeg' },
-                            { src: capaImg.src, sizes: '512x512', type: 'image/jpeg' },
-                        ]
-                    });
-                    navigator.mediaSession.setActionHandler('play', togglePlay);
-                    navigator.mediaSession.setActionHandler('pause', togglePlay);
-                    navigator.mediaSession.setActionHandler('stop', togglePlay);
+                // --- MÁGICA: BUSCAR CAPA AUTOMÁTICA NO ITUNES ---
+                if (nomeMusica !== "Rádio Top Itatiba" && nomeMusica !== ultimaMusicaBuscada) {
+                    ultimaMusicaBuscada = nomeMusica;
+                    
+                    fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(nomeMusica)}&media=music&limit=1`)
+                    .then(res => res.json())
+                    .then(dadosItunes => {
+                        let urlCapa = 'top1.jpg'; // Capa padrão caso a música não seja encontrada
+                        
+                        if (dadosItunes.results && dadosItunes.results.length > 0) {
+                            // Pega a capa em alta resolução (troca 100x100 por 500x500)
+                            urlCapa = dadosItunes.results[0].artworkUrl100.replace('100x100bb', '500x500bb');
+                        }
+
+                        // 1. Atualiza a capa da "TV TOP"
+                        let capaImg = document.getElementById('capa-album-tv');
+                        if(capaImg) capaImg.src = urlCapa;
+                        
+                        // 2. Atualiza o fundo borrado da TV
+                        let bgBlur = document.getElementById('blur-bg');
+                        if(bgBlur) bgBlur.style.backgroundImage = `url('${urlCapa}')`;
+
+                        // 3. Atualiza a miniatura no player (mantendo as barrinhas na frente)
+                        let miniCapaPlayer = document.querySelector('.album-cover');
+                        if (miniCapaPlayer) {
+                            miniCapaPlayer.style.backgroundImage = `url('${urlCapa}')`;
+                            miniCapaPlayer.style.backgroundSize = 'cover';
+                            miniCapaPlayer.style.backgroundPosition = 'center';
+                        }
+                        
+                        // 4. Atualiza a capa na tela de bloqueio do celular
+                        if ('mediaSession' in navigator) {
+                            navigator.mediaSession.metadata = new MediaMetadata({
+                                title: nomeMusica,
+                                artist: 'Rádio Top 91.5 FM',
+                                album: 'Ao Vivo',
+                                artwork: [
+                                    { src: urlCapa, sizes: '96x96',   type: 'image/jpeg' },
+                                    { src: urlCapa, sizes: '512x512', type: 'image/jpeg' },
+                                ]
+                            });
+                            navigator.mediaSession.setActionHandler('play', togglePlay);
+                            navigator.mediaSession.setActionHandler('pause', togglePlay);
+                            navigator.mediaSession.setActionHandler('stop', togglePlay);
+                        }
+                    })
+                    .catch(e => console.log("Erro ao buscar capa", e));
                 }
             }).catch(e => {
                 document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
             });
             
+            // --- ATUALIZA OUVINTES ---
             const urlOuvintes = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
             
             fetch(urlOuvintes)
