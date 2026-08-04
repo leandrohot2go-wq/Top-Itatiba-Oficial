@@ -223,8 +223,8 @@
     <div id="splash-screen">
         <div class="splash-content">
             <img src="top1.jpg" alt="Rádio Top" class="splash-logo">
-            <h1 style="color: white; margin-bottom: 15px; letter-spacing: 2px;">BEM-VINDO À RÁDIO TOP ITATIBA!</h1>
-            <p style="color: var(--dourado); font-weight: bold; margin-bottom: 25px;">A Rádio que te Move!</p>
+            <h1 style="color: white; margin-bottom: 15px; letter-spacing: 2px;">BEM-VINDO À RADIO TOP ITATIBA!</h1>
+            <p style="color: var(--dourado); font-weight: bold; margin-bottom: 25px;">A Conexão que te Move!</p>
             <button class="btn-entrar-top" onclick="iniciarSite()">ENTRAR AGORA</button>
         </div>
     </div>
@@ -401,6 +401,7 @@
         <a href="https://www.facebook.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" class="social-icon"></a>
         <a href="https://www.amazon.com.br/dp/B0C3814C66/" target="_blank"><img src="logo-Alexa.jpg" class="social-icon alexa-icon" title="Ouça na Alexa"></a>
         
+        <!-- Novo link OuvirRadioOnline adicionado aqui -->
         <div style="margin-top: 25px; color: white; font-size: 15px;">
             🎧 Ouça <strong>Radio Top Itatiba</strong> também no <a href="https://ouvirradioonline.com.br/parceiros_track.php?r=75754" target="_blank" rel="noopener" style="color: var(--dourado); font-weight: bold; text-decoration: none; border-bottom: 2px solid var(--dourado);">OuvirRadioOnline</a>
         </div>
@@ -409,7 +410,7 @@
     </footer>
 
     <script>
-        const urlGoogle = "https://script.google.com/macros/s/AKfycbz3wdNSlg5ln_PpsudN0p1U5Ht4UJ3jTf5DVuPeCAgWMD_n0ajeemv9H3SmFgI3ThFknQ/exec";
+        const urlGoogle = "https://script.google.com/macros/s/AKfycbx6ziX6OLr6qXy1kDSOIX3yGZx4YvbQZQ5LDm6E7CtFigkWqYAcrbPM03joatzGeMtpFw/exec";
         
         let ultimaMusica = "";
         let audio = document.getElementById('radio-top');
@@ -417,7 +418,7 @@
         let fadeInterval;
         let modalData = []; let modalIndex = 0; let currentAction = '';
         let sleepTimer = null; let alarmInterval = null;
-        let dadosOnibusGlobais = [];
+        let dadosOnibusGlobais = []; // CORREÇÃO: Armazenamento seguro dos dados do autocarro
 
         const colorThief = new ColorThief();
 
@@ -620,6 +621,7 @@
             }, 1000);
         }
 
+        // CORREÇÃO: Função modificada para utilizar o array global de forma correta e sem falhas de aspas no HTML
         function renderOnibus(data) {
             dadosOnibusGlobais = data;
             let options = `<option value="">Selecione seu Bairro...</option>`;
@@ -638,6 +640,7 @@
             `;
         }
 
+        // CORREÇÃO: Nova versão de cálculo que lê do escopo global de forma segura
         window.calcularHorarioNovo = function() {
             const index = document.getElementById('select-onibus').value;
             const divRes = document.getElementById('resultado-onibus');
@@ -768,24 +771,27 @@
 
         function updateClock() { const now = new Date(); document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR') + ' ⏰'; } setInterval(updateClock, 1000);
         function getClima() { 
-            fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.0019&longitude=-46.8406&current_weather=true")
-            .then(r => r.json())
-            .then(data => { 
-                const temp = Math.round(data.current_weather.temperature);
-                document.getElementById('temp-itatiba').innerHTML = `☀️ ${temp}°C 🥂`; 
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.0019&longitude=-46.8406&current_weather=true")
+    .then(r => r.json())
+    .then(data => { 
+        const temp = Math.round(data.current_weather.temperature);
+        document.getElementById('temp-itatiba').innerHTML = `☀️ ${temp}°C 🥂`; 
 
-                let mensagemClima = "2026!";
-                if (temp >= 28) {
-                    mensagemClima = " Calor em Itatiba! ☀️ Bora pedir uma animada no Zap?";
-                } else if (temp <= 18) {
-                    mensagemClima = " Friozinho bom... ☕ Curte os clássicos na Top!";
-                } else {
-                    mensagemClima = " Clima agradável em Itatiba! A melhor companhia é aqui.";
-                }
-                document.getElementById('label-clima').innerText = mensagemClima;
-            }).catch(() => {}); 
+        // NOVA FUNÇÃO: Dica de música baseada no clima de Itatiba
+        let mensagemClima = "2026!";
+        if (temp >= 28) {
+            mensagemClima = " Calor em Itatiba! ☀️ Bora pedir uma animada no Zap?";
+        } else if (temp <= 18) {
+            mensagemClima = " Friozinho bom... ☕ Curte os clássicos na Top!";
+        } else {
+            mensagemClima = " Clima agradável em Itatiba!  A melhor companhia é aqui.";
         }
-        getClima();
+        
+        // Injeta a frase dinamicamente na estrutura que já tens
+        document.getElementById('label-clima').innerText = mensagemClima;
+
+    }).catch(() => {}); 
+}
 
         function enviarPedidoZap() {
             const nome = document.getElementById('pedido-nome').value; const musica = document.getElementById('pedido-musica').value;
@@ -835,26 +841,21 @@
                 if (data.botao) document.getElementById('link-studio').href = data.botao;
                 const ticker = document.querySelector('.ticker-content');
                 let textoFinal = "";
-                
-                // Força o letreiro a exibir o que está tocando ao vivo ou as notícias da planilha
-                if (window.musicaAtualGlobal && window.musicaAtualGlobal.trim() !== "") {
-                    textoFinal += `<span class="noticia-item"><span>🎵 NO AR:</span> ${window.musicaAtualGlobal}</span>`;
-                }
-
-                if (data.noticias) {
+                if (data.texto && data.texto.length > 10) {
+                    textoFinal = `<span class="noticia-item" style="color:white;">${data.texto}</span>`;
+                } else if (data.noticias) {
                     const arrayNews = data.noticias.split('.');
                     arrayNews.forEach(msg => {
                         if(msg.trim() != "") textoFinal += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
                     });
                 }
-
-                if(textoFinal) {
+                if(textoFinal && ticker.innerHTML.length !== (textoFinal + textoFinal).length) {
                     ticker.innerHTML = textoFinal + textoFinal;
                 }
             }).catch(e => console.log("Erro config"));
         }
         
-        setInterval(carregarConfig, 60000);
+        setInterval(carregarConfig, 60000); // OTIMIZAÇÃO: Alterado de 30s para 60s poupando dados móveis
 
         document.getElementById('form-mural').addEventListener('submit', function(e) {
             e.preventDefault(); 
@@ -877,6 +878,7 @@
             });
         });
 
+        // CORREÇÃO: Função otimizada com Proxy CodeTabs na imagem de capa, anulando quebras de CORS no canvas móvel
         function gerarStory() {
             const modal = document.getElementById('modal-container');
             const modalTitle = document.getElementById('modal-title');
@@ -904,6 +906,7 @@
 
             const imgCapa = new Image();
             imgCapa.crossOrigin = "Anonymous";
+            // Aplicação de proxy para não rejeitar a renderização devido ao bloqueio CORS
             imgCapa.src = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(capaSrc);
 
             const imgLogo = new Image();
@@ -993,91 +996,82 @@
             atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
         }
 
-        window.musicaAtualGlobal = "";
-        let ultimaMusicaBuscada = ""; // Evita buscar a mesma capa várias vezes
+        let ultimaMusicaBuscada = "";
 
         function atualizarMetadados() {
-            const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
+            const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
-            fetch(proxyUrl)
-            .then(r => r.json())
-            .then(response => {
-                let data = response.contents || "";
+            fetch(proxyUrl).then(r => r.text()).then(data => {
                 let nomeMusica = data.trim();
-                
-                if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error") || nomeMusica === "") {
-                    nomeMusica = "Rádio Top Itatiba"; 
+                let capaParaMostrar = document.getElementById('capa-album-tv').src; 
+
+                if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error")) {
+                    nomeMusica = "Rádio Top - A Conexão que te Move"; 
+                } else if (nomeMusica === "" || nomeMusica.includes("Vinheta") || nomeMusica.includes("Comercial")) {
+                    nomeMusica = "Rádio Top Itatiba";
                 }
 
-                window.musicaAtualGlobal = nomeMusica;
                 document.getElementById('nome-musica').innerText = nomeMusica;
+                
+                // SEO & USABILIDADE: Altera o título da aba do navegador dinamicamente
                 document.title = "🎵 " + nomeMusica + " | Rádio Top Itatiba";
 
-                // Atualiza também o letreiro do plantão com a música que está tocando
-                const ticker = document.querySelector('.ticker-content');
-                if(ticker && !ticker.innerHTML.includes(nomeMusica)) {
-                    ticker.innerHTML = `<span class="noticia-item"><span>🎵 NO AR:</span> ${nomeMusica}</span><span class="noticia-item"><span>🎵 NO AR:</span> ${nomeMusica}</span>`;
-                }
-
-                // --- MÁGICA: BUSCAR CAPA AUTOMÁTICA NO ITUNES ---
+                // BUSCA AUTOMÁTICA DA CAPA DA MÚSICA NO ITUNES
                 if (nomeMusica !== "Rádio Top Itatiba" && nomeMusica !== ultimaMusicaBuscada) {
                     ultimaMusicaBuscada = nomeMusica;
                     
                     fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(nomeMusica)}&media=music&limit=1`)
                     .then(res => res.json())
                     .then(dadosItunes => {
-                        let urlCapa = 'top1.jpg'; // Capa padrão caso a música não seja encontrada
-                        
+                        let urlCapa = 'top1.jpg';
                         if (dadosItunes.results && dadosItunes.results.length > 0) {
-                            // Pega a capa em alta resolução (troca 100x100 por 500x500)
                             urlCapa = dadosItunes.results[0].artworkUrl100.replace('100x100bb', '500x500bb');
                         }
 
-                        // 1. Atualiza a capa da "TV TOP"
                         let capaImg = document.getElementById('capa-album-tv');
                         if(capaImg) capaImg.src = urlCapa;
                         
-                        // 2. Atualiza o fundo borrado da TV
                         let bgBlur = document.getElementById('blur-bg');
                         if(bgBlur) bgBlur.style.backgroundImage = `url('${urlCapa}')`;
 
-                        // 3. Atualiza a miniatura no player (mantendo as barrinhas na frente)
                         let miniCapaPlayer = document.querySelector('.album-cover');
                         if (miniCapaPlayer) {
                             miniCapaPlayer.style.backgroundImage = `url('${urlCapa}')`;
                             miniCapaPlayer.style.backgroundSize = 'cover';
                             miniCapaPlayer.style.backgroundPosition = 'center';
                         }
-                        
-                        // 4. Atualiza a capa na tela de bloqueio do celular
-                        if ('mediaSession' in navigator) {
-                            navigator.mediaSession.metadata = new MediaMetadata({
-                                title: nomeMusica,
-                                artist: 'Rádio Top 91.5 FM',
-                                album: 'Ao Vivo',
-                                artwork: [
-                                    { src: urlCapa, sizes: '96x96',   type: 'image/jpeg' },
-                                    { src: urlCapa, sizes: '512x512', type: 'image/jpeg' },
-                                ]
-                            });
-                            navigator.mediaSession.setActionHandler('play', togglePlay);
-                            navigator.mediaSession.setActionHandler('pause', togglePlay);
-                            navigator.mediaSession.setActionHandler('stop', togglePlay);
-                        }
                     })
                     .catch(e => console.log("Erro ao buscar capa", e));
                 }
+                
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: nomeMusica,
+                        artist: 'Rádio Top 91.5 FM',
+                        album: 'Ao Vivo',
+                        artwork: [
+                            { src: capaParaMostrar, sizes: '96x96',   type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '128x128', type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '192x192', type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '256x256', type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '384x384', type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '512x512', type: 'image/jpeg' },
+                        ]
+                    });
+                    navigator.mediaSession.setActionHandler('play', togglePlay);
+                    navigator.mediaSession.setActionHandler('pause', togglePlay);
+                    navigator.mediaSession.setActionHandler('stop', togglePlay);
+                }
+
             }).catch(e => {
                 document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
             });
             
-            // --- ATUALIZA OUVINTES ---
-            const urlOuvintes = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
+            const urlOuvintes = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
             
             fetch(urlOuvintes)
-            .then(r => r.json())
-            .then(response => {
-                let d = response.contents || "";
+            .then(r => r.text())
+            .then(d => {
                 let cleanText = d.replace(/<[^>]*>/g, '').trim(); 
                 let p = cleanText.split(',');
                 
