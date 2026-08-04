@@ -31,7 +31,6 @@
         .painel-tempo-real { background: rgba(255, 255, 255, 0.05); border: 2px solid var(--magenta); border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px; display: flex; justify-content: space-around; align-items: center; color: white; animation: animacaoCores 5s infinite ease-in-out; transition: border-color 1s ease; }
         @keyframes animacaoCores { 0% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } 50% { border-color: var(--dourado); box-shadow: 0 0 15px var(--dourado); } 100% { border-color: var(--magenta); box-shadow: 0 0 15px var(--magenta); } }
         
-        /* Relógio clicável */
         .tempo-item { text-align: center; } 
         .tempo-label { font-size: 9px; text-transform: uppercase; color: var(--dourado); font-weight: bold; display: block; } 
         .tempo-valor { font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
@@ -57,7 +56,6 @@
         .capa-tv-img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 90%; width: auto; aspect-ratio: 1/1; object-fit: cover; z-index: 2; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.3); transition: box-shadow 1s ease; }
         @keyframes video-glow { 0% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); } 25% { box-shadow: 0 0 20px var(--roxo-neon); border-color: var(--roxo-neon); } 50% { box-shadow: 0 0 20px var(--dourado); border-color: var(--dourado); } 75% { box-shadow: 0 0 20px var(--verde-whatsapp); border-color: var(--verde-whatsapp); } 100% { box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta); } }
 
-        /* CORREÇÃO MOBILE: Estilização para evitar que o iframe quebre o layout */
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 15px; border: 2px solid #333; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
@@ -308,8 +306,8 @@
             <span class="tempo-valor" id="clock">00:00:00 ⏰</span>
         </div>
         <div class="tempo-item">
-            <span class="tempo-label" id="label-clima">FELIZ 2026!</span>
-            <span class="tempo-valor" id="temp-itatiba">🎆 🥂</span>
+            <span class="tempo-label" id="label-clima">RÁDIO TOP ITATIBA</span>
+            <span class="tempo-valor" id="temp-itatiba">🌡️ ...</span>
         </div>
     </div>
 
@@ -370,7 +368,7 @@
                 <span class="btn-neon">PREVISÃO</span>
             </div>
 
-            <div class="card" onclick="abrirModal('getTopHits', 'TOP HITS 2026')">
+            <div class="card" onclick="abrirModal('getTopHits', 'TOP HITS')">
                 <img src="tophits.jpg">
                 <h3>Top Hits</h3>
                 <span class="btn-neon">VER LISTA</span>
@@ -767,29 +765,21 @@
         }
 
         function updateClock() { const now = new Date(); document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR') + ' ⏰'; } setInterval(updateClock, 1000);
+        
         function getClima() { 
             fetch("https://api.open-meteo.com/v1/forecast?latitude=-23.0019&longitude=-46.8406&current_weather=true")
             .then(r => r.json())
             .then(data => { 
                 const temp = Math.round(data.current_weather.temperature);
-                document.getElementById('temp-itatiba').innerHTML = `☀️ ${temp}°C 🥂`; 
-
-                let mensagemClima = "2026!";
-                if (temp >= 28) {
-                    mensagemClima = " Calor em Itatiba! ☀️ Bora pedir uma animada no Zap?";
-                } else if (temp <= 18) {
-                    mensagemClima = " Friozinho bom... ☕ Curte os clássicos na Top!";
-                } else {
-                    mensagemClima = " Clima agradável em Itatiba! A melhor companhia é aqui.";
-                }
-                document.getElementById('label-clima').innerText = mensagemClima;
+                document.getElementById('temp-itatiba').innerHTML = `☀️ ${temp}°C`; 
             }).catch(() => {}); 
         }
+        getClima();
 
         function enviarPedidoZap() {
             const nome = document.getElementById('pedido-nome').value; const musica = document.getElementById('pedido-musica').value;
             if(!nome || !musica) { alert("Por favor, preencha seu nome e a música!"); return; }
-            window.open(`https://wa.me/5511945914382?text=${encodeURIComponent(`Olá Rádio Top! Sou o(a) ${nome}, toca pra mim a música: ${musica}! Feliz 2026!`)}`, '_blank');
+            window.open(`https://wa.me/5511945914382?text=${encodeURIComponent(`Olá Rádio Top! Sou o(a) ${nome}, toca pra mim a música: ${musica}!`)}`, '_blank');
         }
 
         function carregarRanking() {
@@ -894,44 +884,70 @@
             grd.addColorStop(0, '#0a0e27');
             grd.addColorStop(1, '#b01a7a');
             ctx.fillStyle = grd;
-            ctx.fillRect(0,0, 1080, 1920);
+            ctx.fillRect(0, 0, 1080, 1920);
 
             const imgCapa = new Image();
             imgCapa.crossOrigin = "Anonymous";
-            imgCapa.src = "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(capaSrc);
+            // Correção de proxy para leitura correta da imagem no Canvas
+            imgCapa.src = "https://images.weserv.nl/?url=" + encodeURIComponent(capaSrc.replace('https://', '').replace('http://', ''));
 
             const imgLogo = new Image();
+            imgLogo.crossOrigin = "Anonymous";
             imgLogo.src = 'top1.jpg';
 
             imgCapa.onload = function() {
-                const size = 800;
-                const x = (1080 - size) / 2;
-                const y = (1920 - size) / 2 - 100;
-                
-                ctx.shadowColor = "rgba(0,0,0,0.5)";
-                ctx.shadowBlur = 50;
-                ctx.drawImage(imgCapa, x, y, size, size);
-                ctx.shadowBlur = 0;
-
-                ctx.fillStyle = "white";
-                ctx.font = "bold 40px Arial";
-                ctx.textAlign = "center";
-                ctx.fillText("ESTOU OUVINDO NA RÁDIO TOP ITATIBA", 1080/2, y - 50);
-
-                ctx.font = "bold 60px Arial";
-                ctx.fillStyle = "#f3b644"; 
-                ctx.fillText(nomeMusica, 1080/2, y + size + 80);
-
-                ctx.drawImage(imgLogo, (1080-150)/2, 1600, 150, 150);
-                
-                const dataUrl = canvas.toDataURL("image/png");
-                modalTitle.innerText = "SEU STORY ESTÁ PRONTO!";
-                modalBody.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:300px; border-radius:10px; border:2px solid white;"><br><a href="${dataUrl}" download="story-radiotop.png" class="btn-neon" style="margin-top:15px;">BAIXAR IMAGEM</a>`;
+                desenharStoryCanvas(ctx, imgCapa, imgLogo, nomeMusica, modalTitle, modalBody, canvas);
             };
-            
+
             imgCapa.onerror = function() {
-                modalBody.innerHTML = '<p style="color:red;">Erro ao gerar imagem. Tente novamente.</p>';
+                // Fallback caso falhe o proxy externo, tenta carregar direto a imagem padrão
+                imgCapa.src = 'top1.jpg';
+                imgCapa.onload = function() {
+                    desenharStoryCanvas(ctx, imgCapa, imgLogo, nomeMusica, modalTitle, modalBody, canvas);
+                };
+            };
+        }
+
+        function desenharStoryCanvas(ctx, imgCapa, imgLogo, nomeMusica, modalTitle, modalBody, canvas) {
+            const size = 800;
+            const x = (1080 - size) / 2;
+            const y = (1920 - size) / 2 - 100;
+            
+            ctx.shadowColor = "rgba(0,0,0,0.5)";
+            ctx.shadowBlur = 50;
+            ctx.drawImage(imgCapa, x, y, size, size);
+            ctx.shadowBlur = 0;
+
+            ctx.fillStyle = "white";
+            ctx.font = "bold 40px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("ESTOU OUVINDO NA RÁDIO TOP ITATIBA", 1080/2, y - 50);
+
+            ctx.font = "bold 50px Arial";
+            ctx.fillStyle = "#f3b644"; 
+            
+            // Quebra automática de texto caso o nome da música seja longo
+            let palavras = nomeMusica.split(' ');
+            let linha = '';
+            let posY = y + size + 80;
+            for(let n = 0; n < palavras.length; n++) {
+                let testeLinha = linha + palavras[n] + ' ';
+                let metrics = ctx.measureText(testeLinha);
+                if (metrics.width > 900 && n > 0) {
+                    ctx.fillText(linha, 1080/2, posY);
+                    linha = palavras[n] + ' ';
+                    posY += 60;
+                } else {
+                    linha = testeLinha;
+                }
             }
+            ctx.fillText(linha, 1080/2, posY);
+
+            ctx.drawImage(imgLogo, (1080-150)/2, 1620, 150, 150);
+            
+            const dataUrl = canvas.toDataURL("image/png");
+            modalTitle.innerText = "SEU STORY ESTÁ PRONTO!";
+            modalBody.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:300px; border-radius:10px; border:2px solid white;"><br><a href="${dataUrl}" download="story-radiotop.png" class="btn-neon" style="margin-top:15px;">BAIXAR IMAGEM</a>`;
         }
 
         let cliquesSegredo = 0;
@@ -990,7 +1006,6 @@
         let ultimaMusicaBuscada = "";
 
         function atualizarMetadados() {
-            // CORREÇÃO: Utilizando allorigins.win para puxar corretamente o currentsong da rádio
             const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
             fetch(proxyUrl).then(r => r.json()).then(response => {
@@ -1005,7 +1020,6 @@
                 document.getElementById('nome-musica').innerText = nomeMusica;
                 document.title = "🎵 " + nomeMusica + " | Rádio Top Itatiba";
 
-                // BUSCA AUTOMÁTICA DA CAPA NO ITUNES
                 if (nomeMusica !== "Rádio Top Itatiba" && nomeMusica !== ultimaMusicaBuscada) {
                     ultimaMusicaBuscada = nomeMusica;
                     
@@ -1119,7 +1133,9 @@
             if (navigator.vibrate) navigator.vibrate(30);
         }
 
-        atualizarMetadados(); setInterval(atualizarMetadados, 15000); setInterval(atualizarProgramacao, 60000);
+        atualizarMetadados(); 
+        setInterval(atualizarMetadados, 15000); 
+        setInterval(atualizarProgramacao, 3600000);
     </script>
 </body>
 </html>
