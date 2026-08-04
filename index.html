@@ -203,7 +203,7 @@
 
     <div id="modal-container" class="modal-overlay">
         <div class="modal-content">
-            <span class="close-modal" onclick="fecharModal()">×</span>
+            <span class="close-modal" onclick="fecharModal()" aria-label="Fechar modal">×</span>
             <div class="modal-header">
                 <h2 id="modal-title">Título</h2>
             </div>
@@ -211,9 +211,9 @@
             <div class="modal-body" id="modal-body"></div>
 
             <div class="carousel-nav" id="carousel-controls" style="display:none;">
-                <button class="nav-btn" onclick="prevSlide()">❮</button>
+                <button class="nav-btn" onclick="prevSlide()" aria-label="Slide anterior">❮</button>
                 <span class="nav-counter" id="slide-counter">1 / 10</span>
-                <button class="nav-btn" onclick="nextSlide()">❯</button>
+                <button class="nav-btn" onclick="nextSlide()" aria-label="Próximo slide">❯</button>
             </div>
         </div>
     </div>
@@ -227,15 +227,15 @@
         </div>
     </div>
 
-    <a href="https://wa.me/5511945914382" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/5511945914382" class="whatsapp-float" target="_blank" aria-label="Contato via WhatsApp">
         <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
     </a>
     
     <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
-        <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
-        <button class="r-btn option" onclick="selectReaction('🎵')">🎵</button>
-        <button class="r-btn option" onclick="selectReaction('🔥')">🔥</button>
-        <button class="r-btn main" onclick="toggleReactions()">❤️</button>
+        <button class="r-btn option" onclick="selectReaction('🚀')" aria-label="Reação Foguete">🚀</button>
+        <button class="r-btn option" onclick="selectReaction('🎵')" aria-label="Reação Música">🎵</button>
+        <button class="r-btn option" onclick="selectReaction('🔥')" aria-label="Reação Fogo">🔥</button>
+        <button class="r-btn main" onclick="toggleReactions()" aria-label="Abrir reações">❤️</button>
     </div>
 
     <div class="banner-container"><img src="banner.jpg" alt="Rádio Top Itatiba FM 91.5"></div>
@@ -283,13 +283,13 @@
         <audio id="radio-top" crossorigin="anonymous"><source src="https://server27.srvsh.com.br:6674/stream" type="audio/mpeg"></audio>
 
         <div class="glass-controls">
-            <button id="btn-player" class="btn-player-modern" onclick="togglePlay()">
+            <button id="btn-player" class="btn-player-modern" onclick="togglePlay()" aria-label="Tocar ou pausar rádio">
                 <svg id="icon-play" width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
                 <svg id="icon-pause" width="30" height="30" viewBox="0 0 24 24" fill="white" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
             <div class="volume-control-modern">
-                <span class="vol-label">VOL</span>
-                <input type="range" id="vol-control" class="custom-volume" min="0" max="1" step="0.1" value="0.3" onchange="changeVolume(this.value)">
+                <label for="vol-control" class="vol-label">VOL</label>
+                <input type="range" id="vol-control" class="custom-volume" min="0" max="1" step="0.1" value="0.3" onchange="changeVolume(this.value)" aria-label="Controle de volume">
             </div>
         </div>
 
@@ -301,13 +301,13 @@
     </div>
 
     <div class="painel-tempo-real">
-        <div class="tempo-item" onclick="abrirModalRelogio()" title="Configurar Alarme/Soneca">
+        <div class="tempo-item" onclick="abrirModalRelogio()" title="Configurar Alarme/Soneca" style="cursor: pointer;">
             <span class="tempo-label">Itatiba Agora</span>
             <span class="tempo-valor" id="clock">00:00:00 ⏰</span>
         </div>
         <div class="tempo-item">
-            <span class="tempo-label" id="label-clima">RÁDIO TOP ITATIBA</span>
-            <span class="tempo-valor" id="temp-itatiba">🌡️ ...</span>
+            <span class="tempo-label" id="label-clima">CLIMA ITATIBA</span>
+            <span class="tempo-valor" id="temp-itatiba">🌡️ Carregando...</span>
         </div>
     </div>
 
@@ -315,7 +315,9 @@
         <div id="pedido"></div>
         <h2 class="section-title">🎵 PEÇA SUA MÚSICA NO WHATSAPP</h2>
         <div class="painel-pedido">
+            <label for="pedido-nome" style="display:none;">Seu Nome</label>
             <input type="text" id="pedido-nome" class="mural-input" placeholder="Seu Nome">
+            <label for="pedido-musica" style="display:none;">Nome da Música / Cantor</label>
             <input type="text" id="pedido-musica" class="mural-input" placeholder="Nome da Música / Cantor">
             <button onclick="enviarPedidoZap()" class="btn-pedido-zap">ENVIAR PEDIDO AGORA</button>
         </div>
@@ -329,7 +331,9 @@
         <h2 class="section-title">💬 MURAL DE RECADOS</h2>
         <div class="mural-container">
             <form id="form-mural">
+                <label for="nome-ouvinte" style="display:none;">Seu Nome</label>
                 <input type="text" id="nome-ouvinte" class="mural-input" placeholder="Seu Nome" required>
+                <label for="msg-ouvinte" style="display:none;">Deixe seu recado para a rádio...</label>
                 <textarea id="msg-ouvinte" class="mural-input" rows="3" placeholder="Deixe seu recado para a rádio..." required></textarea>
                 <button type="submit" class="btn-enviar" id="btn-status">ENVIAR RECADO AO ESTÚDIO</button>
             </form>
@@ -337,7 +341,7 @@
         
         <div id="video"></div>
         <h2 class="section-title">📺 VÍDEO DA SEMANA: GUSTTAVO LIMA</h2>
-        <div class="video-container"><iframe src="https://www.youtube.com/embed/aaLYhwadeE0" allowfullscreen></iframe></div>
+        <div class="video-container"><iframe src="https://www.youtube.com/embed/aaLYhwadeE0" allowfullscreen title="Vídeo da semana Gusttavo Lima"></iframe></div>
 
         <h2 class="section-title">🏆 TOP 5 - AS MAIS PEDIDAS</h2>
         <div id="ranking-container" class="ranking-box"></div>
@@ -345,41 +349,41 @@
         <h2 class="section-title">✨ DESTAQUES DA TOP</h2>
         <div class="grid-cards">
             <div class="card" onclick="abrirModal('getEnquete', 'BATALHA TOP')">
-                <img src="batalha.jpg"> 
+                <img src="batalha.jpg" alt="Batalha Top"> 
                 <h3>Batalha Top</h3>
                 <span class="btn-neon">VOTAR AGORA</span>
             </div>
             
             <div class="card" onclick="abrirModal('getCinema', 'CINE MULTIPLEX 🍿')">
-                <img src="cinema.jpg">
+                <img src="cinema.jpg" alt="Cinema">
                 <h3>Cinema</h3>
                 <span class="btn-neon">EM CARTAZ</span>
             </div>
 
             <div class="card" onclick="abrirModal('getOnibus', 'TEM ÔNIBUS? 🚌')">
-                <img src="logo onibus.jpg">
+                <img src="logo onibus.jpg" alt="Horários de Ônibus">
                 <h3>Horários</h3>
                 <span class="btn-neon">VER PRÓXIMO</span>
             </div>
 
             <div class="card" onclick="abrirModal('getHoroscopo', 'HORÓSCOPO DO DIA 🔮')">
-                <img src="horoscopo.jpg">
+                <img src="horoscopo.jpg" alt="Horóscopo">
                 <h3>Horóscopo</h3>
                 <span class="btn-neon">PREVISÃO</span>
             </div>
 
             <div class="card" onclick="abrirModal('getTopHits', 'TOP HITS')">
-                <img src="tophits.jpg">
+                <img src="tophits.jpg" alt="Top Hits">
                 <h3>Top Hits</h3>
                 <span class="btn-neon">VER LISTA</span>
             </div>
             <div class="card" onclick="abrirModal('getEquipe', 'NOSSA EQUIPE')">
-                <img src="nossa equipe.jpg">
+                <img src="nossa equipe.jpg" alt="Nossa Equipe">
                 <h3>Nossa Equipe</h3>
                 <span class="btn-neon">LOCUTORES</span>
             </div>
             <div class="card" onclick="abrirModal('getPromocoes', 'PROMOÇÕES TOP')">
-                <img src="promocoes_top.jpg">
+                <img src="promocoes_top.jpg" alt="Promoções Top">
                 <h3>Promoções</h3>
                 <span class="btn-neon">PARTICIPAR</span>
             </div>
@@ -395,9 +399,9 @@
 
     <footer>
         <p id="segredo-rodape" style="color: var(--dourado); font-weight: bold; margin-bottom: 20px; cursor: pointer; user-select: none;">91.5 FM - RADIO TOP ITATIBA</p>
-        <a href="https://www.instagram.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3955/3955024.png" class="social-icon"></a>
-        <a href="https://www.facebook.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" class="social-icon"></a>
-        <a href="https://www.amazon.com.br/dp/B0C3814C66/" target="_blank"><img src="logo-Alexa.jpg" class="social-icon alexa-icon" title="Ouça na Alexa"></a>
+        <a href="https://www.instagram.com/radiotopitatiba" target="_blank" aria-label="Instagram da Rádio Top Itatiba"><img src="https://cdn-icons-png.flaticon.com/512/3955/3955024.png" class="social-icon" alt="Instagram"></a>
+        <a href="https://www.facebook.com/radiotopitatiba" target="_blank" aria-label="Facebook da Rádio Top Itatiba"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" class="social-icon" alt="Facebook"></a>
+        <a href="https://www.amazon.com.br/dp/B0C3814C66/" target="_blank" aria-label="Ouça na Alexa"><img src="logo-Alexa.jpg" class="social-icon alexa-icon" title="Ouça na Alexa" alt="Alexa"></a>
         
         <div style="margin-top: 25px; color: white; font-size: 15px;">
             🎧 Ouça <strong>Radio Top Itatiba</strong> também no <a href="https://ouvirradioonline.com.br/parceiros_track.php?r=75754" target="_blank" rel="noopener" style="color: var(--dourado); font-weight: bold; text-decoration: none; border-bottom: 2px solid var(--dourado);">OuvirRadioOnline</a>
@@ -569,7 +573,7 @@
                     
                     <h3 style="color:var(--verde-whatsapp);">⏰ DESPERTADOR</h3>
                     <p>Ligar o rádio automaticamente às:</p>
-                    <input type="time" id="alarm-time" style="padding:10px; border-radius:10px; border:none; font-size:18px; text-align:center;">
+                    <input type="time" id="alarm-time" style="padding:10px; border-radius:10px; border:none; font-size:18px; text-align:center;" aria-label="Definir horário do alarme">
                     <br><br>
                     <button onclick="setAlarm()" class="btn-neon">DEFINIR ALARME</button>
                     <p style="font-size:12px; color:#888; margin-top:10px;">*Mantenha esta aba aberta para o alarme funcionar.</p>
@@ -628,7 +632,7 @@
             const modalBody = document.getElementById('modal-body');
             modalBody.innerHTML = `
                 <div style="width:100%; text-align:center;">
-                    <select id="select-onibus" onchange="calcularHorarioNovo()" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
+                    <select id="select-onibus" onchange="calcularHorarioNovo()" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;" aria-label="Selecione a linha de ônibus">
                         ${options}
                     </select>
                     <div id="resultado-onibus" style="font-size:18px; color:white; min-height:100px;"></div>
@@ -727,19 +731,19 @@
             let html = '<div class="slide-container">';
             
             if(currentAction === 'getCinema') {
-                html += `<img src="${img}" class="img-slide-rect" style="aspect-ratio: 2/3; object-fit:cover;"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:14px; color:#ccc;">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">COMPRAR INGRESSO</a>`;
+                html += `<img src="${img}" class="img-slide-rect" style="aspect-ratio: 2/3; object-fit:cover;" alt="${titulo}"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:14px; color:#ccc;">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">COMPRAR INGRESSO</a>`;
             
             } else if(currentAction === 'getEquipe') {
-                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-circle"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">VER PERFIL</a>`;
+                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-circle" alt="${titulo}"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">VER PERFIL</a>`;
             
             } else if (currentAction === 'getTopHits') {
-                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><span style="color:var(--dourado); font-weight:bold; font-size:30px; display:block; margin:10px 0;">${subtitulo}</span><h3 class="slide-title">${titulo}</h3><a href="${linkAcao}" target="_blank" class="btn-slide-action">OUVIR AGORA</a>`;
+                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect" alt="${titulo}"><span style="color:var(--dourado); font-weight:bold; font-size:30px; display:block; margin:10px 0;">${subtitulo}</span><h3 class="slide-title">${titulo}</h3><a href="${linkAcao}" target="_blank" class="btn-slide-action">OUVIR AGORA</a>`;
             
             } else if (currentAction === 'getHoroscopo') {
-                 html += `<img src="${img}" class="img-slide-circle" style="border-color:var(--dourado);"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:16px; color:#fff;">${subtitulo}</p>`;
+                 html += `<img src="${img}" class="img-slide-circle" style="border-color:var(--dourado);" alt="${titulo}"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:16px; color:#fff;">${subtitulo}</p>`;
             
             } else {
-                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">QUERO PARTICIPAR</a>`;
+                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect" alt="${titulo}"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">QUERO PARTICIPAR</a>`;
             }
             html += '</div>';
             modalBody.innerHTML = html;
@@ -750,6 +754,14 @@
         function prevSlide() { if(modalIndex > 0) { modalIndex--; renderSlide(); } else { modalIndex = modalData.length - 1; renderSlide(); } }
         function fecharModal() { document.getElementById('modal-container').style.display = 'none'; }
         window.onclick = function(event) { if (event.target == document.getElementById('modal-container')) { fecharModal(); } }
+
+        // Fechar reações ao clicar fora
+        document.addEventListener('click', function(e) {
+            const reactionMenu = document.getElementById('reactionMenu');
+            if (reactionMenu && !reactionMenu.contains(e.target) && isReactionsOpen) {
+                closeStack();
+            }
+        });
 
         function startFireworks() {
             const colors = ['#ff00ff', '#f3b644', '#00ffff', '#ffffff', '#ff0000'];
@@ -771,8 +783,31 @@
             .then(r => r.json())
             .then(data => { 
                 const temp = Math.round(data.current_weather.temperature);
-                document.getElementById('temp-itatiba').innerHTML = `☀️ ${temp}°C`; 
-            }).catch(() => {}); 
+                const weatherCode = data.current_weather.weathercode;
+                
+                let icone = "☀️";
+                let mensagem = "Calor em Itatiba!";
+
+                if (weatherCode >= 51 && weatherCode <= 99) {
+                    icone = "🌧️";
+                    mensagem = "Chovendo em Itatiba!";
+                } else if (temp >= 28) {
+                    icone = "🔥";
+                    mensagem = "Muito calor! Hidrate-se.";
+                } else if (temp <= 18) {
+                    icone = "❄️";
+                    mensagem = "Friozinho em Itatiba!";
+                } else {
+                    icone = "🌤️";
+                    mensagem = "Tempo agradável!";
+                }
+
+                document.getElementById('label-clima').innerText = mensagem;
+                document.getElementById('temp-itatiba').innerHTML = `${icone} ${temp}°C`; 
+            }).catch(() => {
+                document.getElementById('label-clima').innerText = "RÁDIO TOP ITATIBA";
+                document.getElementById('temp-itatiba').innerHTML = "🌡️ 91.5 FM";
+            }); 
         }
         getClima();
 
@@ -804,6 +839,7 @@
         }
 
         function carregarConfig() {
+            if (document.hidden) return; // Economia de bateria/dados se aba oculta
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if (data.tv) {
                     let capaImg = document.getElementById('capa-album-tv');
@@ -858,6 +894,7 @@
                 btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; btn.disabled = false;
             }).catch(() => {
                 btn.innerText = "ERRO AO ENVIAR";
+                btn.disabled = false;
             });
         });
 
@@ -888,7 +925,6 @@
 
             const imgCapa = new Image();
             imgCapa.crossOrigin = "Anonymous";
-            // Correção de proxy para leitura correta da imagem no Canvas
             imgCapa.src = "https://images.weserv.nl/?url=" + encodeURIComponent(capaSrc.replace('https://', '').replace('http://', ''));
 
             const imgLogo = new Image();
@@ -900,7 +936,6 @@
             };
 
             imgCapa.onerror = function() {
-                // Fallback caso falhe o proxy externo, tenta carregar direto a imagem padrão
                 imgCapa.src = 'top1.jpg';
                 imgCapa.onload = function() {
                     desenharStoryCanvas(ctx, imgCapa, imgLogo, nomeMusica, modalTitle, modalBody, canvas);
@@ -926,7 +961,6 @@
             ctx.font = "bold 50px Arial";
             ctx.fillStyle = "#f3b644"; 
             
-            // Quebra automática de texto caso o nome da música seja longo
             let palavras = nomeMusica.split(' ');
             let linha = '';
             let posY = y + size + 80;
@@ -947,7 +981,7 @@
             
             const dataUrl = canvas.toDataURL("image/png");
             modalTitle.innerText = "SEU STORY ESTÁ PRONTO!";
-            modalBody.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:300px; border-radius:10px; border:2px solid white;"><br><a href="${dataUrl}" download="story-radiotop.png" class="btn-neon" style="margin-top:15px;">BAIXAR IMAGEM</a>`;
+            modalBody.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:300px; border-radius:10px; border:2px solid white;" alt="Story gerado"><br><a href="${dataUrl}" download="story-radiotop.png" class="btn-neon" style="margin-top:15px;">BAIXAR IMAGEM</a>`;
         }
 
         let cliquesSegredo = 0;
@@ -971,6 +1005,10 @@
             canvas.height = canvas.offsetHeight;
 
             function draw() {
+                if (document.hidden) {
+                    setTimeout(() => requestAnimationFrame(draw), 500);
+                    return;
+                }
                 if(!isPlaying) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     requestAnimationFrame(draw);
@@ -1006,6 +1044,7 @@
         let ultimaMusicaBuscada = "";
 
         function atualizarMetadados() {
+            if (document.hidden) return; // Economia de bateria/dados se aba oculta
             const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
             fetch(proxyUrl).then(r => r.json()).then(response => {
