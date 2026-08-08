@@ -138,7 +138,7 @@
         .alexa-icon { background: #fff; border-radius: 50%; padding: 5px; box-sizing: border-box; width: 45px; height: 45px; object-fit: contain; }
 
         /* SPLASH & MODAL */
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(-45deg, #050816, #2e003e, #000000, #1a1a2e); background-size: 400% 400%; animation: gradientBG 10s ease infinite; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; transition: transform 0.8s ease-in-out; text-align: center; }
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(-45deg, #050816, #2e003e, #000000, #1a1a2e); background-size: 400% 400%; animation: gradientBG 10s ease infinite; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; text-align: center; }
         .splash-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .splash-logo { width: 220px; height: 220px; border-radius: 50%; border: 4px solid var(--magenta); box-shadow: 0 0 50px var(--magenta); margin-bottom: 30px; object-fit: cover; animation: pulse-beat 1.5s infinite; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -300,6 +300,16 @@
         </div>
     </div>
 
+    <!-- 3. Card Quem Está No Ar -->
+    <div id="locutor-plantao-box" style="background: rgba(176, 26, 122, 0.1); border: 2px solid var(--magenta); border-radius: 15px; padding: 15px; margin: 20px auto; max-width: 600px; display: flex; align-items: center; gap: 15px; box-shadow: 0 0 15px rgba(176, 26, 122, 0.3);">
+        <div style="font-size: 40px;">🎙️</div>
+        <div style="text-align: left;">
+            <span style="font-size: 10px; color: var(--dourado); font-weight: bold; text-transform: uppercase; display: block;">NO MICROFONE AGORA</span>
+            <span id="locutor-atual-nome" style="font-size: 16px; font-weight: bold; color: white; text-transform: uppercase;">Rádio Top Itatiba - 91.5 FM</span>
+            <p id="locutor-atual-desc" style="margin: 3px 0 0 0; font-size: 12px; color: #ccc;">A programação que toca o seu coração.</p>
+        </div>
+    </div>
+
     <div class="painel-tempo-real">
         <div class="tempo-item" onclick="abrirModalRelogio()" title="Configurar Alarme/Soneca" style="cursor: pointer;">
             <span class="tempo-label">Itatiba Agora</span>
@@ -312,6 +322,23 @@
     </div>
 
     <div class="container">
+        <!-- 4. Histórico de Músicas -->
+        <h2 class="section-title">📜 HISTÓRICO RECENTE</h2>
+        <div class="ranking-box" style="padding: 15px; text-align: left;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #333;">
+                <span style="font-size: 13px; color: #aaa;">🎵 Tocando agora:</span>
+                <span id="hist-atual" style="font-size: 13px; color: var(--dourado); font-weight: bold;">Carregando...</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #333;">
+                <span style="font-size: 13px; color: #777;">Anterior 1:</span>
+                <span id="hist-ant-1" style="font-size: 13px; color: #ccc;">Aguardando...</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0;">
+                <span style="font-size: 13px; color: #777;">Anterior 2:</span>
+                <span id="hist-ant-2" style="font-size: 13px; color: #ccc;">Aguardando...</span>
+            </div>
+        </div>
+
         <div id="pedido"></div>
         <h2 class="section-title">🎵 PEÇA SUA MÚSICA NO WHATSAPP</h2>
         <div class="painel-pedido">
@@ -327,6 +354,12 @@
             <p style="text-align:center;">Carregando programação...</p>
         </div>
 
+        <!-- 2. Mural de Recados Ao Vivo -->
+        <h2 class="section-title">📢 MURAL DOS OUVINTES AO VIVO</h2>
+        <div class="ranking-box" id="feed-recados" style="padding: 15px; max-height: 300px; overflow-y: auto;">
+            <p style="text-align: center; color: #888;">Carregando recados...</p>
+        </div>
+
         <div id="mural"></div>
         <h2 class="section-title">💬 MURAL DE RECADOS</h2>
         <div class="mural-container">
@@ -339,6 +372,17 @@
             </form>
         </div>
         
+        <!-- 5. Seletor de Cores -->
+        <div style="text-align: center; margin: 30px 0;">
+            <span style="font-size: 11px; color: #aaa; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 8px;">🎨 Escolha a Cor do Site:</span>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <button onclick="mudarTema('#b01a7a', '#aa00ff')" style="width: 25px; height: 25px; border-radius: 50%; background: #b01a7a; border: 2px solid white; cursor: pointer;" title="Rosa Magenta"></button>
+                <button onclick="mudarTema('#f3b644', '#ff8800')" style="width: 25px; height: 25px; border-radius: 50%; background: #f3b644; border: 2px solid white; cursor: pointer;" title="Dourado Top"></button>
+                <button onclick="mudarTema('#00d2ff', '#0055ff')" style="width: 25px; height: 25px; border-radius: 50%; background: #00d2ff; border: 2px solid white; cursor: pointer;" title="Azul Elétrico"></button>
+                <button onclick="mudarTema('#00ff55', '#008822')" style="width: 25px; height: 25px; border-radius: 50%; background: #00ff55; border: 2px solid white; cursor: pointer;" title="Verde WhatsApp"></button>
+            </div>
+        </div>
+
         <div id="video"></div>
         <h2 class="section-title">📺 VÍDEO DA SEMANA: GUSTTAVO LIMA</h2>
         <div class="video-container"><iframe src="https://www.youtube.com/embed/aaLYhwadeE0" allowfullscreen title="Vídeo da semana Gusttavo Lima"></iframe></div>
@@ -353,25 +397,21 @@
                 <h3>Batalha Top</h3>
                 <span class="btn-neon">VOTAR AGORA</span>
             </div>
-            
             <div class="card" onclick="abrirModal('getCinema', 'CINE MULTIPLEX 🍿')">
                 <img src="cinema.jpg" alt="Cinema">
                 <h3>Cinema</h3>
                 <span class="btn-neon">EM CARTAZ</span>
             </div>
-
             <div class="card" onclick="abrirModal('getOnibus', 'TEM ÔNIBUS? 🚌')">
                 <img src="logo onibus.jpg" alt="Horários de Ônibus">
                 <h3>Horários</h3>
                 <span class="btn-neon">VER PRÓXIMO</span>
             </div>
-
             <div class="card" onclick="abrirModal('getHoroscopo', 'HORÓSCOPO DO DIA 🔮')">
                 <img src="horoscopo.jpg" alt="Horóscopo">
                 <h3>Horóscopo</h3>
                 <span class="btn-neon">PREVISÃO</span>
             </div>
-
             <div class="card" onclick="abrirModal('getTopHits', 'TOP HITS')">
                 <img src="tophits.jpg" alt="Top Hits">
                 <h3>Top Hits</h3>
@@ -755,7 +795,6 @@
         function fecharModal() { document.getElementById('modal-container').style.display = 'none'; }
         window.onclick = function(event) { if (event.target == document.getElementById('modal-container')) { fecharModal(); } }
 
-        // Fechar reações ao clicar fora
         document.addEventListener('click', function(e) {
             const reactionMenu = document.getElementById('reactionMenu');
             if (reactionMenu && !reactionMenu.contains(e.target) && isReactionsOpen) {
@@ -839,7 +878,7 @@
         }
 
         function carregarConfig() {
-            if (document.hidden) return; // Economia de bateria/dados se aba oculta
+            if (document.hidden) return; 
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if (data.tv) {
                     let capaImg = document.getElementById('capa-album-tv');
@@ -892,6 +931,7 @@
                 alert("Recado enviado com sucesso! 🚀");
                 document.getElementById('form-mural').reset();
                 btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; btn.disabled = false;
+                carregarRecadosMural();
             }).catch(() => {
                 btn.innerText = "ERRO AO ENVIAR";
                 btn.disabled = false;
@@ -1028,23 +1068,33 @@
             draw();
         }
 
+        // --- FUNÇÃO CORRIGIDA DE ENTRADA ---
         function iniciarSite() {
             const splash = document.getElementById('splash-screen');
+            splash.style.opacity = '0';
             splash.style.transform = 'translateY(-100%)';
-            setTimeout(() => { splash.style.display = 'none'; }, 800);
+            setTimeout(() => { 
+                splash.style.display = 'none'; 
+            }, 800);
 
             document.getElementById('reactionMenu').style.display = 'block';
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if(data.efeitos !== "OFF") startFireworks();
             });
             fadeInAudio();
-            atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
+            atualizarProgramacao(); 
+            carregarRanking(); 
+            carregarConfig(); 
+            carregarAnuncios();
+            carregarRecadosMural();
         }
 
+        // --- SISTEMA DE METADADOS RÁPIDO (INTEGRADO) ---
         let ultimaMusicaBuscada = "";
 
         function atualizarMetadados() {
-            if (document.hidden) return; // Economia de bateria/dados se aba oculta
+            if (document.hidden) return; 
+            
             const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
             fetch(proxyUrl).then(r => r.json()).then(response => {
@@ -1052,12 +1102,16 @@
                 let nomeMusica = data.trim();
                 let capaParaMostrar = document.getElementById('capa-album-tv').src; 
 
-                if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error") || nomeMusica === "") {
+                if (nomeMusica.includes("<") || nomeMusica === "") {
                     nomeMusica = "Rádio Top Itatiba"; 
                 }
 
-                document.getElementById('nome-musica').innerText = nomeMusica;
+                let elNome = document.getElementById('nome-musica');
+                if(elNome) elNome.innerText = nomeMusica;
                 document.title = "🎵 " + nomeMusica + " | Rádio Top Itatiba";
+
+                // Atualiza o Histórico de Músicas (Item 4)
+                registrarHistorico(nomeMusica);
 
                 if (nomeMusica !== "Rádio Top Itatiba" && nomeMusica !== ultimaMusicaBuscada) {
                     ultimaMusicaBuscada = nomeMusica;
@@ -1092,7 +1146,7 @@
                         artist: 'Rádio Top 91.5 FM',
                         album: 'Ao Vivo',
                         artwork: [
-                            { src: capaParaMostrar, sizes: '96x96',   type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '96x96',  type: 'image/jpeg' },
                             { src: capaParaMostrar, sizes: '512x512', type: 'image/jpeg' },
                         ]
                     });
@@ -1102,7 +1156,8 @@
                 }
 
             }).catch(e => {
-                document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
+                let elNome = document.getElementById('nome-musica');
+                if(elNome) elNome.innerText = "Rádio Top - Ao Vivo";
             });
             
             const urlOuvintes = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
@@ -1117,7 +1172,8 @@
                 if(p.length > 0) { 
                     let num = parseInt(p[0]); 
                     if (!isNaN(num)) {
-                        document.getElementById('qtd-ouvintes').innerText = num + 125;
+                        let elOuvintes = document.getElementById('qtd-ouvintes');
+                        if(elOuvintes) elOuvintes.innerText = num + 125;
                     }
                 }
             }).catch(e => {});
@@ -1151,6 +1207,97 @@
                 listaProg.innerHTML = html;
             }).catch(() => {});
         }
+
+        // --- FUNÇÕES EXTRAS IMPLEMENTADAS (2, 3, 4 e 5) ---
+
+        // 2. Carregar Recados do Mural Ao Vivo
+        function carregarRecadosMural() {
+            fetch(urlGoogle + "?action=getRecados")
+            .then(r => r.json())
+            .then(data => {
+                const container = document.getElementById('feed-recados');
+                if (data && data.length > 0) {
+                    let html = "";
+                    data.slice(-10).reverse().forEach(item => {
+                        html += `
+                            <div style="border-bottom: 1px solid #222; padding: 10px 0; text-align: left;">
+                                <span style="color: var(--dourado); font-weight: bold; font-size: 14px;">💬 ${item.nome || 'Ouvinte'}</span>
+                                <p style="margin: 5px 0 0 0; color: #fff; font-size: 13px;">${item.mensagem || ''}</p>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = '<p style="text-align: center; color: #888;">Nenhum recado ainda. Seja o primeiro a mandar!</p>';
+                }
+            }).catch(e => console.log("Erro ao carregar recados"));
+        }
+        setInterval(carregarRecadosMural, 30000);
+
+        // 3. Atualizar Locutor Plantão Automático
+        function atualizarLocutorAoVivo() {
+            const hora = new Date().getHours();
+            let name = "Rede Top Hits";
+            let desc = "Os maiores sucessos do Brasil na sua sintonia.";
+
+            if (hora >= 6 && hora < 9) {
+                name = "Manhã Total Top";
+                desc = "Acordando Itatiba com muita alegria e boa música!";
+            } else if (hora >= 9 && hora < 12) {
+                name = "Manhã da Top";
+                desc = "As mais pedidas e recados da galera.";
+            } else if (hora >= 12 && hora < 14) {
+                name = "Almoço com a Top";
+                desc = "Sequência de modão e sertanejo para o seu almoço.";
+            } else if (hora >= 14 && hora < 17) {
+                name = "Tarde Total 91.5";
+                desc = "Acompanhando a sua tarde com energia total.";
+            } else if (hora >= 17 && hora < 20) {
+                name = "Fim de Tarde Top";
+                desc = "Esquentando os motores para a noitada.";
+            } else if (hora >= 20) {
+                name = "Noite Especial Top Itatiba";
+                desc = "Seleção exclusiva de clássicos e romantismo.";
+            }
+
+            const elNome = document.getElementById('locutor-atual-nome');
+            const elDesc = document.getElementById('locutor-atual-desc');
+            if(elNome) elNome.innerText = name;
+            if(elDesc) elDesc.innerText = desc;
+        }
+        atualizarLocutorAoVivo();
+
+        // 4. Registrar Histórico de Músicas
+        let historicoMusicas = [];
+        function registrarHistorico(novaMusica) {
+            if (!novaMusica || novaMusica === "Rádio Top Itatiba") return;
+            
+            if (historicoMusicas[0] !== novaMusica) {
+                historicoMusicas.unshift(novaMusica);
+                if (historicoMusicas.length > 3) historicoMusicas.pop();
+                
+                if(document.getElementById('hist-atual')) document.getElementById('hist-atual').innerText = historicoMusicas[0] || "---";
+                if(document.getElementById('hist-ant-1')) document.getElementById('hist-ant-1').innerText = historicoMusicas[1] || "---";
+                if(document.getElementById('hist-ant-2')) document.getElementById('hist-ant-2').innerText = historicoMusicas[2] || "---";
+            }
+        }
+
+        // 5. Seletor de Cores de Tema
+        function mudarTema(corPrincipal, corSecundaria) {
+            document.documentElement.style.setProperty('--magenta', corPrincipal);
+            document.documentElement.style.setProperty('--roxo-neon', corSecundaria);
+            localStorage.setItem('corTopPrincipal', corPrincipal);
+            localStorage.setItem('corTopSecundaria', corSecundaria);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const salvaP = localStorage.getItem('corTopPrincipal');
+            const salvaS = localStorage.getItem('corTopSecundaria');
+            if (salvaP && salvaS) {
+                document.documentElement.style.setProperty('--magenta', salvaP);
+                document.documentElement.style.setProperty('--roxo-neon', salvaS);
+            }
+        });
 
         let isReactionsOpen = false;
         function toggleReactions() { if (isReactionsOpen) { enviarReacao('❤️'); closeStack(); } else { openStack(); } }
