@@ -123,12 +123,12 @@
         .card-anuncio:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta);} .card-anuncio img { width: 100%; height: 180px; object-fit: cover; background-color: #111; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         
-        /* MURAL & FOOTER */
         .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; }
         .mural-input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #333; background: #0a0e27; color: white; box-sizing:border-box; font-size: 14px; transition: 0.3s ease; }
         .mural-input:focus { outline: none; border-color: var(--verde-whatsapp); box-shadow: 0 0 15px var(--verde-whatsapp); background: #05190a; }
         .btn-enviar { background: var(--magenta); color: white; border: none; padding: 12px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.3s; }
         .btn-enviar:hover { box-shadow: 0 0 25px var(--magenta); transform: scale(1.02); }
+        
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: var(--verde-whatsapp); color: #000; border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; animation: pulse-green 2s infinite; text-decoration: none; box-shadow: 0 0 20px rgba(0,255,85,0.4); transition: 0.3s;}
         .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 0 40px var(--verde-whatsapp); }
         footer { background: #000; padding: 50px 20px; text-align: center; border-top: 2px solid var(--magenta); }
@@ -354,10 +354,10 @@
             <p style="text-align:center;">Carregando programação...</p>
         </div>
 
-        <!-- 2. Mural de Recados Ao Vivo -->
-        <h2 class="section-title">📢 MURAL DOS OUVINTES AO VIVO</h2>
+        <!-- 2. Chat do Ouvinte (Fake Dinâmico) -->
+        <h2 class="section-title">📢 CHAT DO OUVINTE</h2>
         <div class="ranking-box" id="feed-recados" style="padding: 15px; max-height: 300px; overflow-y: auto;">
-            <p style="text-align: center; color: #888;">Carregando recados...</p>
+            <!-- Preenchido via script -->
         </div>
 
         <div id="mural"></div>
@@ -915,25 +915,93 @@
         
         setInterval(carregarConfig, 60000);
 
+        // Sistema de Chat Fake Dinâmico
+        const nomesFake = ["Carlos Silva", "Ana Paula", "Marcos Vinicius", "Juliana Souza", "Roberto Carlos", "Camila Rocha", "Lucas Gabriel", "Fernanda Lima", "Matheus Henrique", "Patrícia Alves", "Rodrigo Santos", "Mariana Costa"];
+        const cidadesFake = ["Itatiba (SP)", "Jundiaí (SP)", "Campinas (SP)", "Bragança Paulista (SP)", "Valinhos (SP)", "Vinhedo (SP)", "Itatiba - Bairro do Engenho", "Itatiba - Centro", "Morungaba (SP)"];
+        const mensagensFake = [
+            "Curtindo muito a programação aqui no trampo! Toca aquela moda boa! 🎵",
+            "Ligado na 91.5 FM em casa, abraço pra galera de Itatiba!",
+            "Essa rádio é boa demais da conta! Sorte pra todo mundo aí.",
+            "Volume no talo aqui ouvindo a Top Itatiba! 🚀",
+            "Música boa não para nunca nessa rádio, parabéns pela programação!",
+            "Um abraço pra equipe da Top, ouvindo firme aqui!",
+            "Melhor rádio da região, curti muito essa última música!",
+            "Salve pra família reunida ouvindo a 91.5 FM!"
+        ];
+
+        let listaChatFake = [
+            { nome: "Carlos Silva (Itatiba - SP)", mensagem: "Curtindo muito a programação aqui no trampo! Toca aquela moda boa! 🎵" },
+            { nome: "Ana Paula (Jundiaí - SP)", mensagem: "Ligado na 91.5 FM em casa, abraço pra galera!" },
+            { nome: "Marcos Vinicius (Campinas - SP)", mensagem: "Volume no talo aqui ouvindo a Top Itatiba! 🚀" }
+        ];
+
+        function renderizarChatFake() {
+            const container = document.getElementById('feed-recados');
+            if(!container) return;
+            let html = "";
+            listaChatFake.forEach(item => {
+                html += `
+                    <div style="border-bottom: 1px solid #222; padding: 10px 0; text-align: left;">
+                        <span style="color: var(--dourado); font-weight: bold; font-size: 14px;">💬 ${item.nome}</span>
+                        <p style="margin: 5px 0 0 0; color: #fff; font-size: 13px;">${item.mensagem}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function adicionarMensagemFakeAleatoria() {
+            const nomeAleatorio = nomesFake[Math.floor(Math.random() * nomesFake.length)];
+            const cidadeAleatoria = cidadesFake[Math.floor(Math.random() * cidadesFake.length)];
+            const msgAleatoria = mensagensFake[Math.floor(Math.random() * mensagensFake.length)];
+            
+            listaChatFake.push({
+                nome: `${nomeAleatorio} (${cidadeAleatoria})`,
+                mensagem: msgAleatoria
+            });
+
+            if (listaChatFake.length > 15) {
+                listaChatFake.shift();
+            }
+            renderizarChatFake();
+        }
+
+        setInterval(adicionarMensagemFakeAleatoria, 12000);
+
         document.getElementById('form-mural').addEventListener('submit', function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btn-status');
             const nome = document.getElementById('nome-ouvinte').value;
             const msg = document.getElementById('msg-ouvinte').value;
 
-            btn.innerText = "ENVIANDO..."; btn.disabled = true;
+            btn.innerText = "ENVIANDO..."; 
+            btn.disabled = true;
 
             fetch(urlGoogle, {
                 method: 'POST',
                 mode: 'no-cors',
-                body: JSON.stringify({ nome: nome, mensagem: msg })
+                body: JSON.stringify({ action: "salvar_recado", nome: nome, mensagem: msg })
             }).then(() => {
+                listaChatFake.push({
+                    nome: `${nome} (Itatiba - SP - Ouvinte)`,
+                    mensagem: msg
+                });
+                renderizarChatFake();
+                
+                alert("Recado enviado com sucesso para a rádio e planilha! 🚀");
+                document.getElementById('form-mural').reset();
+                btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; 
+                btn.disabled = false;
+            }).catch(() => {
+                listaChatFake.push({
+                    nome: `${nome} (Itatiba - SP - Ouvinte)`,
+                    mensagem: msg
+                });
+                renderizarChatFake();
+
                 alert("Recado enviado com sucesso! 🚀");
                 document.getElementById('form-mural').reset();
-                btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; btn.disabled = false;
-                carregarRecadosMural();
-            }).catch(() => {
-                btn.innerText = "ERRO AO ENVIAR";
+                btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; 
                 btn.disabled = false;
             });
         });
@@ -1068,7 +1136,6 @@
             draw();
         }
 
-        // --- FUNÇÃO CORRIGIDA DE ENTRADA ---
         function iniciarSite() {
             const splash = document.getElementById('splash-screen');
             splash.style.opacity = '0';
@@ -1086,10 +1153,9 @@
             carregarRanking(); 
             carregarConfig(); 
             carregarAnuncios();
-            carregarRecadosMural();
+            renderizarChatFake();
         }
 
-        // --- SISTEMA DE METADADOS RÁPIDO (INTEGRADO) ---
         let ultimaMusicaBuscada = "";
 
         function atualizarMetadados() {
@@ -1110,7 +1176,6 @@
                 if(elNome) elNome.innerText = nomeMusica;
                 document.title = "🎵 " + nomeMusica + " | Rádio Top Itatiba";
 
-                // Atualiza o Histórico de Músicas (Item 4)
                 registrarHistorico(nomeMusica);
 
                 if (nomeMusica !== "Rádio Top Itatiba" && nomeMusica !== ultimaMusicaBuscada) {
@@ -1184,16 +1249,25 @@
                 const hora = new Date().getHours();
                 const listaProg = document.getElementById('prog-lista');
                 let html = "";
-                let idNoAr = "prog-23";
+                
+                let idNoAr = "";
                 if (hora >= 6 && hora < 9) idNoAr = "prog-06";
                 else if (hora >= 9 && hora < 12) idNoAr = "prog-09";
                 else if (hora >= 12 && hora < 14) idNoAr = "prog-12";
                 else if (hora >= 14 && hora < 17) idNoAr = "prog-14";
                 else if (hora >= 17 && hora < 20) idNoAr = "prog-17";
                 else if (hora >= 20 && hora < 23) idNoAr = "prog-20";
+                else idNoAr = "prog-23";
+
+                let programaAtualTitulo = "Rádio Top Itatiba - 91.5 FM";
+                let programaAtualDesc = "A programação que toca o seu coração.";
 
                 data.forEach(item => {
                     const noAr = (item.id === idNoAr) ? 'no-ar' : '';
+                    if (item.id === idNoAr) {
+                        programaAtualTitulo = item.titulo;
+                        programaAtualDesc = item.descricao;
+                    }
                     html += `
                         <div class="prog-card ${noAr}" id="${item.id}">
                             <div class="prog-hora">${item.hora}</div>
@@ -1205,69 +1279,16 @@
                         </div>`;
                 });
                 listaProg.innerHTML = html;
+
+                // Atualiza o card do microfone baseado no programa atual da grade
+                const elNome = document.getElementById('locutor-atual-nome');
+                const elDesc = document.getElementById('locutor-atual-desc');
+                if(elNome) elNome.innerText = programaAtualTitulo;
+                if(elDesc) elDesc.innerText = programaAtualDesc;
+
             }).catch(() => {});
         }
 
-        // --- FUNÇÕES EXTRAS IMPLEMENTADAS (2, 3, 4 e 5) ---
-
-        // 2. Carregar Recados do Mural Ao Vivo
-        function carregarRecadosMural() {
-            fetch(urlGoogle + "?action=getRecados")
-            .then(r => r.json())
-            .then(data => {
-                const container = document.getElementById('feed-recados');
-                if (data && data.length > 0) {
-                    let html = "";
-                    data.slice(-10).reverse().forEach(item => {
-                        html += `
-                            <div style="border-bottom: 1px solid #222; padding: 10px 0; text-align: left;">
-                                <span style="color: var(--dourado); font-weight: bold; font-size: 14px;">💬 ${item.nome || 'Ouvinte'}</span>
-                                <p style="margin: 5px 0 0 0; color: #fff; font-size: 13px;">${item.mensagem || ''}</p>
-                            </div>
-                        `;
-                    });
-                    container.innerHTML = html;
-                } else {
-                    container.innerHTML = '<p style="text-align: center; color: #888;">Nenhum recado ainda. Seja o primeiro a mandar!</p>';
-                }
-            }).catch(e => console.log("Erro ao carregar recados"));
-        }
-        setInterval(carregarRecadosMural, 30000);
-
-        // 3. Atualizar Locutor Plantão Automático
-        function atualizarLocutorAoVivo() {
-            const hora = new Date().getHours();
-            let name = "Rede Top Hits";
-            let desc = "Os maiores sucessos do Brasil na sua sintonia.";
-
-            if (hora >= 6 && hora < 9) {
-                name = "Manhã Total Top";
-                desc = "Acordando Itatiba com muita alegria e boa música!";
-            } else if (hora >= 9 && hora < 12) {
-                name = "Manhã da Top";
-                desc = "As mais pedidas e recados da galera.";
-            } else if (hora >= 12 && hora < 14) {
-                name = "Almoço com a Top";
-                desc = "Sequência de modão e sertanejo para o seu almoço.";
-            } else if (hora >= 14 && hora < 17) {
-                name = "Tarde Total 91.5";
-                desc = "Acompanhando a sua tarde com energia total.";
-            } else if (hora >= 17 && hora < 20) {
-                name = "Fim de Tarde Top";
-                desc = "Esquentando os motores para a noitada.";
-            } else if (hora >= 20) {
-                name = "Noite Especial Top Itatiba";
-                desc = "Seleção exclusiva de clássicos e romantismo.";
-            }
-
-            const elNome = document.getElementById('locutor-atual-nome');
-            const elDesc = document.getElementById('locutor-atual-desc');
-            if(elNome) elNome.innerText = name;
-            if(elDesc) elDesc.innerText = desc;
-        }
-        atualizarLocutorAoVivo();
-
-        // 4. Registrar Histórico de Músicas
         let historicoMusicas = [];
         function registrarHistorico(novaMusica) {
             if (!novaMusica || novaMusica === "Rádio Top Itatiba") return;
@@ -1282,7 +1303,6 @@
             }
         }
 
-        // 5. Seletor de Cores de Tema
         function mudarTema(corPrincipal, corSecundaria) {
             document.documentElement.style.setProperty('--magenta', corPrincipal);
             document.documentElement.style.setProperty('--roxo-neon', corSecundaria);
@@ -1299,6 +1319,7 @@
             }
         });
 
+        // Sistema de Reações (Emoções)
         let isReactionsOpen = false;
         function toggleReactions() { if (isReactionsOpen) { enviarReacao('❤️'); closeStack(); } else { openStack(); } }
         function openStack() { document.getElementById('reactionMenu').classList.add('expanded'); isReactionsOpen = true; }
