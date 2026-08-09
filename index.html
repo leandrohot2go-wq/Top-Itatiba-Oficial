@@ -1172,10 +1172,8 @@
                 if (data.noticias && data.noticias !== ultimoAlertaExibido) {
                     ultimoAlertaExibido = data.noticias;
                     
-                    // Mostra o banner flutuante dentro do site
                     mostrarAlertaTopo("PLANTÃO RÁDIO TOP", data.noticias);
 
-                    // Exibe a notificação nativa do sistema com o texto exato digitado na planilha
                     if ('Notification' in window && Notification.permission === "granted") {
                         navigator.serviceWorker.ready.then(registration => {
                             registration.showNotification("📢 Rádio Top Itatiba FM", {
@@ -1205,7 +1203,6 @@
                 splash.style.display = 'none'; 
             }, 800);
 
-            // Solicita permissão para Notificações Push ao entrar
             if ('Notification' in window) {
                 Notification.requestPermission().then(permission => {
                     console.log("Status da notificação:", permission);
@@ -1227,7 +1224,7 @@
         let ultimaMusicaBuscada = "";
 
         function atualizarMetadados() {
-            if (document.hidden) return; 
+            // Removido o 'if (document.hidden) return;' para continuar atualizando em segundo plano e manter a capa ativa
             
             const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
@@ -1258,7 +1255,10 @@
                         }
 
                         let capaImg = document.getElementById('capa-album-tv');
-                        if(capaImg) capaImg.src = urlCapa;
+                        if(capaImg) {
+                            capaImg.src = urlCapa;
+                            document.documentElement.style.setProperty('--magenta', '#b01a7a');
+                        }
                         
                         let bgBlur = document.getElementById('blur-bg');
                         if(bgBlur) bgBlur.style.backgroundImage = `url('${urlCapa}')`;
@@ -1270,17 +1270,20 @@
                             miniCapaPlayer.style.backgroundPosition = 'center';
                         }
                     })
-                    .catch(e => console.log("Erro ao buscar capa", e));
+                    .catch(e => {
+                        document.documentElement.style.setProperty('--magenta', '#b01a7a');
+                    });
                 }
                 
+                // Mantém a MediaSession ativa e colorida mesmo em segundo plano
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
                         title: nomeMusica,
                         artist: 'Rádio Top 91.5 FM',
-                        album: 'Ao Vivo',
+                        album: 'Itatiba - SP',
                         artwork: [
-                            { src: capaParaMostrar, sizes: '96x96',  type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '512x512', type: 'image/jpeg' },
+                            { src: capaParaMostrar || 'top1.jpg', sizes: '96x96',  type: 'image/jpeg' },
+                            { src: capaParaMostrar || 'top1.jpg', sizes: '512x512', type: 'image/jpeg' },
                         ]
                     });
                     navigator.mediaSession.setActionHandler('play', togglePlay);
