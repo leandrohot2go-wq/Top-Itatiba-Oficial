@@ -1136,7 +1136,7 @@
             draw();
         }
 
-        // --- SISTEMA DE ALERTA VISUAL INTEGRADO ---
+        // --- SISTEMA DE ALERTA VISUAL E NOTIFICAÇÃO NATIVA INTEGRADO ---
         function mostrarAlertaTopo(titulo, mensagem) {
             let alertaDiv = document.getElementById('alerta-topo-global');
             if (!alertaDiv) {
@@ -1171,12 +1171,31 @@
             .then(data => {
                 if (data.noticias && data.noticias !== ultimoAlertaExibido) {
                     ultimoAlertaExibido = data.noticias;
+                    
+                    // Mostra o banner flutuante dentro do site
                     mostrarAlertaTopo("PLANTÃO RÁDIO TOP", data.noticias);
+
+                    // Exibe a notificação nativa do sistema com o texto exato digitado na planilha
+                    if ('Notification' in window && Notification.permission === "granted") {
+                        navigator.serviceWorker.ready.then(registration => {
+                            registration.showNotification("📢 Rádio Top Itatiba FM", {
+                                body: data.noticias,
+                                icon: "top1.jpg",
+                                badge: "top1.jpg",
+                                vibrate: [200, 100, 200]
+                            });
+                        }).catch(() => {
+                            new Notification("📢 Rádio Top Itatiba FM", {
+                                body: data.noticias,
+                                icon: "top1.jpg"
+                            });
+                        });
+                    }
                 }
             }).catch(e => {});
         }
         setInterval(verificarNovosAlertas, 30000);
-        // ------------------------------------------
+        // -------------------------------------------------------------
 
         function iniciarSite() {
             const splash = document.getElementById('splash-screen');
@@ -1186,7 +1205,7 @@
                 splash.style.display = 'none'; 
             }, 800);
 
-            // Permissão de Notificação Push
+            // Solicita permissão para Notificações Push ao entrar
             if ('Notification' in window) {
                 Notification.requestPermission().then(permission => {
                     console.log("Status da notificação:", permission);
