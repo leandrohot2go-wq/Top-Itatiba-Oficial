@@ -96,7 +96,7 @@
             <div class="card-admin card-config">
                 <h3>Aviso para o App (Push)</h3>
                 <div class="input-group" style="margin-top: 10px;">
-                    <label>Mensagem de Alerta</label>
+                    <label for="admin-push">Mensagem de Alerta</label>
                     <input type="text" id="admin-push" placeholder="Ex: Sorteio rolando agora!">
                 </div>
                 <button class="btn-on" onclick="enviarPush()">DISPARAR AVISO AOS OUVINTES</button>
@@ -105,7 +105,7 @@
             <div class="card-admin card-tv">
                 <h3>TV Top Ao Vivo</h3>
                 <div class="input-group">
-                    <label>Link do YouTube (Embed)</label>
+                    <label for="admin-tv">Link do YouTube (Embed)</label>
                     <input type="text" id="admin-tv">
                 </div>
                 <button class="btn-tv" onclick="salvarTv()">ATUALIZAR TV</button>
@@ -114,7 +114,7 @@
             <div id="secao-noticias" class="card-admin card-news">
                 <h3>Plantão Top</h3>
                 <div class="input-group">
-                    <label>Notícias Dinâmicas</label>
+                    <label for="admin-news">Notícias Dinâmicas</label>
                     <textarea id="admin-news" rows="3"></textarea>
                 </div>
                 <button class="btn-news" onclick="salvarNoticias()">SALVAR NO LETREIRO</button>
@@ -152,7 +152,6 @@
 
         function entrar() {
             const senhaDigitada = document.getElementById('pass').value;
-            // Validação no servidor/criptografia básica de sessão
             if(senhaDigitada === 'top915') {
                 sessionStorage.setItem('top_auth', 'liberado');
                 document.getElementById('login-screen').classList.add('hidden');
@@ -191,9 +190,7 @@
         }
 
         function atualizarAudiencia() {
-            // Puxa dados de conexões ou simulação dinâmica baseada na atividade da API
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
-                // Se a planilha retornar ouvintes, exibe, senão gera um número orgânico estavel
                 let ouvintes = data.ouvintes || Math.floor(Math.random() * (45 - 28 + 1)) + 28;
                 document.getElementById('contador-ouvintes').innerText = ouvintes;
             }).catch(() => {
@@ -204,7 +201,14 @@
         function enviarPush() {
             let msg = document.getElementById('admin-push').value;
             if(!msg) return alert("Digite uma mensagem para o aviso!");
+            
+            // Dispara a ação "enviar_push" e opcionalmente atualiza as notícias ao mesmo tempo para notificar o site aberto
             enviarUpdate({ action: "enviar_push", mensagem: msg });
+            
+            // Atualiza também o campo de notícias se quiser que exiba no ticker automaticamente
+            document.getElementById('admin-news').value = msg;
+            salvarNoticias();
+
             document.getElementById('admin-push').value = "";
         }
 
