@@ -1,7 +1,7 @@
 {
-  "name": "Admin Rádio Top Itatiba",
+  "name": "Admin RÃ¡dio Top Itatiba",
   "short_name": "Top Admin",
-  "start_url": "./",
+  "start_url": "admin.html",
   "display": "standalone",
   "background_color": "#050816",
   "theme_color": "#b01a7a",
