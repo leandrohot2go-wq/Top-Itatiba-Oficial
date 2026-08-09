@@ -877,6 +877,7 @@
             }).catch(() => {});
         }
 
+        // --- CARREGA APENAS AS NOTÍCIAS DA PLANILHA NO CABEÇALHO ---
         function carregarConfig() {
             if (document.hidden) return; 
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
@@ -897,11 +898,10 @@
                     }
                 }
                 if (data.botao) document.getElementById('link-studio').href = data.botao;
+                
                 const ticker = document.querySelector('.ticker-content');
                 let textoFinal = "";
-                if (data.texto && data.texto.length > 10) {
-                    textoFinal = `<span class="noticia-item" style="color:white;">${data.texto}</span>`;
-                } else if (data.noticias) {
+                if (data.noticias) {
                     const arrayNews = data.noticias.split('.');
                     arrayNews.forEach(msg => {
                         if(msg.trim() != "") textoFinal += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
@@ -1136,63 +1136,65 @@
             draw();
         }
 
-        // --- SISTEMA DE ALERTA VISUAL E NOTIFICAÇÃO NATIVA INTEGRADO ---
-        function mostrarAlertaTopo(titulo, mensagem) {
-            let alertaDiv = document.getElementById('alerta-topo-global');
-            if (!alertaDiv) {
-                alertaDiv = document.createElement('div');
-                alertaDiv.id = 'alerta-topo-global';
-                alertaDiv.style.cssText = `
-                    position: fixed; top: 20px; left: 50%;
-                    transform: translateX(-50%) translateY(-100px);
-                    background: linear-gradient(135deg, #b01a7a, #aa00ff);
-                    color: white; padding: 15px 25px; border-radius: 12px;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-                    border: 2px solid #f3b644; z-index: 99999;
-                    text-align: center; max-width: 90%; width: 400px;
-                    transition: transform 0.5s ease-in-out;
-                    font-family: 'Segoe UI', Arial, sans-serif;
-                `;
-                document.body.appendChild(alertaDiv);
-            }
-            alertaDiv.innerHTML = `
-                <div style="font-weight: bold; font-size: 16px; color: #f3b644; margin-bottom: 5px; text-transform: uppercase;">📢 ${titulo}</div>
-                <div style="font-size: 14px; color: #fff;">${mensagem}</div>
+        // --- SISTEMA DE ALERTA POP-UP VISUAL E NOTIFICAÇÃO PUSH NATIVA ---
+        function mostrarAlertaPopUp(mensagem) {
+            let popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-150px);
+                background: linear-gradient(135deg, #120c22, #2e003e); color: white;
+                padding: 20px 25px; border-radius: 16px; border: 3px solid var(--magenta);
+                box-shadow: 0 10px 40px rgba(0,0,0,0.9); z-index: 999999;
+                text-align: center; max-width: 90%; width: 420px;
+                transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                font-family: 'Segoe UI', Arial, sans-serif;
             `;
-            setTimeout(() => { alertaDiv.style.transform = 'translateX(-50%) translateY(0)'; }, 100);
-            setTimeout(() => { alertaDiv.style.transform = 'translateX(-50%) translateY(-100px)'; }, 6000);
+            popup.innerHTML = `
+                <div style="font-size: 24px; margin-bottom: 5px;">🔴 ALERTA DA RÁDIO TOP</div>
+                <div style="font-size: 16px; color: #f3b644; font-weight: bold; margin-bottom: 12px;">PLANTÃO AO VIVO</div>
+                <div style="font-size: 14px; color: #fff; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; margin-bottom: 15px;">${mensagem}</div>
+                <button onclick="this.parentElement.remove()" style="background: var(--magenta); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; text-transform: uppercase;">OK, ENTENDI</button>
+            `;
+            document.body.appendChild(popup);
+            setTimeout(() => { popup.style.transform = 'translateX(-50%) translateY(0)'; }, 50);
+
+            if ('Notification' in window && Notification.permission === "granted") {
+                if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("🔴 ALERTA - Rádio Top Itatiba", {
+                            body: mensagem,
+                            icon: "top1.jpg",
+                            badge: "top1.jpg",
+                            vibrate: [200, 100, 200]
+                        });
+                    }).catch(() => {
+                        new Notification("🔴 ALERTA - Rádio Top Itatiba", { body: mensagem, icon: "top1.jpg" });
+                    });
+                } else {
+                    new Notification("🔴 ALERTA - Rádio Top Itatiba", { body: mensagem, icon: "top1.jpg" });
+                }
+            }
         }
 
-        let ultimoAlertaExibido = "";
-        function verificarNovosAlertas() {
+        let ultimoPushRecebido = "";
+        function verificarNovoPushAdmin() {
             if (document.hidden) return;
-            fetch(urlGoogle + "?action=getConfig")
+            fetch(urlGoogle + "?action=getPush")
             .then(r => r.json())
             .then(data => {
-                if (data.noticias && data.noticias !== ultimoAlertaExibido) {
-                    ultimoAlertaExibido = data.noticias;
-                    
-                    mostrarAlertaTopo("PLANTÃO RÁDIO TOP", data.noticias);
+                let msgPush = "";
+                if (typeof data === "string") msgPush = data;
+                else if (data && data.mensagem) msgPush = data.mensagem;
+                else if (Array.isArray(data) && data.length > 0) msgPush = data[data.length - 1].mensagem || data[data.length - 1];
 
-                    if ('Notification' in window && Notification.permission === "granted") {
-                        navigator.serviceWorker.ready.then(registration => {
-                            registration.showNotification("📢 Rádio Top Itatiba FM", {
-                                body: data.noticias,
-                                icon: "top1.jpg",
-                                badge: "top1.jpg",
-                                vibrate: [200, 100, 200]
-                            });
-                        }).catch(() => {
-                            new Notification("📢 Rádio Top Itatiba FM", {
-                                body: data.noticias,
-                                icon: "top1.jpg"
-                            });
-                        });
+                if (msgPush && msgPush !== ultimoPushRecebido) {
+                    if (ultimoPushRecebido !== "") {
+                        mostrarAlertaPopUp(msgPush);
                     }
+                    ultimoPushRecebido = msgPush;
                 }
             }).catch(e => {});
         }
-        setInterval(verificarNovosAlertas, 30000);
+        setInterval(verificarNovoPushAdmin, 15000);
         // -------------------------------------------------------------
 
         function iniciarSite() {
@@ -1224,8 +1226,6 @@
         let ultimaMusicaBuscada = "";
 
         function atualizarMetadados() {
-            // Removido o 'if (document.hidden) return;' para continuar atualizando em segundo plano e manter a capa ativa
-            
             const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
             fetch(proxyUrl).then(r => r.json()).then(response => {
@@ -1244,6 +1244,24 @@
                 registrarHistorico(nomeMusica);
 
                 if (nomeMusica !== "Rádio Top Itatiba" && nomeMusica !== ultimaMusicaBuscada) {
+                    
+                    if (ultimaMusicaBuscada !== "" && 'Notification' in window && Notification.permission === "granted") {
+                        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+                            navigator.serviceWorker.ready.then(registration => {
+                                registration.showNotification("🎵 Tocando Agora na Top", {
+                                    body: nomeMusica,
+                                    icon: capaParaMostrar || "top1.jpg",
+                                    badge: "top1.jpg",
+                                    vibrate: [100, 50, 100]
+                                });
+                            }).catch(() => {
+                                new Notification("🎵 Tocando Agora na Top", { body: nomeMusica, icon: capaParaMostrar || "top1.jpg" });
+                            });
+                        } else {
+                            new Notification("🎵 Tocando Agora na Top", { body: nomeMusica, icon: capaParaMostrar || "top1.jpg" });
+                        }
+                    }
+
                     ultimaMusicaBuscada = nomeMusica;
                     
                     fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(nomeMusica)}&media=music&limit=1`)
@@ -1275,7 +1293,6 @@
                     });
                 }
                 
-                // Mantém a MediaSession ativa e colorida mesmo em segundo plano
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
                         title: nomeMusica,
@@ -1413,6 +1430,7 @@
         atualizarMetadados(); 
         setInterval(atualizarMetadados, 15000); 
         setInterval(atualizarProgramacao, 3600000);
+        setInterval(verificarNovoPushAdmin, 15000);
     </script>
 </body>
 </html>
