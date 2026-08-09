@@ -1136,6 +1136,48 @@
             draw();
         }
 
+        // --- SISTEMA DE ALERTA VISUAL INTEGRADO ---
+        function mostrarAlertaTopo(titulo, mensagem) {
+            let alertaDiv = document.getElementById('alerta-topo-global');
+            if (!alertaDiv) {
+                alertaDiv = document.createElement('div');
+                alertaDiv.id = 'alerta-topo-global';
+                alertaDiv.style.cssText = `
+                    position: fixed; top: 20px; left: 50%;
+                    transform: translateX(-50%) translateY(-100px);
+                    background: linear-gradient(135deg, #b01a7a, #aa00ff);
+                    color: white; padding: 15px 25px; border-radius: 12px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+                    border: 2px solid #f3b644; z-index: 99999;
+                    text-align: center; max-width: 90%; width: 400px;
+                    transition: transform 0.5s ease-in-out;
+                    font-family: 'Segoe UI', Arial, sans-serif;
+                `;
+                document.body.appendChild(alertaDiv);
+            }
+            alertaDiv.innerHTML = `
+                <div style="font-weight: bold; font-size: 16px; color: #f3b644; margin-bottom: 5px; text-transform: uppercase;">📢 ${titulo}</div>
+                <div style="font-size: 14px; color: #fff;">${mensagem}</div>
+            `;
+            setTimeout(() => { alertaDiv.style.transform = 'translateX(-50%) translateY(0)'; }, 100);
+            setTimeout(() => { alertaDiv.style.transform = 'translateX(-50%) translateY(-100px)'; }, 6000);
+        }
+
+        let ultimoAlertaExibido = "";
+        function verificarNovosAlertas() {
+            if (document.hidden) return;
+            fetch(urlGoogle + "?action=getConfig")
+            .then(r => r.json())
+            .then(data => {
+                if (data.noticias && data.noticias !== ultimoAlertaExibido) {
+                    ultimoAlertaExibido = data.noticias;
+                    mostrarAlertaTopo("PLANTÃO RÁDIO TOP", data.noticias);
+                }
+            }).catch(e => {});
+        }
+        setInterval(verificarNovosAlertas, 30000);
+        // ------------------------------------------
+
         function iniciarSite() {
             const splash = document.getElementById('splash-screen');
             splash.style.opacity = '0';
@@ -1143,6 +1185,13 @@
             setTimeout(() => { 
                 splash.style.display = 'none'; 
             }, 800);
+
+            // Permissão de Notificação Push
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    console.log("Status da notificação:", permission);
+                });
+            }
 
             document.getElementById('reactionMenu').style.display = 'block';
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
@@ -1280,7 +1329,6 @@
                 });
                 listaProg.innerHTML = html;
 
-                // Atualiza o card do microfone baseado no programa atual da grade
                 const elNome = document.getElementById('locutor-atual-nome');
                 const elDesc = document.getElementById('locutor-atual-desc');
                 if(elNome) elNome.innerText = programaAtualTitulo;
