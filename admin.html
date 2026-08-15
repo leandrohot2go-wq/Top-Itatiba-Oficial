@@ -34,6 +34,7 @@
         .card-prog { border-top: 4px solid var(--verde); grid-column: 1 / -1; }
         .card-mural { border-top: 4px solid var(--azul); }
         .card-config { border-top: 4px solid var(--roxo); }
+        .card-clipes { border-top: 4px solid var(--roxo); } /* Nova cor para os clipes */
         .card-stats { border-top: 4px solid var(--verde); text-align: center; }
         .input-group { margin-bottom: 15px; }
         label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; text-transform: uppercase; }
@@ -72,6 +73,7 @@
             <a href="#" class="active">DASHBOARD</a>
             <a href="javascript:void(0)" onclick="scrollPara('secao-stats')">AUDIÊNCIA</a>
             <a href="javascript:void(0)" onclick="scrollPara('secao-tv')">TV AO VIVO</a>
+            <a href="javascript:void(0)" onclick="scrollPara('secao-clipes')">VÍDEO CLIPES</a> <!-- Novo Menu -->
             <a href="javascript:void(0)" onclick="scrollPara('secao-noticias')">PLANTÃO TOP</a>
             <a href="javascript:void(0)" onclick="scrollPara('secao-prog')">PROGRAMAÇÃO</a>
             <a href="javascript:void(0)" onclick="scrollPara('secao-mural')">MURAL</a>
@@ -109,6 +111,16 @@
                     <input type="text" id="admin-tv">
                 </div>
                 <button class="btn-tv" onclick="salvarTv()">ATUALIZAR TV</button>
+            </div>
+
+            <!-- NOVA SEÇÃO: VÍDEO CLIPES -->
+            <div id="secao-clipes" class="card-admin card-clipes">
+                <h3>Vídeo Clipes (Playlist)</h3>
+                <div class="input-group">
+                    <label for="admin-clipes">Link da Playlist (YouTube)</label>
+                    <input type="url" id="admin-clipes" placeholder="Ex: https://www.youtube.com/watch?...&list=RD...">
+                </div>
+                <button class="btn-on" onclick="salvarClipes()">ATUALIZAR VÍDEO CLIPES</button>
             </div>
 
             <div id="secao-noticias" class="card-admin card-news">
@@ -171,6 +183,8 @@
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 document.getElementById('admin-tv').value = data.tv || "";
                 document.getElementById('admin-news').value = data.noticias || "";
+                // Carrega o link dos clipes salvo no banco de dados
+                document.getElementById('admin-clipes').value = data.clipes || ""; 
             });
 
             fetch(urlGoogle + "?action=getProgramacao").then(r => r.json()).then(data => {
@@ -213,6 +227,9 @@
         }
 
         function salvarNoticias() { enviarUpdate({ action: "update_admin", noticias: document.getElementById('admin-news').value }); }
+
+        // NOVA FUNÇÃO: Salva o link da playlist de clipes
+        function salvarClipes() { enviarUpdate({ action: "update_admin", clipes: document.getElementById('admin-clipes').value }); }
 
         function salvarProgramacao() {
             let novaProg = programacaoAtual.map((p, i) => ({
