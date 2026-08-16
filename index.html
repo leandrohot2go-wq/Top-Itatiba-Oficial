@@ -84,6 +84,13 @@
         .btn-story:hover { transform: scale(1.05); box-shadow: 0 0 25px #bc1888; }
         .dot { height: 10px; width: 10px; background-color: var(--vermelho-no-ar); border-radius: 50%; display: inline-block; animation: blink-fast 1s infinite; }
 
+        /* HISTÓRICO DE MÚSICAS TOCADAS */
+        .historico-box { background: #111428; border-radius: 15px; border: 1px solid #333; margin-top: 30px; padding: 15px; max-height: 250px; overflow-y: auto; }
+        .historico-item { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+        .historico-item:last-child { border-bottom: none; }
+        .historico-hora { color: var(--dourado); font-weight: bold; font-size: 11px; min-width: 45px; }
+        .historico-musica { color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
         /* CARDS & LAYOUT */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .section-title { border-left: 5px solid var(--magenta); padding-left: 15px; margin: 40px 0 20px; font-size: 26px; color: #fff; text-transform: uppercase; text-shadow: 0 0 10px var(--magenta); }
@@ -330,6 +337,12 @@
     </div>
 
     <div class="container">
+        <!-- SEÇÃO: HISTÓRICO DE MÚSICAS -->
+        <h2 class="section-title">📜 ÚLTIMAS MÚSICAS TOCADAS</h2>
+        <div class="historico-box" id="historico-lista">
+            <div class="historico-item"><span class="historico-hora">Agora</span><span class="historico-musica">Aguardando início da transmissão...</span></div>
+        </div>
+
         <div id="pedido"></div>
         <h2 class="section-title">🎵 PEÇA SUA MÚSICA NO WHATSAPP</h2>
         <div class="painel-pedido">
@@ -442,11 +455,19 @@
         let sleepTimer = null; let alarmInterval = null;
         let dadosOnibusGlobais = [];
         let radioEstavaTocando = false;
+        let historicoMusicas = [];
 
         const colorThief = new ColorThief();
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').then(() => console.log("Service Worker Registado!"));
+        }
+
+        // Solicita permissão para notificações nativas do celular/sistema
+        function pedirPermissaoNotificacao() {
+            if ("Notification" in window && Notification.permission !== "granted") {
+                Notification.requestPermission();
+            }
         }
 
         let eventoInstalacao;
@@ -472,6 +493,7 @@
         }
 
         function togglePlay() {
+            pedirPermissaoNotificacao(); // Pede permissão ao dar play
             const btn = document.getElementById('btn-player');
             const iconPlay = document.getElementById('icon-play');
             const iconPause = document.getElementById('icon-pause');
@@ -1146,6 +1168,47 @@
 
         let ultimaMusicaBuscada = "";
 
+        // FUNÇÃO DE NOTIFICAÇÃO NATIVA (POP-UP NO CELULAR/SISTEMA)
+        function enviarNotificacaoNativa(nomeMusica) {
+            if ("Notification" in window && Notification.permission === "granted") {
+                try {
+                    navigator.serviceWorker.ready.then(function(registration) {
+                        registration.showNotification("🎵 Rádio Top Itatiba 91.5 FM", {
+                            body: "Tocando agora: " + nomeMusica,
+                            icon: "top1.jpg",
+                            badge: "top1.jpg",
+                            vibrate: [200, 100, 200]
+                        });
+                    }).catch(() => {
+                        new Notification("🎵 Rádio Top Itatiba 91.5 FM", {
+                            body: "Tocando agora: " + nomeMusica,
+                            icon: "top1.jpg"
+                        });
+                    });
+                } catch (e) {
+                    console.log("Erro ao disparar notificação nativa", e);
+                }
+            }
+        }
+
+        // ADICIONAR MÚSICA AO HISTÓRICO VISUAL NO SITE
+        function adicionarAoHistorico(nomeMusica) {
+            const now = new Date();
+            const horaFormatada = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            
+            if (historicoMusicas.length > 0 && historicoMusicas[0].musica === nomeMusica) return;
+
+            historicoMusicas.unshift({ hora: horaFormatada, musica: nomeMusica });
+            if (historicoMusicas.length > 10) historicoMusicas.pop();
+
+            const container = document.getElementById('historico-lista');
+            let html = "";
+            historicoMusicas.forEach(item => {
+                html += `<div class="historico-item"><span class="historico-hora">${item.hora}</span><span class="historico-musica">${item.musica}</span></div>`;
+            });
+            container.innerHTML = html;
+        }
+
         function atualizarMetadados() {
             if (!isPlaying) return; 
 
@@ -1165,6 +1228,10 @@
 
                 if (nomeMusica !== "Rádio Top Itatiba" && nomeMusica !== ultimaMusicaBuscada) {
                     ultimaMusicaBuscada = nomeMusica;
+                    
+                    // Dispara a Notificação Push nativa no celular e atualiza o histórico
+                    enviarNotificacaoNativa(nomeMusica);
+                    adicionarAoHistorico(nomeMusica);
                     
                     fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(nomeMusica)}&media=music&limit=1`)
                     .then(res => res.json())
