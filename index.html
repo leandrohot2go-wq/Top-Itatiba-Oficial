@@ -361,8 +361,8 @@
         </div>
         
         <div id="video"></div>
-        <h2 class="section-title">📺 VÍDEO DA SEMANA: GUSTTAVO LIMA</h2>
-        <div class="video-container"><iframe src="https://www.youtube.com/embed/aaLYhwadeE0" allowfullscreen></iframe></div>
+        <h2 class="section-title" id="titulo-video-semana">📺 VÍDEO DA SEMANA</h2>
+        <div class="video-container"><iframe id="iframe-video-semana" src="https://www.youtube.com/embed/aaLYhwadeE0" allowfullscreen></iframe></div>
 
         <h2 class="section-title">🏆 TOP 5 - AS MAIS PEDIDAS</h2>
         <div id="ranking-container" class="ranking-box"></div>
@@ -432,7 +432,7 @@
     </footer>
 
     <script>
-        const urlGoogle = "https://script.google.com/macros/s/AKfycbywS5jXc15o9SKfBrVyMTBf1-90QtOYqBwrzFLDz8EpX0b0vKBo_XnYUiDotF_l-DvfOQ/exec";
+        const urlGoogle = "https://script.google.com/macros/s/AKfycbwL4xamgpPfy68s-Wh9BDlNrhFYoZ1L1wBesVNTx3YSW7keaAngxoERSe7mLIJm0IkZmQ/exec";
         
         let ultimaMusica = "";
         let audio = document.getElementById('radio-top');
@@ -526,7 +526,7 @@
                 return;
             }
 
-             if (acao === 'getHoroscopo') {
+            if (acao === 'getHoroscopo') {
                 modalTitle.innerText = titulo;
                 fetch(urlGoogle + "?action=getHoroscopo").then(r => r.json()).then(data => {
                     if(!data || data.length === 0) { modalBody.innerHTML = '<p style="color:white; text-align:center;">Sem previsões hoje.</p>'; }
@@ -575,7 +575,6 @@
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
         }
 
-        // --- INÍCIO DA FUNÇÃO CORRIGIDA ---
         function abrirModalClipes() {
             radioEstavaTocando = isPlaying;
             if (isPlaying) {
@@ -590,26 +589,24 @@
                 .then(r => r.json())
                 .then(data => {
                     let urlLink = data.link || "";
-                    let finalEmbedUrl = "https://www.youtube.com/embed/aaLYhwadeE0?autoplay=1"; // Padrão
+                    let finalEmbedUrl = "https://www.youtube.com/embed/aaLYhwadeE0?autoplay=1";
                     
                     if (urlLink) {
-                        // Converte o link recebido para o formato embed do YouTube
                         let videoId = "";
                         let playlistId = "";
                         
-                        // Extrai o ID do vídeo (funciona para watch?v= ou youtu.be/)
                         if (urlLink.includes("v=")) {
                             videoId = urlLink.split("v=")[1].split("&")[0];
                         } else if (urlLink.includes("youtu.be/")) {
                             videoId = urlLink.split("youtu.be/")[1].split("?")[0];
+                        } else if (urlLink.includes("embed/")) {
+                            videoId = urlLink.split("embed/")[1].split("?")[0];
                         }
 
-                        // Verifica se tem uma playlist anexada ao link
                         if (urlLink.includes("list=")) {
                             playlistId = urlLink.split("list=")[1].split("&")[0];
                         }
 
-                        // Monta o link final do Embed
                         if (videoId && playlistId) {
                             finalEmbedUrl = `https://www.youtube.com/embed/${videoId}?list=${playlistId}&autoplay=1`;
                         } else if (videoId) {
@@ -621,11 +618,9 @@
 
                     iframe.src = finalEmbedUrl;
                 }).catch(() => {
-                    // Se der erro na busca, toca o padrão
                     iframe.src = "https://www.youtube.com/embed/aaLYhwadeE0?autoplay=1";
                 });
         }
-        // --- FIM DA FUNÇÃO CORRIGIDA ---
 
         function fecharModalClipes() { 
             document.getElementById('modal-tv-clipes').style.display = 'none'; 
@@ -890,6 +885,25 @@
             }).catch(() => {});
         }
 
+        function carregarVideoSemana() {
+            fetch(urlGoogle + "?action=getVideoSemana")
+                .then(r => r.json())
+                .then(data => {
+                    if (data.link) {
+                        const iframeVideo = document.getElementById('iframe-video-semana');
+                        if (iframeVideo) {
+                            iframeVideo.src = data.link;
+                        }
+                    }
+                    if (data.titulo) {
+                        const tituloEl = document.getElementById('titulo-video-semana');
+                        if (tituloEl) {
+                            tituloEl.innerText = "📺 " + data.titulo;
+                        }
+                    }
+                }).catch(e => console.log("Erro ao carregar vídeo da semana"));
+        }
+
         function carregarConfig() {
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if (data.tv) {
@@ -927,7 +941,6 @@
         
         setInterval(carregarConfig, 60000);
 
-        // FUNÇÃO DE MURAL / CHAT FAKE
         document.getElementById('form-mural').addEventListener('submit', function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btn-status');
@@ -957,7 +970,6 @@
             });
         });
 
-        // SIMULADOR DE MENSAGENS AUTOMÁTICAS NO CHAT FAKE
         const nomesFake = ["Rafael", "Camila", "Rodrigo", "Juliana", "Marcos", "Fernanda", "Lucas", "Beatriz"];
         const msgsFake = [
             "Curtindo muito a programação de hoje!",
@@ -1076,7 +1088,7 @@
 
             if (cliquesSegredo === 5) {
                 cliquesSegredo = 0;
-                alert("🕵️ PARABÉNS! Você descobriu a Playlist Secreta da Madrugada!");
+                alert("🕵️ PARABÉNS! Você descobre a Playlist Secreta da Madrugada!");
                 window.open("https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6", "_blank"); 
             }
         });
@@ -1116,13 +1128,27 @@
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if(data.efeitos !== "OFF") startFireworks();
             });
+            
             fadeInAudio();
-            atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
+            
+            setTimeout(() => { atualizarProgramacao(); }, 500);
+            setTimeout(() => { carregarRanking(); }, 1000);
+            setTimeout(() => { carregarConfig(); }, 1500);
+            setTimeout(() => { carregarAnuncios(); }, 2000);
+            setTimeout(() => { carregarVideoSemana(); }, 2200);
+            setTimeout(() => { 
+                atualizarMetadados(); 
+                setInterval(atualizarMetadados, 30000); 
+            }, 2500);
+            
+            setInterval(atualizarProgramacao, 3600000);
         }
 
         let ultimaMusicaBuscada = "";
 
         function atualizarMetadados() {
+            if (!isPlaying) return; 
+
             const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent("http://server27.srvsh.com.br:6674/currentsong?sid=1&t=" + new Date().getTime());
             
             fetch(proxyUrl).then(r => r.json()).then(response => {
@@ -1249,10 +1275,6 @@
             setTimeout(() => { el.remove(); }, 2000);
             if (navigator.vibrate) navigator.vibrate(30);
         }
-
-        atualizarMetadados(); 
-        setInterval(atualizarMetadados, 15000); 
-        setInterval(atualizarProgramacao, 3600000);
     </script>
 </body>
 </html>
