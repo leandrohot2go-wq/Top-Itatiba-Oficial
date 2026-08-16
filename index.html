@@ -1,4 +1,4 @@
--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -26,55 +26,6 @@
         nav { background: rgba(10, 14, 39, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(176, 26, 122, 0.5); padding: 12px 0; display: flex; justify-content: center; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 25px rgba(0,0,0,0.8); width: 100%; }
         nav a { color: #ddd; text-decoration: none; font-weight: 800; text-transform: uppercase; font-size: 11px; transition: all 0.3s ease; padding: 8px 14px; border-radius: 20px; letter-spacing: 0.5px; position: relative; }
         nav a:hover, nav a:active { color: white !important; background: var(--magenta); box-shadow: 0 0 15px var(--magenta); transform: translateY(-2px); }
-
-        /* INÍCIO: NOVOS ESTILOS PARA VÍDEO CLIPE (BOTÃO E TV MODERNA NEON) */
-        .btn-nav-clipe {
-            background: transparent !important;
-            border: 2px solid transparent !important;
-            background-image: linear-gradient(var(--azul-escuro), var(--azul-escuro)), linear-gradient(90deg, var(--magenta), var(--dourado)) !important;
-            background-origin: border-box !important;
-            background-clip: padding-box, border-box !important;
-            border-radius: 20px !important;
-            box-shadow: 0 0 15px rgba(176, 26, 122, 0.5);
-            animation: glow-clipe 2s infinite alternate;
-            color: white !important;
-        }
-        .btn-nav-clipe:hover { transform: translateY(-2px); }
-        @keyframes glow-clipe { 0% { box-shadow: 0 0 5px var(--magenta); } 100% { box-shadow: 0 0 20px var(--dourado); } }
-
-        #modal-tv-clipes { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.90); backdrop-filter: blur(15px); z-index: 65000; justify-content: center; align-items: center; flex-direction: column; }
-        .tv-wrapper { position: relative; width: 90%; max-width: 800px; animation: modalIn 0.5s ease-out; }
-        
-        /* ESTILIZAÇÃO NEON DA TV */
-        .tv-frame { 
-            background: linear-gradient(135deg, #0a0e27, #1a0b1c); 
-            padding: 15px 15px 55px 15px; 
-            border-radius: 20px; 
-            box-shadow: 0 0 40px rgba(176, 26, 122, 0.8), inset 0 0 20px rgba(170, 0, 255, 0.4); 
-            position: relative; 
-            border: 4px solid var(--magenta); 
-            animation: tv-neon-pulse 2s infinite alternate;
-        }
-        @keyframes tv-neon-pulse { 
-            0% { box-shadow: 0 0 30px var(--magenta), inset 0 0 15px var(--roxo-neon); border-color: var(--magenta); } 
-            100% { box-shadow: 0 0 60px var(--roxo-neon), inset 0 0 30px var(--magenta); border-color: var(--roxo-neon); } 
-        }
-        
-        .tv-screen-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; border: 2px solid #000; border-radius: 8px; overflow: hidden; box-shadow: 0 0 30px rgba(0,0,0,0.9); }
-        .tv-screen-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .tv-bottom-bar { position: absolute; bottom: 15px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; color: var(--dourado); font-size: 11px; font-weight: 900; font-family: sans-serif; text-shadow: 0 0 10px var(--dourado); letter-spacing: 1px; }
-        
-        .tv-speakers { display: flex; gap: 12px; }
-        .tv-speaker-circle { width: 25px; height: 25px; border-radius: 50%; background: #050816; box-shadow: inset 0 0 10px var(--magenta); border: 1px solid var(--magenta); animation: speaker-beat 0.5s infinite alternate; }
-        @keyframes speaker-beat { 0% { transform: scale(1); box-shadow: inset 0 0 5px var(--magenta); } 100% { transform: scale(1.1); box-shadow: inset 0 0 15px var(--roxo-neon); border-color: var(--roxo-neon); } }
-        
-        .tv-controls-fake { display: flex; gap: 20px; align-items: center; }
-        .tv-stand { width: 140px; height: 30px; background: linear-gradient(to bottom, var(--magenta), #0a0e27); margin: 0 auto; border-radius: 0 0 20px 20px; border-left: 3px solid var(--roxo-neon); border-right: 3px solid var(--roxo-neon); }
-        .tv-base { width: 300px; height: 10px; background: var(--dourado); margin: 0 auto; border-radius: 20px; box-shadow: 0 0 25px var(--dourado), 0 5px 15px rgba(0,0,0,0.9); }
-        
-        .close-tv-btn { margin-top: 40px; background: transparent; border: 2px solid var(--magenta); color: white; border-radius: 50px; padding: 10px 25px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        .close-tv-btn:hover { background: var(--magenta); transform: scale(1.1); box-shadow: 0 0 25px var(--magenta); }
-        /* FIM: NOVOS ESTILOS VÍDEO CLIPE */
 
         /* PAINEL PEDIDO & TEMPO */
         .painel-tempo-real { background: rgba(255, 255, 255, 0.05); border: 2px solid var(--magenta); border-radius: 15px; padding: 12px; margin: 15px auto; max-width: 500px; display: flex; justify-content: space-around; align-items: center; color: white; animation: animacaoCores 5s infinite ease-in-out; transition: border-color 1s ease; }
@@ -172,12 +123,19 @@
         .card-anuncio:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--magenta); border-color: var(--magenta);} .card-anuncio img { width: 100%; height: 180px; object-fit: cover; background-color: #111; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         
+        /* MURAL & CHAT FAKE */
         .mural-container { background: #111428; padding: 20px; border-radius: 15px; border: 1px solid var(--magenta); margin-top: 30px; }
         .mural-input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #333; background: #0a0e27; color: white; box-sizing:border-box; font-size: 14px; transition: 0.3s ease; }
         .mural-input:focus { outline: none; border-color: var(--verde-whatsapp); box-shadow: 0 0 15px var(--verde-whatsapp); background: #05190a; }
         .btn-enviar { background: var(--magenta); color: white; border: none; padding: 12px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.3s; }
         .btn-enviar:hover { box-shadow: 0 0 25px var(--magenta); transform: scale(1.02); }
         
+        /* CHAT FAKE AO VIVO */
+        .chat-fake-box { background: #070a1d; border: 1px solid rgba(176, 26, 122, 0.4); border-radius: 12px; padding: 15px; height: 220px; overflow-y: auto; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: thin; scrollbar-color: var(--magenta) #0a0e27; }
+        .chat-msg { background: rgba(255, 255, 255, 0.05); padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.4; border-left: 3px solid var(--magenta); animation: fadeInMsg 0.4s ease-out; }
+        @keyframes fadeInMsg { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .chat-user { color: var(--dourado); font-weight: bold; margin-right: 5px; }
+
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 25px; right: 25px; background-color: var(--verde-whatsapp); color: #000; border-radius: 50px; display: flex; align-items: center; justify-content: center; z-index: 10001; animation: pulse-green 2s infinite; text-decoration: none; box-shadow: 0 0 20px rgba(0,255,85,0.4); transition: 0.3s;}
         .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 0 40px var(--verde-whatsapp); }
         footer { background: #000; padding: 50px 20px; text-align: center; border-top: 2px solid var(--magenta); }
@@ -187,7 +145,7 @@
         .alexa-icon { background: #fff; border-radius: 50%; padding: 5px; box-sizing: border-box; width: 45px; height: 45px; object-fit: contain; }
 
         /* SPLASH & MODAL */
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(-45deg, #050816, #2e003e, #000000, #1a1a2e); background-size: 400% 400%; animation: gradientBG 10s ease infinite; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; text-align: center; }
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(-45deg, #050816, #2e003e, #000000, #1a1a2e); background-size: 400% 400%; animation: gradientBG 10s ease infinite; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; transition: transform 0.8s ease-in-out; text-align: center; }
         .splash-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .splash-logo { width: 220px; height: 220px; border-radius: 50%; border: 4px solid var(--magenta); box-shadow: 0 0 50px var(--magenta); margin-bottom: 30px; object-fit: cover; animation: pulse-beat 1.5s infinite; }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -250,42 +208,9 @@
 </head>
 <body>
 
-    <!-- INÍCIO: MODAL VÍDEO CLIPE (NOVA FUNÇÃO) -->
-    <div id="modal-tv-clipes">
-        <div class="tv-wrapper">
-            <div class="tv-frame">
-                <div class="tv-screen-container">
-                    <iframe id="iframe-clipes" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div class="tv-bottom-bar">
-                    <div class="tv-speakers">
-                        <div class="tv-speaker-circle"></div>
-                        <div class="tv-speaker-circle"></div>
-                    </div>
-                    <div class="tv-controls-fake">
-                        <span>▶ PLAY</span>
-                        <span>🔊 VOLUME</span>
-                        <span>[ ] FULLSCREEN</span>
-                    </div>
-                    <div class="tv-speakers">
-                        <div class="tv-speaker-circle"></div>
-                        <div class="tv-speaker-circle"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="tv-stand"></div>
-            <div class="tv-base"></div>
-        </div>
-        <button class="close-tv-btn" onclick="fecharModalClipes()">
-            <span style="font-size: 24px; line-height: 1;">×</span>
-            <span style="font-size: 12px;">FECHAR CLIPE</span>
-        </button>
-    </div>
-    <!-- FIM: MODAL VÍDEO CLIPE -->
-
     <div id="modal-container" class="modal-overlay">
         <div class="modal-content">
-            <span class="close-modal" onclick="fecharModal()" aria-label="Fechar modal">×</span>
+            <span class="close-modal" onclick="fecharModal()">×</span>
             <div class="modal-header">
                 <h2 id="modal-title">Título</h2>
             </div>
@@ -293,10 +218,20 @@
             <div class="modal-body" id="modal-body"></div>
 
             <div class="carousel-nav" id="carousel-controls" style="display:none;">
-                <button class="nav-btn" onclick="prevSlide()" aria-label="Slide anterior">❮</button>
+                <button class="nav-btn" onclick="prevSlide()">❮</button>
                 <span class="nav-counter" id="slide-counter">1 / 10</span>
-                <button class="nav-btn" onclick="nextSlide()" aria-label="Próximo slide">❯</button>
+                <button class="nav-btn" onclick="nextSlide()">❯</button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA VÍDEO CLIPE -->
+    <div id="modal-tv-clipes" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:65000; justify-content:center; align-items:center; flex-direction:column;">
+        <div style="width:90%; max-width:800px; position:relative;">
+            <div style="position:relative; padding-bottom:56.25%; height:0; border:4px solid var(--magenta); border-radius:20px; overflow:hidden;">
+                <iframe id="iframe-clipes" src="" style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+            <button onclick="fecharModalClipes()" style="margin-top:20px; background:var(--magenta); color:white; border:none; padding:10px 30px; border-radius:20px; cursor:pointer; width:100%; font-weight:bold;">FECHAR VÍDEO</button>
         </div>
     </div>
 
@@ -309,24 +244,23 @@
         </div>
     </div>
 
-    <a href="https://wa.me/5511945914382" class="whatsapp-float" target="_blank" aria-label="Contato via WhatsApp">
+    <a href="https://wa.me/5511945914382" class="whatsapp-float" target="_blank">
         <svg style="width:35px;height:35px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.14l-.3-.17-3.12.82.83-3.04-.19-.3a8.209 8.209 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.53 2.32c-.13 0-.34.05-.52.25-.19.21-.72.7-.72 1.71s.73 1.99.83 2.12c.11.13 1.44 2.19 3.48 3.07.48.21.86.34 1.15.43.49.15.94.13 1.29.08.39-.06 1.21-.5 1.38-.98.17-.48.17-.89.12-.98-.05-.09-.18-.14-.38-.24s-1.21-.6-1.4-.67c-.18-.07-.32-.1-.46.12-.14.21-.53.67-.65.81-.12.14-.24.16-.44.06s-.83-.31-1.58-.98c-.58-.52-.97-1.16-1.09-1.36-.11-.2-.01-.31.09-.41.09-.09.2-.24.3-.35.1-.11.14-.19.21-.32.07-.13.03-.25-.02-.35-.05-.1-.46-1.1-.63-1.51-.16-.4-.33-.35-.46-.35z"/></svg>
     </a>
     
     <div class="reaction-wrapper" id="reactionMenu" style="z-index: 60000; display: none;">
-        <button class="r-btn option" onclick="selectReaction('🚀')" aria-label="Reação Foguete">🚀</button>
-        <button class="r-btn option" onclick="selectReaction('🎵')" aria-label="Reação Música">🎵</button>
-        <button class="r-btn option" onclick="selectReaction('🔥')" aria-label="Reação Fogo">🔥</button>
-        <button class="r-btn main" onclick="toggleReactions()" aria-label="Abrir reações">❤️</button>
+        <button class="r-btn option" onclick="selectReaction('🚀')">🚀</button>
+        <button class="r-btn option" onclick="selectReaction('🎵')">🎵</button>
+        <button class="r-btn option" onclick="selectReaction('🔥')">🔥</button>
+        <button class="r-btn main" onclick="toggleReactions()">❤️</button>
     </div>
 
     <div class="banner-container"><img src="banner.jpg" alt="Rádio Top Itatiba FM 91.5"></div>
 
     <nav>
         <a href="#">HOME</a>
+        <a href="javascript:void(0)" onclick="abrirModalClipes()" style="color: var(--dourado);">VÍDEO CLIPE</a>
         <a href="javascript:void(0)" id="btnInstalar" style="display:none;" onclick="instalarPWA()">BAIXAR APP</a>
-        <!-- NOVA FUNÇÃO: BOTÃO VÍDEO CLIPE ADICIONADO -->
-        <a href="javascript:void(0)" class="btn-nav-clipe" onclick="abrirModalClipes()">VÍDEO CLIPE</a>
         <a href="#video">TV TOP</a>
         <a href="#pedido">PEDIR MÚSICA</a>
         <a href="#mural">MURAL</a>
@@ -367,13 +301,13 @@
         <audio id="radio-top" crossorigin="anonymous"><source src="https://server27.srvsh.com.br:6674/stream" type="audio/mpeg"></audio>
 
         <div class="glass-controls">
-            <button id="btn-player" class="btn-player-modern" onclick="togglePlay()" aria-label="Tocar ou pausar rádio">
+            <button id="btn-player" class="btn-player-modern" onclick="togglePlay()">
                 <svg id="icon-play" width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
                 <svg id="icon-pause" width="30" height="30" viewBox="0 0 24 24" fill="white" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
             <div class="volume-control-modern">
-                <label for="vol-control" class="vol-label">VOL</label>
-                <input type="range" id="vol-control" class="custom-volume" min="0" max="1" step="0.1" value="0.3" onchange="changeVolume(this.value)" aria-label="Controle de volume">
+                <span class="vol-label">VOL</span>
+                <input type="range" id="vol-control" class="custom-volume" min="0" max="1" step="0.1" value="0.3" onchange="changeVolume(this.value)">
             </div>
         </div>
 
@@ -384,51 +318,22 @@
         </div>
     </div>
 
-    <!-- 3. Card Quem Está No Ar -->
-    <div id="locutor-plantao-box" style="background: rgba(176, 26, 122, 0.1); border: 2px solid var(--magenta); border-radius: 15px; padding: 15px; margin: 20px auto; max-width: 600px; display: flex; align-items: center; gap: 15px; box-shadow: 0 0 15px rgba(176, 26, 122, 0.3);">
-        <div style="font-size: 40px;">🎙️</div>
-        <div style="text-align: left;">
-            <span style="font-size: 10px; color: var(--dourado); font-weight: bold; text-transform: uppercase; display: block;">NO MICROFONE AGORA</span>
-            <span id="locutor-atual-nome" style="font-size: 16px; font-weight: bold; color: white; text-transform: uppercase;">Rádio Top Itatiba - 91.5 FM</span>
-            <p id="locutor-atual-desc" style="margin: 3px 0 0 0; font-size: 12px; color: #ccc;">A programação que toca o seu coração.</p>
-        </div>
-    </div>
-
     <div class="painel-tempo-real">
-        <div class="tempo-item" onclick="abrirModalRelogio()" title="Configurar Alarme/Soneca" style="cursor: pointer;">
+        <div class="tempo-item" onclick="abrirModalRelogio()" title="Configurar Alarme/Soneca">
             <span class="tempo-label">Itatiba Agora</span>
             <span class="tempo-valor" id="clock">00:00:00 ⏰</span>
         </div>
         <div class="tempo-item">
-            <span class="tempo-label" id="label-clima">CLIMA ITATIBA</span>
-            <span class="tempo-valor" id="temp-itatiba">🌡️ Carregando...</span>
+            <span class="tempo-label" id="label-clima">RÁDIO TOP ITATIBA</span>
+            <span class="tempo-valor" id="temp-itatiba">🌡️ ...</span>
         </div>
     </div>
 
     <div class="container">
-        <!-- 4. Histórico de Músicas -->
-        <h2 class="section-title">📜 HISTÓRICO RECENTE</h2>
-        <div class="ranking-box" style="padding: 15px; text-align: left;">
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #333;">
-                <span style="font-size: 13px; color: #aaa;">🎵 Tocando agora:</span>
-                <span id="hist-atual" style="font-size: 13px; color: var(--dourado); font-weight: bold;">Carregando...</span>
-            </div>
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #333;">
-                <span style="font-size: 13px; color: #777;">Anterior 1:</span>
-                <span id="hist-ant-1" style="font-size: 13px; color: #ccc;">Aguardando...</span>
-            </div>
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0;">
-                <span style="font-size: 13px; color: #777;">Anterior 2:</span>
-                <span id="hist-ant-2" style="font-size: 13px; color: #ccc;">Aguardando...</span>
-            </div>
-        </div>
-
         <div id="pedido"></div>
         <h2 class="section-title">🎵 PEÇA SUA MÚSICA NO WHATSAPP</h2>
         <div class="painel-pedido">
-            <label for="pedido-nome" style="display:none;">Seu Nome</label>
             <input type="text" id="pedido-nome" class="mural-input" placeholder="Seu Nome">
-            <label for="pedido-musica" style="display:none;">Nome da Música / Cantor</label>
             <input type="text" id="pedido-musica" class="mural-input" placeholder="Nome da Música / Cantor">
             <button onclick="enviarPedidoZap()" class="btn-pedido-zap">ENVIAR PEDIDO AGORA</button>
         </div>
@@ -438,38 +343,26 @@
             <p style="text-align:center;">Carregando programação...</p>
         </div>
 
-        <!-- 2. Chat do Ouvinte (Fake Dinâmico) -->
-        <h2 class="section-title">📢 CHAT DO OUVINTE</h2>
-        <div class="ranking-box" id="feed-recados" style="padding: 15px; max-height: 300px; overflow-y: auto;">
-            <!-- Preenchido via script -->
-        </div>
-
         <div id="mural"></div>
         <h2 class="section-title">💬 MURAL DE RECADOS</h2>
         <div class="mural-container">
+            <!-- CHAT FAKE AO VIVO -->
+            <div id="chat-fake" class="chat-fake-box">
+                <div class="chat-msg"><span class="chat-user">Carlos (Itatiba):</span> Toca aquela do Gusttavo Lima, abraço pra galera! 🚀</div>
+                <div class="chat-msg"><span class="chat-user">Mariana:</span> Rádio Top tá demais hoje, ligadíssima aqui no Bairro San Francisco! 💖</div>
+                <div class="chat-msg"><span class="chat-user">João Pedro:</span> Salve pra turma da oficina, som pesado 91.5! 🎶</div>
+            </div>
+
             <form id="form-mural">
-                <label for="nome-ouvinte" style="display:none;">Seu Nome</label>
                 <input type="text" id="nome-ouvinte" class="mural-input" placeholder="Seu Nome" required>
-                <label for="msg-ouvinte" style="display:none;">Deixe seu recado para a rádio...</label>
                 <textarea id="msg-ouvinte" class="mural-input" rows="3" placeholder="Deixe seu recado para a rádio..." required></textarea>
                 <button type="submit" class="btn-enviar" id="btn-status">ENVIAR RECADO AO ESTÚDIO</button>
             </form>
         </div>
         
-        <!-- 5. Seletor de Cores -->
-        <div style="text-align: center; margin: 30px 0;">
-            <span style="font-size: 11px; color: #aaa; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 8px;">🎨 Escolha a Cor do Site:</span>
-            <div style="display: flex; justify-content: center; gap: 10px;">
-                <button onclick="mudarTema('#b01a7a', '#aa00ff')" style="width: 25px; height: 25px; border-radius: 50%; background: #b01a7a; border: 2px solid white; cursor: pointer;" title="Rosa Magenta"></button>
-                <button onclick="mudarTema('#f3b644', '#ff8800')" style="width: 25px; height: 25px; border-radius: 50%; background: #f3b644; border: 2px solid white; cursor: pointer;" title="Dourado Top"></button>
-                <button onclick="mudarTema('#00d2ff', '#0055ff')" style="width: 25px; height: 25px; border-radius: 50%; background: #00d2ff; border: 2px solid white; cursor: pointer;" title="Azul Elétrico"></button>
-                <button onclick="mudarTema('#00ff55', '#008822')" style="width: 25px; height: 25px; border-radius: 50%; background: #00ff55; border: 2px solid white; cursor: pointer;" title="Verde WhatsApp"></button>
-            </div>
-        </div>
-
         <div id="video"></div>
         <h2 class="section-title">📺 VÍDEO DA SEMANA: GUSTTAVO LIMA</h2>
-        <div class="video-container"><iframe src="https://www.youtube.com/embed/aaLYhwadeE0" allowfullscreen title="Vídeo da semana Gusttavo Lima"></iframe></div>
+        <div class="video-container"><iframe src="https://www.youtube.com/embed/aaLYhwadeE0" allowfullscreen></iframe></div>
 
         <h2 class="section-title">🏆 TOP 5 - AS MAIS PEDIDAS</h2>
         <div id="ranking-container" class="ranking-box"></div>
@@ -477,37 +370,41 @@
         <h2 class="section-title">✨ DESTAQUES DA TOP</h2>
         <div class="grid-cards">
             <div class="card" onclick="abrirModal('getEnquete', 'BATALHA TOP')">
-                <img src="batalha.jpg" alt="Batalha Top"> 
+                <img src="batalha.jpg"> 
                 <h3>Batalha Top</h3>
                 <span class="btn-neon">VOTAR AGORA</span>
             </div>
+            
             <div class="card" onclick="abrirModal('getCinema', 'CINE MULTIPLEX 🍿')">
-                <img src="cinema.jpg" alt="Cinema">
+                <img src="cinema.jpg">
                 <h3>Cinema</h3>
                 <span class="btn-neon">EM CARTAZ</span>
             </div>
+
             <div class="card" onclick="abrirModal('getOnibus', 'TEM ÔNIBUS? 🚌')">
-                <img src="logo onibus.jpg" alt="Horários de Ônibus">
+                <img src="logo onibus.jpg">
                 <h3>Horários</h3>
                 <span class="btn-neon">VER PRÓXIMO</span>
             </div>
+
             <div class="card" onclick="abrirModal('getHoroscopo', 'HORÓSCOPO DO DIA 🔮')">
-                <img src="horoscopo.jpg" alt="Horóscopo">
+                <img src="horoscopo.jpg">
                 <h3>Horóscopo</h3>
                 <span class="btn-neon">PREVISÃO</span>
             </div>
+
             <div class="card" onclick="abrirModal('getTopHits', 'TOP HITS')">
-                <img src="tophits.jpg" alt="Top Hits">
+                <img src="tophits.jpg">
                 <h3>Top Hits</h3>
                 <span class="btn-neon">VER LISTA</span>
             </div>
             <div class="card" onclick="abrirModal('getEquipe', 'NOSSA EQUIPE')">
-                <img src="nossa equipe.jpg" alt="Nossa Equipe">
+                <img src="nossa equipe.jpg">
                 <h3>Nossa Equipe</h3>
                 <span class="btn-neon">LOCUTORES</span>
             </div>
             <div class="card" onclick="abrirModal('getPromocoes', 'PROMOÇÕES TOP')">
-                <img src="promocoes_top.jpg" alt="Promoções Top">
+                <img src="promocoes_top.jpg">
                 <h3>Promoções</h3>
                 <span class="btn-neon">PARTICIPAR</span>
             </div>
@@ -523,9 +420,9 @@
 
     <footer>
         <p id="segredo-rodape" style="color: var(--dourado); font-weight: bold; margin-bottom: 20px; cursor: pointer; user-select: none;">91.5 FM - RADIO TOP ITATIBA</p>
-        <a href="https://www.instagram.com/radiotopitatiba" target="_blank" aria-label="Instagram da Rádio Top Itatiba"><img src="https://cdn-icons-png.flaticon.com/512/3955/3955024.png" class="social-icon" alt="Instagram"></a>
-        <a href="https://www.facebook.com/radiotopitatiba" target="_blank" aria-label="Facebook da Rádio Top Itatiba"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" class="social-icon" alt="Facebook"></a>
-        <a href="https://www.amazon.com.br/dp/B0C3814C66/" target="_blank" aria-label="Ouça na Alexa"><img src="logo-Alexa.jpg" class="social-icon alexa-icon" title="Ouça na Alexa" alt="Alexa"></a>
+        <a href="https://www.instagram.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3955/3955024.png" class="social-icon"></a>
+        <a href="https://www.facebook.com/radiotopitatiba" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" class="social-icon"></a>
+        <a href="https://www.amazon.com.br/dp/B0C3814C66/" target="_blank"><img src="logo-Alexa.jpg" class="social-icon alexa-icon" title="Ouça na Alexa"></a>
         
         <div style="margin-top: 25px; color: white; font-size: 15px;">
             🎧 Ouça <strong>Radio Top Itatiba</strong> também no <a href="https://ouvirradioonline.com.br/parceiros_track.php?r=75754" target="_blank" rel="noopener" style="color: var(--dourado); font-weight: bold; text-decoration: none; border-bottom: 2px solid var(--dourado);">OuvirRadioOnline</a>
@@ -544,8 +441,7 @@
         let modalData = []; let modalIndex = 0; let currentAction = '';
         let sleepTimer = null; let alarmInterval = null;
         let dadosOnibusGlobais = [];
-
-        let estavaTocandoRadio = false;
+        let radioEstavaTocando = false;
 
         const colorThief = new ColorThief();
 
@@ -679,6 +575,67 @@
             }).catch(() => { modalBody.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>'; });
         }
 
+        // --- INÍCIO DA FUNÇÃO CORRIGIDA ---
+        function abrirModalClipes() {
+            radioEstavaTocando = isPlaying;
+            if (isPlaying) {
+                togglePlay();
+            }
+
+            const modal = document.getElementById('modal-tv-clipes');
+            const iframe = document.getElementById('iframe-clipes');
+            modal.style.display = 'flex';
+            
+            fetch(urlGoogle + "?action=getClipe")
+                .then(r => r.json())
+                .then(data => {
+                    let urlLink = data.link || "";
+                    let finalEmbedUrl = "https://www.youtube.com/embed/aaLYhwadeE0?autoplay=1"; // Padrão
+                    
+                    if (urlLink) {
+                        // Converte o link recebido para o formato embed do YouTube
+                        let videoId = "";
+                        let playlistId = "";
+                        
+                        // Extrai o ID do vídeo (funciona para watch?v= ou youtu.be/)
+                        if (urlLink.includes("v=")) {
+                            videoId = urlLink.split("v=")[1].split("&")[0];
+                        } else if (urlLink.includes("youtu.be/")) {
+                            videoId = urlLink.split("youtu.be/")[1].split("?")[0];
+                        }
+
+                        // Verifica se tem uma playlist anexada ao link
+                        if (urlLink.includes("list=")) {
+                            playlistId = urlLink.split("list=")[1].split("&")[0];
+                        }
+
+                        // Monta o link final do Embed
+                        if (videoId && playlistId) {
+                            finalEmbedUrl = `https://www.youtube.com/embed/${videoId}?list=${playlistId}&autoplay=1`;
+                        } else if (videoId) {
+                            finalEmbedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                        } else if (playlistId) {
+                            finalEmbedUrl = `https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1`;
+                        }
+                    }
+
+                    iframe.src = finalEmbedUrl;
+                }).catch(() => {
+                    // Se der erro na busca, toca o padrão
+                    iframe.src = "https://www.youtube.com/embed/aaLYhwadeE0?autoplay=1";
+                });
+        }
+        // --- FIM DA FUNÇÃO CORRIGIDA ---
+
+        function fecharModalClipes() { 
+            document.getElementById('modal-tv-clipes').style.display = 'none'; 
+            document.getElementById('iframe-clipes').src = ''; 
+            
+            if (radioEstavaTocando && !isPlaying) {
+                togglePlay();
+            }
+        }
+
         function abrirModalRelogio() {
             const modal = document.getElementById('modal-container');
             document.getElementById('modal-title').innerText = "PROGRAMAR TEMPO";
@@ -699,7 +656,7 @@
                     
                     <h3 style="color:var(--verde-whatsapp);">⏰ DESPERTADOR</h3>
                     <p>Ligar o rádio automaticamente às:</p>
-                    <input type="time" id="alarm-time" style="padding:10px; border-radius:10px; border:none; font-size:18px; text-align:center;" aria-label="Definir horário do alarme">
+                    <input type="time" id="alarm-time" style="padding:10px; border-radius:10px; border:none; font-size:18px; text-align:center;">
                     <br><br>
                     <button onclick="setAlarm()" class="btn-neon">DEFINIR ALARME</button>
                     <p style="font-size:12px; color:#888; margin-top:10px;">*Mantenha esta aba aberta para o alarme funcionar.</p>
@@ -758,7 +715,7 @@
             const modalBody = document.getElementById('modal-body');
             modalBody.innerHTML = `
                 <div style="width:100%; text-align:center;">
-                    <select id="select-onibus" onchange="calcularHorarioNovo()" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;" aria-label="Selecione a linha de ônibus">
+                    <select id="select-onibus" onchange="calcularHorarioNovo()" style="width:100%; padding:15px; border-radius:10px; background:#1a1a2e; color:white; border:2px solid var(--dourado); font-size:16px; margin-bottom:20px;">
                         ${options}
                     </select>
                     <div id="resultado-onibus" style="font-size:18px; color:white; min-height:100px;"></div>
@@ -857,19 +814,19 @@
             let html = '<div class="slide-container">';
             
             if(currentAction === 'getCinema') {
-                html += `<img src="${img}" class="img-slide-rect" style="aspect-ratio: 2/3; object-fit:cover;" alt="${titulo}"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:14px; color:#ccc;">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">COMPRAR INGRESSO</a>`;
+                html += `<img src="${img}" class="img-slide-rect" style="aspect-ratio: 2/3; object-fit:cover;"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:14px; color:#ccc;">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">COMPRAR INGRESSO</a>`;
             
             } else if(currentAction === 'getEquipe') {
-                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-circle" alt="${titulo}"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">VER PERFIL</a>`;
+                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-circle"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">VER PERFIL</a>`;
             
             } else if (currentAction === 'getTopHits') {
-                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect" alt="${titulo}"><span style="color:var(--dourado); font-weight:bold; font-size:30px; display:block; margin:10px 0;">${subtitulo}</span><h3 class="slide-title">${titulo}</h3><a href="${linkAcao}" target="_blank" class="btn-slide-action">OUVIR AGORA</a>`;
+                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><span style="color:var(--dourado); font-weight:bold; font-size:30px; display:block; margin:10px 0;">${subtitulo}</span><h3 class="slide-title">${titulo}</h3><a href="${linkAcao}" target="_blank" class="btn-slide-action">OUVIR AGORA</a>`;
             
             } else if (currentAction === 'getHoroscopo') {
-                 html += `<img src="${img}" class="img-slide-circle" style="border-color:var(--dourado);" alt="${titulo}"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:16px; color:#fff;">${subtitulo}</p>`;
+                 html += `<img src="${img}" class="img-slide-circle" style="border-color:var(--dourado);"><h3 class="slide-title" style="color:var(--dourado);">${titulo}</h3><p class="slide-desc" style="font-size:16px; color:#fff;">${subtitulo}</p>`;
             
             } else {
-                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect" alt="${titulo}"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">QUERO PARTICIPAR</a>`;
+                html += `<img src="${img}" onerror="this.src='top1.jpg'" class="img-slide-rect"><h3 class="slide-title">${titulo}</h3><p class="slide-desc">${subtitulo}</p><a href="${linkAcao}" target="_blank" class="btn-slide-action">QUERO PARTICIPAR</a>`;
             }
             html += '</div>';
             modalBody.innerHTML = html;
@@ -880,13 +837,6 @@
         function prevSlide() { if(modalIndex > 0) { modalIndex--; renderSlide(); } else { modalIndex = modalData.length - 1; renderSlide(); } }
         function fecharModal() { document.getElementById('modal-container').style.display = 'none'; }
         window.onclick = function(event) { if (event.target == document.getElementById('modal-container')) { fecharModal(); } }
-
-        document.addEventListener('click', function(e) {
-            const reactionMenu = document.getElementById('reactionMenu');
-            if (reactionMenu && !reactionMenu.contains(e.target) && isReactionsOpen) {
-                closeStack();
-            }
-        });
 
         function startFireworks() {
             const colors = ['#ff00ff', '#f3b644', '#00ffff', '#ffffff', '#ff0000'];
@@ -908,31 +858,8 @@
             .then(r => r.json())
             .then(data => { 
                 const temp = Math.round(data.current_weather.temperature);
-                const weatherCode = data.current_weather.weathercode;
-                
-                let icone = "☀️";
-                let mensagem = "Calor em Itatiba!";
-
-                if (weatherCode >= 51 && weatherCode <= 99) {
-                    icone = "🌧️";
-                    mensagem = "Chovendo em Itatiba!";
-                } else if (temp >= 28) {
-                    icone = "🔥";
-                    mensagem = "Muito calor! Hidrate-se.";
-                } else if (temp <= 18) {
-                    icone = "❄️";
-                    mensagem = "Friozinho em Itatiba!";
-                } else {
-                    icone = "🌤️";
-                    mensagem = "Tempo agradável!";
-                }
-
-                document.getElementById('label-clima').innerText = mensagem;
-                document.getElementById('temp-itatiba').innerHTML = `${icone} ${temp}°C`; 
-            }).catch(() => {
-                document.getElementById('label-clima').innerText = "RÁDIO TOP ITATIBA";
-                document.getElementById('temp-itatiba').innerHTML = "🌡️ 91.5 FM";
-            }); 
+                document.getElementById('temp-itatiba').innerHTML = `☀️ ${temp}°C`; 
+            }).catch(() => {}); 
         }
         getClima();
 
@@ -964,7 +891,6 @@
         }
 
         function carregarConfig() {
-            if (document.hidden) return; 
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if (data.tv) {
                     let capaImg = document.getElementById('capa-album-tv');
@@ -983,10 +909,11 @@
                     }
                 }
                 if (data.botao) document.getElementById('link-studio').href = data.botao;
-                
                 const ticker = document.querySelector('.ticker-content');
                 let textoFinal = "";
-                if (data.noticias) {
+                if (data.texto && data.texto.length > 10) {
+                    textoFinal = `<span class="noticia-item" style="color:white;">${data.texto}</span>`;
+                } else if (data.noticias) {
                     const arrayNews = data.noticias.split('.');
                     arrayNews.forEach(msg => {
                         if(msg.trim() != "") textoFinal += `<span class="noticia-item"><span>✨ INFO:</span> ${msg.trim()}</span>`;
@@ -1000,96 +927,59 @@
         
         setInterval(carregarConfig, 60000);
 
-        // Sistema de Chat Fake Dinâmico
-        const nomesFake = ["Carlos Silva", "Ana Paula", "Marcos Vinicius", "Juliana Souza", "Roberto Carlos", "Camila Rocha", "Lucas Gabriel", "Fernanda Lima", "Matheus Henrique", "Patrícia Alves", "Rodrigo Santos", "Mariana Costa"];
-        const cidadesFake = ["Itatiba (SP)", "Jundiaí (SP)", "Campinas (SP)", "Bragança Paulista (SP)", "Valinhos (SP)", "Vinhedo (SP)", "Itatiba - Bairro do Engenho", "Itatiba - Centro", "Morungaba (SP)"];
-        const mensagensFake = [
-            "Curtindo muito a programação aqui no trampo! Toca aquela moda boa! 🎵",
-            "Ligado na 91.5 FM em casa, abraço pra galera de Itatiba!",
-            "Essa rádio é boa demais da conta! Sorte pra todo mundo aí.",
-            "Volume no talo aqui ouvindo a Top Itatiba! 🚀",
-            "Música boa não para nunca nessa rádio, parabéns pela programação!",
-            "Um abraço pra equipe da Top, ouvindo firme aqui!",
-            "Melhor rádio da região, curti muito essa última música!",
-            "Salve pra família reunida ouvindo a 91.5 FM!"
-        ];
-
-        let listaChatFake = [
-            { nome: "Carlos Silva (Itatiba - SP)", mensagem: "Curtindo muito a programação aqui no trampo! Toca aquela moda boa! 🎵" },
-            { nome: "Ana Paula (Jundiaí - SP)", mensagem: "Ligado na 91.5 FM em casa, abraço pra galera!" },
-            { nome: "Marcos Vinicius (Campinas - SP)", mensagem: "Volume no talo aqui ouvindo a Top Itatiba! 🚀" }
-        ];
-
-        function renderizarChatFake() {
-            const container = document.getElementById('feed-recados');
-            if(!container) return;
-            let html = "";
-            listaChatFake.forEach(item => {
-                html += `
-                    <div style="border-bottom: 1px solid #222; padding: 10px 0; text-align: left;">
-                        <span style="color: var(--dourado); font-weight: bold; font-size: 14px;">💬 ${item.nome}</span>
-                        <p style="margin: 5px 0 0 0; color: #fff; font-size: 13px;">${item.mensagem}</p>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function adicionarMensagemFakeAleatoria() {
-            const nomeAleatorio = nomesFake[Math.floor(Math.random() * nomesFake.length)];
-            const cidadeAleatoria = cidadesFake[Math.floor(Math.random() * cidadesFake.length)];
-            const msgAleatoria = mensagensFake[Math.floor(Math.random() * mensagensFake.length)];
-            
-            listaChatFake.push({
-                nome: `${nomeAleatorio} (${cidadeAleatoria})`,
-                mensagem: msgAleatoria
-            });
-
-            if (listaChatFake.length > 15) {
-                listaChatFake.shift();
-            }
-            renderizarChatFake();
-        }
-
-        setInterval(adicionarMensagemFakeAleatoria, 12000);
-
+        // FUNÇÃO DE MURAL / CHAT FAKE
         document.getElementById('form-mural').addEventListener('submit', function(e) {
             e.preventDefault(); 
             const btn = document.getElementById('btn-status');
             const nome = document.getElementById('nome-ouvinte').value;
             const msg = document.getElementById('msg-ouvinte').value;
 
-            btn.innerText = "ENVIANDO..."; 
-            btn.disabled = true;
+            btn.innerText = "ENVIANDO..."; btn.disabled = true;
 
             fetch(urlGoogle, {
                 method: 'POST',
                 mode: 'no-cors',
-                body: JSON.stringify({ action: "salvar_recado", nome: nome, mensagem: msg })
+                body: JSON.stringify({ nome: nome, mensagem: msg })
             }).then(() => {
-                listaChatFake.push({
-                    nome: `${nome} (Itatiba - SP - Ouvinte)`,
-                    mensagem: msg
-                });
-                renderizarChatFake();
-                
-                alert("Recado enviado com sucesso para a rádio e planilha! 🚀");
-                document.getElementById('form-mural').reset();
-                btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; 
-                btn.disabled = false;
-            }).catch(() => {
-                listaChatFake.push({
-                    nome: `${nome} (Itatiba - SP - Ouvinte)`,
-                    mensagem: msg
-                });
-                renderizarChatFake();
+                const chatBox = document.getElementById('chat-fake');
+                const novaMsg = document.createElement('div');
+                novaMsg.className = 'chat-msg';
+                novaMsg.innerHTML = `<span class="chat-user">${nome}:</span> ${msg} 🚀`;
+                chatBox.appendChild(novaMsg);
+                chatBox.scrollTop = chatBox.scrollHeight;
 
                 alert("Recado enviado com sucesso! 🚀");
                 document.getElementById('form-mural').reset();
-                btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; 
+                btn.innerText = "ENVIAR RECADO AO ESTÚDIO"; btn.disabled = false;
+            }).catch(() => {
+                btn.innerText = "ERRO AO ENVIAR";
                 btn.disabled = false;
             });
         });
+
+        // SIMULADOR DE MENSAGENS AUTOMÁTICAS NO CHAT FAKE
+        const nomesFake = ["Rafael", "Camila", "Rodrigo", "Juliana", "Marcos", "Fernanda", "Lucas", "Beatriz"];
+        const msgsFake = [
+            "Curtindo muito a programação de hoje!",
+            "Manda um abraço pra galera do bairro Tapera Grande!",
+            "Essa música é top demais, não dispenso a 91.5 FM.",
+            "O som tá cristalino aqui no trabalho, valeu Rádio Top!",
+            "Toca aquela moda boa para os caminhoneiros de plantão!"
+        ];
+
+        function adicionarMensagemFake() {
+            const chatBox = document.getElementById('chat-fake');
+            if(!chatBox) return;
+            const nomeAleatorio = nomesFake[Math.floor(Math.random() * nomesFake.length)];
+            const msgAleatoria = msgsFake[Math.floor(Math.random() * msgsFake.length)];
+            
+            const div = document.createElement('div');
+            div.className = 'chat-msg';
+            div.innerHTML = `<span class="chat-user">${nomeAleatorio}:</span> ${msgAleatoria}`;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        setInterval(adicionarMensagemFake, 12000);
 
         function gerarStory() {
             const modal = document.getElementById('modal-container');
@@ -1174,7 +1064,7 @@
             
             const dataUrl = canvas.toDataURL("image/png");
             modalTitle.innerText = "SEU STORY ESTÁ PRONTO!";
-            modalBody.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:300px; border-radius:10px; border:2px solid white;" alt="Story gerado"><br><a href="${dataUrl}" download="story-radiotop.png" class="btn-neon" style="margin-top:15px;">BAIXAR IMAGEM</a>`;
+            modalBody.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:300px; border-radius:10px; border:2px solid white;"><br><a href="${dataUrl}" download="story-radiotop.png" class="btn-neon" style="margin-top:15px;">BAIXAR IMAGEM</a>`;
         }
 
         let cliquesSegredo = 0;
@@ -1198,10 +1088,6 @@
             canvas.height = canvas.offsetHeight;
 
             function draw() {
-                if (document.hidden) {
-                    setTimeout(() => requestAnimationFrame(draw), 500);
-                    return;
-                }
                 if(!isPlaying) {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     requestAnimationFrame(draw);
@@ -1221,89 +1107,17 @@
             draw();
         }
 
-        function mostrarAlertaPopUp(mensagem) {
-            let popup = document.createElement('div');
-            popup.style.cssText = `
-                position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-150px);
-                background: linear-gradient(135deg, #120c22, #2e003e); color: white;
-                padding: 20px 25px; border-radius: 16px; border: 3px solid var(--magenta);
-                box-shadow: 0 10px 40px rgba(0,0,0,0.9); z-index: 999999;
-                text-align: center; max-width: 90%; width: 420px;
-                transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                font-family: 'Segoe UI', Arial, sans-serif;
-            `;
-            popup.innerHTML = `
-                <div style="font-size: 24px; margin-bottom: 5px;">🔴 ALERTA DA RÁDIO TOP</div>
-                <div style="font-size: 16px; color: #f3b644; font-weight: bold; margin-bottom: 12px;">PLANTÃO AO VIVO</div>
-                <div style="font-size: 14px; color: #fff; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; margin-bottom: 15px;">${mensagem}</div>
-                <button onclick="this.parentElement.remove()" style="background: var(--magenta); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; text-transform: uppercase;">OK, ENTENDI</button>
-            `;
-            document.body.appendChild(popup);
-            setTimeout(() => { popup.style.transform = 'translateX(-50%) translateY(0)'; }, 50);
-
-            if ('Notification' in window && Notification.permission === "granted") {
-                if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("🔴 ALERTA - Rádio Top Itatiba", {
-                            body: mensagem,
-                            icon: "top1.jpg",
-                            badge: "top1.jpg",
-                            vibrate: [200, 100, 200]
-                        });
-                    }).catch(() => {
-                        new Notification("🔴 ALERTA - Rádio Top Itatiba", { body: mensagem, icon: "top1.jpg" });
-                    });
-                } else {
-                    new Notification("🔴 ALERTA - Rádio Top Itatiba", { body: mensagem, icon: "top1.jpg" });
-                }
-            }
-        }
-
-        let ultimoPushRecebido = "";
-        function verificarNovoPushAdmin() {
-            if (document.hidden) return;
-            fetch(urlGoogle + "?action=getPush")
-            .then(r => r.json())
-            .then(data => {
-                let msgPush = "";
-                if (typeof data === "string") msgPush = data;
-                else if (data && data.mensagem) msgPush = data.mensagem;
-                else if (Array.isArray(data) && data.length > 0) msgPush = data[data.length - 1].mensagem || data[data.length - 1];
-
-                if (msgPush && msgPush !== ultimoPushRecebido) {
-                    if (ultimoPushRecebido !== "") {
-                        mostrarAlertaPopUp(msgPush);
-                    }
-                    ultimoPushRecebido = msgPush;
-                }
-            }).catch(e => {});
-        }
-        setInterval(verificarNovoPushAdmin, 15000);
-
         function iniciarSite() {
             const splash = document.getElementById('splash-screen');
-            splash.style.opacity = '0';
             splash.style.transform = 'translateY(-100%)';
-            setTimeout(() => { 
-                splash.style.display = 'none'; 
-            }, 800);
-
-            if ('Notification' in window) {
-                Notification.requestPermission().then(permission => {
-                    console.log("Status da notificação:", permission);
-                });
-            }
+            setTimeout(() => { splash.style.display = 'none'; }, 800);
 
             document.getElementById('reactionMenu').style.display = 'block';
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 if(data.efeitos !== "OFF") startFireworks();
             });
             fadeInAudio();
-            atualizarProgramacao(); 
-            carregarRanking(); 
-            carregarConfig(); 
-            carregarAnuncios();
-            renderizarChatFake();
+            atualizarProgramacao(); carregarRanking(); carregarConfig(); carregarAnuncios();
         }
 
         let ultimaMusicaBuscada = "";
@@ -1316,35 +1130,14 @@
                 let nomeMusica = data.trim();
                 let capaParaMostrar = document.getElementById('capa-album-tv').src; 
 
-                if (nomeMusica.includes("<") || nomeMusica === "") {
+                if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error") || nomeMusica === "") {
                     nomeMusica = "Rádio Top Itatiba"; 
                 }
 
-                let elNome = document.getElementById('nome-musica');
-                if(elNome) elNome.innerText = nomeMusica;
+                document.getElementById('nome-musica').innerText = nomeMusica;
                 document.title = "🎵 " + nomeMusica + " | Rádio Top Itatiba";
 
-                registrarHistorico(nomeMusica);
-
                 if (nomeMusica !== "Rádio Top Itatiba" && nomeMusica !== ultimaMusicaBuscada) {
-                    
-                    if (ultimaMusicaBuscada !== "" && 'Notification' in window && Notification.permission === "granted") {
-                        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-                            navigator.serviceWorker.ready.then(registration => {
-                                registration.showNotification("🎵 Tocando Agora na Top", {
-                                    body: nomeMusica,
-                                    icon: capaParaMostrar || "top1.jpg",
-                                    badge: "top1.jpg",
-                                    vibrate: [100, 50, 100]
-                                });
-                            }).catch(() => {
-                                new Notification("🎵 Tocando Agora na Top", { body: nomeMusica, icon: capaParaMostrar || "top1.jpg" });
-                            });
-                        } else {
-                            new Notification("🎵 Tocando Agora na Top", { body: nomeMusica, icon: capaParaMostrar || "top1.jpg" });
-                        }
-                    }
-
                     ultimaMusicaBuscada = nomeMusica;
                     
                     fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(nomeMusica)}&media=music&limit=1`)
@@ -1356,10 +1149,7 @@
                         }
 
                         let capaImg = document.getElementById('capa-album-tv');
-                        if(capaImg) {
-                            capaImg.src = urlCapa;
-                            document.documentElement.style.setProperty('--magenta', '#b01a7a');
-                        }
+                        if(capaImg) capaImg.src = urlCapa;
                         
                         let bgBlur = document.getElementById('blur-bg');
                         if(bgBlur) bgBlur.style.backgroundImage = `url('${urlCapa}')`;
@@ -1371,19 +1161,17 @@
                             miniCapaPlayer.style.backgroundPosition = 'center';
                         }
                     })
-                    .catch(e => {
-                        document.documentElement.style.setProperty('--magenta', '#b01a7a');
-                    });
+                    .catch(e => console.log("Erro ao buscar capa", e));
                 }
                 
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
                         title: nomeMusica,
                         artist: 'Rádio Top 91.5 FM',
-                        album: 'Itatiba - SP',
+                        album: 'Ao Vivo',
                         artwork: [
-                            { src: capaParaMostrar || 'top1.jpg', sizes: '96x96',  type: 'image/jpeg' },
-                            { src: capaParaMostrar || 'top1.jpg', sizes: '512x512', type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '96x96',  type: 'image/jpeg' },
+                            { src: capaParaMostrar, sizes: '512x512', type: 'image/jpeg' },
                         ]
                     });
                     navigator.mediaSession.setActionHandler('play', togglePlay);
@@ -1392,8 +1180,7 @@
                 }
 
             }).catch(e => {
-                let elNome = document.getElementById('nome-musica');
-                if(elNome) elNome.innerText = "Rádio Top - Ao Vivo";
+                document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
             });
             
             const urlOuvintes = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
@@ -1408,8 +1195,7 @@
                 if(p.length > 0) { 
                     let num = parseInt(p[0]); 
                     if (!isNaN(num)) {
-                        let elOuvintes = document.getElementById('qtd-ouvintes');
-                        if(elOuvintes) elOuvintes.innerText = num + 125;
+                        document.getElementById('qtd-ouvintes').innerText = num + 125;
                     }
                 }
             }).catch(e => {});
@@ -1420,25 +1206,16 @@
                 const hora = new Date().getHours();
                 const listaProg = document.getElementById('prog-lista');
                 let html = "";
-                
-                let idNoAr = "";
+                let idNoAr = "prog-23";
                 if (hora >= 6 && hora < 9) idNoAr = "prog-06";
                 else if (hora >= 9 && hora < 12) idNoAr = "prog-09";
                 else if (hora >= 12 && hora < 14) idNoAr = "prog-12";
                 else if (hora >= 14 && hora < 17) idNoAr = "prog-14";
                 else if (hora >= 17 && hora < 20) idNoAr = "prog-17";
                 else if (hora >= 20 && hora < 23) idNoAr = "prog-20";
-                else idNoAr = "prog-23";
-
-                let programaAtualTitulo = "Rádio Top Itatiba - 91.5 FM";
-                let programaAtualDesc = "A programação que toca o seu coração.";
 
                 data.forEach(item => {
                     const noAr = (item.id === idNoAr) ? 'no-ar' : '';
-                    if (item.id === idNoAr) {
-                        programaAtualTitulo = item.titulo;
-                        programaAtualDesc = item.descricao;
-                    }
                     html += `
                         <div class="prog-card ${noAr}" id="${item.id}">
                             <div class="prog-hora">${item.hora}</div>
@@ -1450,44 +1227,8 @@
                         </div>`;
                 });
                 listaProg.innerHTML = html;
-
-                const elNome = document.getElementById('locutor-atual-nome');
-                const elDesc = document.getElementById('locutor-atual-desc');
-                if(elNome) elNome.innerText = programaAtualTitulo;
-                if(elDesc) elDesc.innerText = programaAtualDesc;
-
             }).catch(() => {});
         }
-
-        let historicoMusicas = [];
-        function registrarHistorico(novaMusica) {
-            if (!novaMusica || novaMusica === "Rádio Top Itatiba") return;
-            
-            if (historicoMusicas[0] !== novaMusica) {
-                historicoMusicas.unshift(novaMusica);
-                if (historicoMusicas.length > 3) historicoMusicas.pop();
-                
-                if(document.getElementById('hist-atual')) document.getElementById('hist-atual').innerText = historicoMusicas[0] || "---";
-                if(document.getElementById('hist-ant-1')) document.getElementById('hist-ant-1').innerText = historicoMusicas[1] || "---";
-                if(document.getElementById('hist-ant-2')) document.getElementById('hist-ant-2').innerText = historicoMusicas[2] || "---";
-            }
-        }
-
-        function mudarTema(corPrincipal, corSecundaria) {
-            document.documentElement.style.setProperty('--magenta', corPrincipal);
-            document.documentElement.style.setProperty('--roxo-neon', corSecundaria);
-            localStorage.setItem('corTopPrincipal', corPrincipal);
-            localStorage.setItem('corTopSecundaria', corSecundaria);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const salvaP = localStorage.getItem('corTopPrincipal');
-            const salvaS = localStorage.getItem('corTopSecundaria');
-            if (salvaP && salvaS) {
-                document.documentElement.style.setProperty('--magenta', salvaP);
-                document.documentElement.style.setProperty('--roxo-neon', salvaS);
-            }
-        });
 
         let isReactionsOpen = false;
         function toggleReactions() { if (isReactionsOpen) { enviarReacao('❤️'); closeStack(); } else { openStack(); } }
@@ -1509,65 +1250,9 @@
             if (navigator.vibrate) navigator.vibrate(30);
         }
 
-        // --- INÍCIO: NOVA FUNÇÃO JS VÍDEO CLIPE ATUALIZADA (BUSCANDO NA ABA CLIPE) ---
-        function abrirModalClipes() {
-            estavaTocandoRadio = isPlaying;
-            if (isPlaying) {
-                togglePlay();
-            }
-
-            const modal = document.getElementById('modal-tv-clipes');
-            const iframe = document.getElementById('iframe-clipes');
-            
-            modal.style.display = 'flex';
-            
-            // Busca o link direto na nova aba/rota "getClipe"
-            fetch(urlGoogle + "?action=getClipe").then(r => r.json()).then(data => {
-                if(data.link) {
-                    let urlEmbed = data.link;
-                    
-                    if(urlEmbed.includes('watch?v=')) {
-                        let urlObj = new URL(urlEmbed);
-                        let videoId = urlObj.searchParams.get("v");
-                        let listId = urlObj.searchParams.get("list");
-                        
-                        if(listId) {
-                            urlEmbed = `https://www.youtube.com/embed/${videoId}?list=${listId}&autoplay=1`;
-                        } else {
-                            urlEmbed = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                        }
-                    } else if (urlEmbed.includes('youtu.be/')) {
-                        let videoId = urlEmbed.split('youtu.be/')[1].split('?')[0];
-                        urlEmbed = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                    }
-                    
-                    if(iframe.src !== urlEmbed) iframe.src = urlEmbed;
-                    
-                } else {
-                    iframe.src = "https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG&autoplay=1";
-                }
-            }).catch(() => {
-                if(!iframe.src) iframe.src = "https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG&autoplay=1";
-            });
-        }
-
-        function fecharModalClipes() {
-            document.getElementById('modal-tv-clipes').style.display = 'none';
-            const iframe = document.getElementById('iframe-clipes');
-            let srcAtual = iframe.src;
-            iframe.src = ''; 
-            iframe.src = srcAtual.replace('&autoplay=1', '').replace('?autoplay=1', ''); 
-
-            if (estavaTocandoRadio && !isPlaying) {
-                togglePlay();
-            }
-        }
-        // --- FIM: NOVA FUNÇÃO JS VÍDEO CLIPE ATUALIZADA ---
-
         atualizarMetadados(); 
         setInterval(atualizarMetadados, 15000); 
         setInterval(atualizarProgramacao, 3600000);
-        setInterval(verificarNovoPushAdmin, 15000);
     </script>
 </body>
 </html>
