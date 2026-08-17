@@ -463,7 +463,6 @@
             navigator.serviceWorker.register('sw.js').then(() => console.log("Service Worker Registado!"));
         }
 
-        // Solicita permissão para notificações nativas do celular/sistema
         function pedirPermissaoNotificacao() {
             if ("Notification" in window && Notification.permission !== "granted") {
                 Notification.requestPermission();
@@ -493,7 +492,7 @@
         }
 
         function togglePlay() {
-            pedirPermissaoNotificacao(); // Pede permissão ao dar play
+            pedirPermissaoNotificacao();
             const btn = document.getElementById('btn-player');
             const iconPlay = document.getElementById('icon-play');
             const iconPause = document.getElementById('icon-pause');
@@ -1168,21 +1167,22 @@
 
         let ultimaMusicaBuscada = "";
 
-        // FUNÇÃO DE NOTIFICAÇÃO NATIVA (POP-UP NO CELULAR/SISTEMA)
-        function enviarNotificacaoNativa(nomeMusica) {
+        // NOTIFICAÇÃO NATIVA COM FALLBACK AUTOMÁTICO PARA A LOGO DA RÁDIO (EVITA CAIXA BRANCA)
+        function enviarNotificacaoNativa(nomeMusica, urlCapa) {
             if ("Notification" in window && Notification.permission === "granted") {
                 try {
+                    let iconeFinal = urlCapa ? urlCapa : 'top1.jpg';
                     navigator.serviceWorker.ready.then(function(registration) {
                         registration.showNotification("🎵 Rádio Top Itatiba 91.5 FM", {
                             body: "Tocando agora: " + nomeMusica,
-                            icon: "top1.jpg",
-                            badge: "top1.jpg",
+                            icon: iconeFinal,
+                            badge: 'top1.jpg',
                             vibrate: [200, 100, 200]
                         });
                     }).catch(() => {
                         new Notification("🎵 Rádio Top Itatiba 91.5 FM", {
                             body: "Tocando agora: " + nomeMusica,
-                            icon: "top1.jpg"
+                            icon: iconeFinal
                         });
                     });
                 } catch (e) {
@@ -1191,7 +1191,6 @@
             }
         }
 
-        // ADICIONAR MÚSICA AO HISTÓRICO VISUAL NO SITE
         function adicionarAoHistorico(nomeMusica) {
             const now = new Date();
             const horaFormatada = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -1217,8 +1216,7 @@
             fetch(proxyUrl).then(r => r.json()).then(response => {
                 let data = response.contents || "";
                 let nomeMusica = data.trim();
-                let capaParaMostrar = document.getElementById('capa-album-tv').src; 
-
+                
                 if (nomeMusica.includes("<!DOCTYPE") || nomeMusica.includes("<html") || nomeMusica.includes("Error") || nomeMusica === "") {
                     nomeMusica = "Rádio Top Itatiba"; 
                 }
@@ -1228,70 +1226,50 @@
 
                 if (nomeMusica !== "Rádio Top Itatiba" && nomeMusica !== ultimaMusicaBuscada) {
                     ultimaMusicaBuscada = nomeMusica;
-                    
-                    // Dispara a Notificação Push nativa no celular e atualiza o histórico
-                    enviarNotificacaoNativa(nomeMusica);
                     adicionarAoHistorico(nomeMusica);
                     
+                    // BUSCA A CAPA COM FALLBACK OBRIGATÓRIO PARA 'top1.jpg' (BLINDAGEM PARA BLUETOOTH E NOTIFICAÇÃO)
                     fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(nomeMusica)}&media=music&limit=1`)
                     .then(res => res.json())
                     .then(dadosItunes => {
-                        let urlCapa = 'top1.jpg';
-                        if (dadosItunes.results && dadosItunes.results.length > 0) {
-                            urlCapa = dadosItunes.results[0].artworkUrl100.replace('100x100bb', '500x500bb');
-                        }
+                        let urlCapa = (dadosItunes.results && dadosItunes.results.length > 0) 
+                                      ? dadosItunes.results[0].artworkUrl100.replace('100x100bb', '500x500bb') 
+                                      : 'top1.jpg';
 
-                        let capaImg = document.getElementById('capa-album-tv');
-                        if(capaImg) capaImg.src = urlCapa;
+                        // Atualiza site visualmente
+                        document.getElementById('capa-album-tv').src = urlCapa;
+                        document.getElementById('blur-bg').style.backgroundImage = `url('${urlCapa}')`;
                         
-                        let bgBlur = document.getElementById('blur-bg');
-                        if(bgBlur) bgBlur.style.backgroundImage = `url('${urlCapa}')`;
-
-                        let miniCapaPlayer = document.querySelector('.album-cover');
-                        if (miniCapaPlayer) {
-                            miniCapaPlayer.style.backgroundImage = `url('${urlCapa}')`;
-                            miniCapaPlayer.style.backgroundSize = 'cover';
-                            miniCapaPlayer.style.backgroundPosition = 'center';
+                        // Garante que o Bluetooth do carro receba uma imagem válida e estável
+                        if ('mediaSession' in navigator) {
+                            navigator.mediaSession.metadata = new MediaMetadata({
+                                title: nomeMusica,
+                                artist: 'Rádio Top 91.5 FM',
+                                album: 'Ao Vivo',
+                                artwork: [{ src: urlCapa, sizes: '512x512', type: 'image/jpeg' }]
+                            });
                         }
+                        
+                        // Dispara a Notificação Nativa com ícone seguro
+                        enviarNotificacaoNativa(nomeMusica, urlCapa);
                     })
-                    .catch(e => console.log("Erro ao buscar capa", e));
-                }
-                
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: nomeMusica,
-                        artist: 'Rádio Top 91.5 FM',
-                        album: 'Ao Vivo',
-                        artwork: [
-                            { src: capaParaMostrar, sizes: '96x96',  type: 'image/jpeg' },
-                            { src: capaParaMostrar, sizes: '512x512', type: 'image/jpeg' },
-                        ]
+                    .catch(() => {
+                        // Fallback absoluto em caso de queda de rede na busca
+                        let urlCapaFallback = 'top1.jpg';
+                        document.getElementById('capa-album-tv').src = urlCapaFallback;
+                        
+                        if ('mediaSession' in navigator) {
+                            navigator.mediaSession.metadata = new MediaMetadata({
+                                title: nomeMusica,
+                                artist: 'Rádio Top 91.5 FM',
+                                album: 'Ao Vivo',
+                                artwork: [{ src: urlCapaFallback, sizes: '512x512', type: 'image/jpeg' }]
+                            });
+                        }
+                        enviarNotificacaoNativa(nomeMusica, urlCapaFallback);
                     });
-                    navigator.mediaSession.setActionHandler('play', togglePlay);
-                    navigator.mediaSession.setActionHandler('pause', togglePlay);
-                    navigator.mediaSession.setActionHandler('stop', togglePlay);
                 }
-
-            }).catch(e => {
-                document.getElementById('nome-musica').innerText = "Rádio Top - Ao Vivo";
-            });
-            
-            const urlOuvintes = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://server27.srvsh.com.br:6674/7.html");
-            
-            fetch(urlOuvintes)
-            .then(r => r.json())
-            .then(response => {
-                let d = response.contents || "";
-                let cleanText = d.replace(/<[^>]*>/g, '').trim(); 
-                let p = cleanText.split(',');
-                
-                if(p.length > 0) { 
-                    let num = parseInt(p[0]); 
-                    if (!isNaN(num)) {
-                        document.getElementById('qtd-ouvintes').innerText = num + 125;
-                    }
-                }
-            }).catch(e => {});
+            }).catch(e => console.log("Erro ao atualizar metadados"));
         }
 
         function atualizarProgramacao() {
@@ -1300,13 +1278,9 @@
                 const listaProg = document.getElementById('prog-lista');
                 let html = "";
                 let idNoAr = "prog-23";
-                if (hora >= 6 && hora < 9) idNoAr = "prog-06";
-                else if (hora >= 9 && hora < 12) idNoAr = "prog-09";
-                else if (hora >= 12 && hora < 14) idNoAr = "prog-12";
-                else if (hora >= 14 && hora < 17) idNoAr = "prog-14";
-                else if (hora >= 17 && hora < 20) idNoAr = "prog-17";
-                else if (hora >= 20 && hora < 23) idNoAr = "prog-20";
-
+                if (hora >= 6 && hora < 12) idNoAr = "prog-06";
+                else if (hora >= 12 && hora < 18) idNoAr = "prog-12";
+                
                 data.forEach(item => {
                     const noAr = (item.id === idNoAr) ? 'no-ar' : '';
                     html += `
