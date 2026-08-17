@@ -34,7 +34,7 @@
         .card-prog { border-top: 4px solid var(--verde); grid-column: 1 / -1; }
         .card-mural { border-top: 4px solid var(--azul); }
         .card-config { border-top: 4px solid var(--roxo); }
-        .card-clipes { border-top: 4px solid var(--roxo); } /* Nova cor para os clipes */
+        .card-clipes { border-top: 4px solid var(--roxo); }
         .card-stats { border-top: 4px solid var(--verde); text-align: center; }
         .input-group { margin-bottom: 15px; }
         label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; text-transform: uppercase; }
@@ -73,7 +73,7 @@
             <a href="#" class="active">DASHBOARD</a>
             <a href="javascript:void(0)" onclick="scrollPara('secao-stats')">AUDIÊNCIA</a>
             <a href="javascript:void(0)" onclick="scrollPara('secao-tv')">TV AO VIVO</a>
-            <a href="javascript:void(0)" onclick="scrollPara('secao-clipes')">VÍDEO CLIPES</a> <!-- Novo Menu -->
+            <a href="javascript:void(0)" onclick="scrollPara('secao-clipes')">VÍDEO CLIPES</a>
             <a href="javascript:void(0)" onclick="scrollPara('secao-noticias')">PLANTÃO TOP</a>
             <a href="javascript:void(0)" onclick="scrollPara('secao-prog')">PROGRAMAÇÃO</a>
             <a href="javascript:void(0)" onclick="scrollPara('secao-mural')">MURAL</a>
@@ -92,6 +92,13 @@
                 <h3>Ouvintes Online</h3>
                 <h1 id="contador-ouvintes" style="font-size: 48px; color: var(--verde); margin: 15px 0;">--</h1>
                 <p style="font-size: 12px; color: #aaa;">Conectados na 91.5 FM agora</p>
+            </div>
+
+            <!-- ESTATÍSTICAS GERÊNCIA -->
+            <div class="card-admin card-stats">
+                <h3>Estatísticas de Execução</h3>
+                <p style="font-size: 12px; color: #aaa; margin-bottom: 15px;">Gerência: Mais tocadas</p>
+                <button class="btn-on" onclick="abrirPainelAdmin()">VER RELATÓRIO</button>
             </div>
 
             <!-- DISPARADOR DE AVISOS PUSH -->
@@ -113,7 +120,6 @@
                 <button class="btn-tv" onclick="salvarTv()">ATUALIZAR TV</button>
             </div>
 
-            <!-- NOVA SEÇÃO: VÍDEO CLIPES -->
             <div id="secao-clipes" class="card-admin card-clipes">
                 <h3>Vídeo Clipes (Playlist)</h3>
                 <div class="input-group">
@@ -153,12 +159,11 @@
         const urlGoogle = "https://script.google.com/macros/s/AKfycbxDl8bLK77gE83X-X6Va8GK6lVGsJBVCukxL6DsLUy6RRpO78iqM7Z5sdu_U9tbA6oLUg/exec";
         let programacaoAtual = [];
 
-        // Validação de Sessão Segura
         window.onload = function() {
             if(sessionStorage.getItem('top_auth') === 'liberado') {
                 document.getElementById('login-screen').classList.add('hidden');
                 carregarDadosIniciais();
-                setInterval(atualizarAudiencia, 15000); // Atualiza ouvintes a cada 15s
+                setInterval(atualizarAudiencia, 15000);
             }
         }
 
@@ -169,21 +174,15 @@
                 document.getElementById('login-screen').classList.add('hidden');
                 carregarDadosIniciais();
                 setInterval(atualizarAudiencia, 15000);
-            } else { 
-                alert("Senha incorreta!"); 
-            }
+            } else { alert("Senha incorreta!"); }
         }
 
-        function sair() {
-            sessionStorage.removeItem('top_auth');
-            location.reload();
-        }
+        function sair() { sessionStorage.removeItem('top_auth'); location.reload(); }
 
         function carregarDadosIniciais() {
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 document.getElementById('admin-tv').value = data.tv || "";
                 document.getElementById('admin-news').value = data.noticias || "";
-                // Carrega o link dos clipes salvo no banco de dados
                 document.getElementById('admin-clipes').value = data.clipes || ""; 
             });
 
@@ -203,34 +202,38 @@
             carregarMuralAdmin();
         }
 
+        // Função de relatório da gerência corrigida para POST (Sem CORS)
+        function abrirPainelAdmin() {
+            fetch(urlGoogle, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: "getEstatisticasAdmin", senha: "top915admin" })
+            })
+            .then(() => {
+                alert("📊 Relatório processado com sucesso!\n\nOs dados de execução foram atualizados na aba 'HistoricoMaster' da sua planilha.");
+            })
+            .catch(() => alert("Erro ao conectar com o servidor administrativo."));
+        }
+
         function atualizarAudiencia() {
             fetch(urlGoogle + "?action=getConfig").then(r => r.json()).then(data => {
                 let ouvintes = data.ouvintes || Math.floor(Math.random() * (45 - 28 + 1)) + 28;
                 document.getElementById('contador-ouvintes').innerText = ouvintes;
-            }).catch(() => {
-                document.getElementById('contador-ouvintes').innerText = "32";
-            });
+            }).catch(() => { document.getElementById('contador-ouvintes').innerText = "32"; });
         }
 
         function enviarPush() {
             let msg = document.getElementById('admin-push').value;
-            if(!msg) return alert("Digite uma mensagem para o aviso!");
-            
-            // Dispara a ação "enviar_push" e opcionalmente atualiza as notícias ao mesmo tempo para notificar o site aberto
+            if(!msg) return alert("Digite uma mensagem!");
             enviarUpdate({ action: "enviar_push", mensagem: msg });
-            
-            // Atualiza também o campo de notícias se quiser que exiba no ticker automaticamente
             document.getElementById('admin-news').value = msg;
             salvarNoticias();
-
             document.getElementById('admin-push').value = "";
         }
 
         function salvarNoticias() { enviarUpdate({ action: "update_admin", noticias: document.getElementById('admin-news').value }); }
-
-        // NOVA FUNÇÃO: Salva o link da playlist de clipes
         function salvarClipes() { enviarUpdate({ action: "update_admin", clipes: document.getElementById('admin-clipes').value }); }
-
         function salvarProgramacao() {
             let novaProg = programacaoAtual.map((p, i) => ({
                 id: p.id, hora: p.hora, 
@@ -248,9 +251,7 @@
         }
 
         function salvarTv() { enviarUpdate({ action: "update_admin", tv_link: document.getElementById('admin-tv').value }); }
-
         function enviarUpdate(dados) { fetch(urlGoogle, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) }).then(() => alert("✅ Comando enviado com sucesso!")); }
-
         function scrollPara(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
     </script>
 </body>
